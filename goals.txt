@@ -19,3 +19,6 @@ MD5 :	En sortie
 -r == pour les Files uniquement, inverser le format donc
 ' MD5 (file) = CHECKSUM_FILE ' devient
 ' CHECKSUM_FILE file'
+
+
+il faut une struct d'arguments qui contient une liste chainee
