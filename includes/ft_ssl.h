@@ -17,9 +17,18 @@ typedef enum	e_input_types
 	FILE = 2
 }	t_input_type;
 
+typedef enum	e_flags
+{
+	NONE = 0b0,
+	ECHO = 0b1,
+	QUIET = 0b10,
+	REVERSE = 0b100,
+}				t_flags;
+
 typedef struct hashes
 {
 	t_input_type	input_type;
+	size_t			local_flags;
 	char			*input;
 	char			*file;
 	t_hash			*next;
@@ -35,9 +44,8 @@ typedef enum	e_hash_types
 typedef struct	ft_ssl
 {
 	t_hash_type	hash_type;
-	bool		flag_echo;
-	bool		flag_quiet;
-	bool		flag_reverse;
+	size_t		general_flags;
+	t_hash		*hash_list;
 }		t_ssl;
 
 #endif
