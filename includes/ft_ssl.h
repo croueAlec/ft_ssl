@@ -14,7 +14,7 @@ typedef enum	e_input_types
 {
 	STDIN = 0,
 	STRING = 1,
-	FILE = 2
+	INFILE = 2
 }	t_input_type;
 
 typedef enum	e_flags
@@ -31,7 +31,7 @@ typedef struct hashes
 	size_t			local_flags;
 	char			*input;
 	char			*file;
-	t_hash			*next;
+	struct hashes			*next;
 }		t_hash;
 
 typedef enum	e_hash_types
