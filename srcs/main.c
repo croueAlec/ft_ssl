@@ -25,9 +25,35 @@ t_hash_type	set_hash_type(const char *cmd)
 	return (INVALID);
 }
 
-// bool	parse_flags(t_ssl *ssl, bool *is_str, size_t i)
-void parse_flags()
+bool	parse_flags(t_ssl *ssl, const char *arg, bool *is_str, size_t i)
 {
+	bool	exit_loop = false;
+	for (size_t i = 1; arg[i] && !exit_loop; i++)
+	{
+		switch (arg[i])
+		{
+		case 's':
+			if (!arg[i + 1])
+				*is_str = true;
+			else
+				add_str_node(&arg[i + 1]);
+			exit_loop = true;
+			break;
+
+		case 'q':
+			ssl->general_flags |= QUIET;
+			break;
+
+		case 'r':
+			ssl->general_flags |= REVERSE;
+			break;
+
+		case 'p':
+			add_stdin_node();
+			break;
+		}
+	}
+
 	return ;
 }
 
