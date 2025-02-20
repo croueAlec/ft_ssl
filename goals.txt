@@ -1,0 +1,21 @@
+./ft_ssl <command> [-flags] [<file>]
+
+MD5 :	En entrée
+
+
+Pas de file en argument == STDIN
+
+Si file en argument et pas de -p == File uniquement
+
+Si file en argument et -p == STDIN puis Files dans l'ordre
+
+
+
+MD5 :	En sortie
+
+
+-p == pour la STDIN uniquement, écrire : ' ("STDIN")= CHECKSUM_STDIN '
+
+-r == pour les Files uniquement, inverser le format donc
+' MD5 (file) = CHECKSUM_FILE ' devient
+' CHECKSUM_FILE file'
