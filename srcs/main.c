@@ -25,7 +25,51 @@ t_hash_type	set_hash_type(const char *cmd)
 	return (INVALID);
 }
 
-int main(__attribute__((unused)) int argc, char const *argv[])
+// bool	parse_flags(t_ssl *ssl, bool *is_str, size_t i)
+void parse_flags()
+{
+	return ;
+}
+
+void	add_stdin_node(void)
+{
+	return ;
+}
+
+void	add_str_node(void)
+{
+	return ;
+}
+
+void	add_file_node(void)
+{
+	return ;
+}
+
+bool	parse_arguments(t_ssl *ssl, char const *argv[])
+{
+	if (!argv[0])
+	{
+		add_stdin_node();
+		return (SUCCESS);
+	}
+
+	bool	is_previous_str = 0;
+
+	for (size_t i = 0; argv[i]; i++)
+	{
+		if (argv[i][0] == '-')
+			parse_flags();
+		else if (is_previous_str)
+			add_str_node();
+		else
+			add_file_node();
+	}
+
+	return (SUCCESS);
+}
+
+int	main(__attribute__((unused)) int argc, char const *argv[])
 {
 	t_ssl	ssl = {0};
 
@@ -33,6 +77,9 @@ int main(__attribute__((unused)) int argc, char const *argv[])
 	printf("%d\n", ssl.hash_type);
 	if (ssl.hash_type == 0)
 		return (1);
+
+	if (parse_arguments(&ssl, &argv[2]) == ERROR)
+		return 1;
 
 	return 0;
 }
