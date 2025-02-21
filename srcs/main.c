@@ -1,5 +1,39 @@
 #include "ft_ssl.h"
 
+#define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
+#define BYTE_TO_BINARY(byte)  \
+  ((byte) & 0x80 ? '1' : '0'), \
+  ((byte) & 0x40 ? '1' : '0'), \
+  ((byte) & 0x20 ? '1' : '0'), \
+  ((byte) & 0x10 ? '1' : '0'), \
+  ((byte) & 0x08 ? '1' : '0'), \
+  ((byte) & 0x04 ? '1' : '0'), \
+  ((byte) & 0x02 ? '1' : '0'), \
+  ((byte) & 0x01 ? '1' : '0')
+
+void print_hash_list(t_ssl *ssl)
+{
+	if (!ssl)
+		return ;
+
+	printf("Hash type : %d\n", ssl->hash_type);
+	printf("General flags : "BYTE_TO_BINARY_PATTERN"\n", BYTE_TO_BINARY(ssl->general_flags));
+	printf("                     rqp\n");
+
+	t_hash	*tmp = NULL;
+	for (t_hash *node = ssl->hash_list; node && node->next; node = tmp)
+	{
+		tmp = node->next;
+		printf("Input type : %d\n", node->input_type);
+		printf("Local flags : "BYTE_TO_BINARY_PATTERN"\n", BYTE_TO_BINARY(node->local_flags));
+		if (node->input)
+			printf("Input: %s\n", node->input);
+		if (node->file)
+			printf("Filename: %s\n", node->file);
+	}
+	printf("Debug end\n============================================\n");
+}
+
 t_hash_type	set_hash_type(const char *cmd)
 {
 	if (!cmd)
@@ -29,6 +63,8 @@ int	main(__attribute__((unused)) int argc, char const *argv[])
 		free_hash_list(&ssl);
 		return (1);
 	}
+
+	print_hash_list(&ssl);
 
 	return 0;
 }
