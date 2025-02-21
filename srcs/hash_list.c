@@ -39,7 +39,7 @@ static t_hash	*get_new_hash(t_ssl *ssl)
 	}
 }
 
-bool	add_hash_node(t_input_type type, t_ssl *ssl, char *string, char *filename)
+bool	add_hash_node(t_input_type type, t_ssl *ssl, char const *string, char const *filename)
 {
 	t_hash	*new_hash = get_new_hash(ssl);
 	if (!new_hash)

@@ -27,7 +27,7 @@ static bool	parse_flags(t_ssl *ssl, const char *arg, bool *is_str)
 		}
 	}
 
-	return ;
+	return (SUCCESS);
 }
 
 bool	parse_arguments(t_ssl *ssl, char const *argv[])

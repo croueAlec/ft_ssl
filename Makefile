@@ -30,7 +30,10 @@ INCLUDES := $(INCS_DIR)
 INCLUDES_FLAGS := $(addprefix -I , $(INCLUDES))
 
 SRC :=	\
-	main.c
+	errors.c \
+	hash_list.c \
+	main.c \
+	parsing.c
 
 OBJ := $(patsubst %.c,$(OBJS_DIR)/%.o,$(SRC))
 DEPS := $(patsubst %.c,$(OBJS_DIR)/%.d,$(SRC))
