@@ -2,8 +2,7 @@
 
 static bool	parse_flags(t_ssl *ssl, const char *arg, bool *is_str)
 {
-	bool	exit_loop = false;
-	for (size_t i = 1; arg[i] && !exit_loop; i++)
+	for (size_t i = 1; arg[i]; i++)
 	{
 		switch (arg[i])
 		{
@@ -11,8 +10,7 @@ static bool	parse_flags(t_ssl *ssl, const char *arg, bool *is_str)
 			if (!arg[i + 1])
 				*is_str = true;
 			else
-				add_hash_node(STRING, ssl, &arg[i + 1], NULL);
-			exit_loop = true;
+				return (add_hash_node(STRING, ssl, &arg[i + 1], NULL));
 			break;
 
 		case 'q':
@@ -24,7 +22,7 @@ static bool	parse_flags(t_ssl *ssl, const char *arg, bool *is_str)
 			break;
 
 		case 'p':
-			add_hash_node(STDIN, ssl, NULL, NULL);
+			return (add_hash_node(STDIN, ssl, NULL, NULL));
 			break;
 		}
 	}
@@ -36,8 +34,7 @@ bool	parse_arguments(t_ssl *ssl, char const *argv[])
 {
 	if (!argv[0])
 	{
-		add_hash_node(STDIN, ssl, NULL, NULL);
-		return (SUCCESS);
+		return (add_hash_node(STDIN, ssl, NULL, NULL));
 	}
 
 	bool	is_previous_str = 0;
@@ -45,11 +42,11 @@ bool	parse_arguments(t_ssl *ssl, char const *argv[])
 	for (size_t i = 0; argv[i]; i++)
 	{
 		if (argv[i][0] == '-')
-			parse_flags(ssl, argv[i], &is_previous_str);
+			return (parse_flags(ssl, argv[i], &is_previous_str));
 		else if (is_previous_str)
-			add_hash_node(STRING, ssl, argv[i], NULL);
+			return (add_hash_node(STRING, ssl, argv[i], NULL));
 		else
-			add_hash_node(INFILE, ssl, NULL, argv[i]);
+			return (add_hash_node(INFILE, ssl, NULL, argv[i]));
 	}
 
 	return (SUCCESS);

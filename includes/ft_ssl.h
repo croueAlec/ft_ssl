@@ -52,6 +52,7 @@ typedef struct	ft_ssl
 void	print_usage(void);
 void	error_invalid_cmd(const char *cmd);
 /*			hash_list.c		*/
+void	free_hash_list(t_ssl *ssl);
 bool	add_hash_node(t_input_type type, t_ssl *ssl, char *string, char *filename);
 /*			parsing.c		*/
 bool	parse_arguments(t_ssl *ssl, char const *argv[]);

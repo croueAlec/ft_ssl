@@ -25,7 +25,10 @@ int	main(__attribute__((unused)) int argc, char const *argv[])
 		return (1);
 
 	if (parse_arguments(&ssl, &argv[2]) == ERROR)
-		return 1;
+	{
+		free_hash_list(&ssl);
+		return (1);
+	}
 
 	return 0;
 }
