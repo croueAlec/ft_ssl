@@ -21,15 +21,18 @@ void print_hash_list(t_ssl *ssl)
 	printf("                     rqp\n");
 
 	t_hash	*tmp = NULL;
-	for (t_hash *node = ssl->hash_list; node && node->next; node = tmp)
+	t_hash *node = ssl->hash_list;
+	while (node)
 	{
 		tmp = node->next;
-		printf("Input type : %d\n", node->input_type);
+		printf("[\nInput type : %d\n", node->input_type);
 		printf("Local flags : "BYTE_TO_BINARY_PATTERN"\n", BYTE_TO_BINARY(node->local_flags));
 		if (node->input)
 			printf("Input: %s\n", node->input);
 		if (node->file)
 			printf("Filename: %s\n", node->file);
+		printf("]\n");
+		node = tmp;
 	}
 	printf("Debug end\n============================================\n");
 }
