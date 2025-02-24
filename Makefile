@@ -31,6 +31,7 @@ INCLUDES_FLAGS := $(addprefix -I , $(INCLUDES))
 
 SRC :=	\
 	errors.c \
+	execution.c \
 	hash_list.c \
 	main.c \
 	parsing.c

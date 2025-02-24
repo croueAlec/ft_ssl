@@ -70,5 +70,7 @@ int	main(__attribute__((unused)) int argc, char const *argv[])
 
 	print_hash_list(&ssl);
 
+	execution(&ssl);
+
 	return 0;
 }
