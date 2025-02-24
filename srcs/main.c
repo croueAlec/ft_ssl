@@ -63,6 +63,7 @@ int	main(__attribute__((unused)) int argc, char const *argv[])
 
 	if (parse_arguments(&ssl, &argv[2]) == ERROR)
 	{
+		printf("error, freeing everything\n");
 		free_hash_list(&ssl);
 		return (1);
 	}

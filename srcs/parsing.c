@@ -57,5 +57,8 @@ bool	parse_arguments(t_ssl *ssl, char const *argv[])
 		}
 	}
 
+	if (is_previous_str)
+		return (error_missing_string_argument(ssl));
+
 	return (SUCCESS);
 }
