@@ -55,10 +55,11 @@ bool	parse_arguments(t_ssl *ssl, char const *argv[])
 			if (add_hash_node(INFILE, ssl, NULL, argv[i]) == ERROR)
 				return (ERROR);
 		}
-	}
 
-	if (is_previous_str)
-		return (error_missing_string_argument(ssl));
+		if (is_previous_str)
+			if (add_hash_node(STRING, ssl, NULL, NULL) == ERROR)
+				return (ERROR);
+	}
 
 	return (SUCCESS);
 }

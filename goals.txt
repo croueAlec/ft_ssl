@@ -22,3 +22,5 @@ MD5 :	En sortie
 
 
 il faut une struct d'arguments qui contient une liste chainee
+
+Pendant l'execution, si input_type == STRING et string == NULL alors missing_string_argument
