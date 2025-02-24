@@ -3,8 +3,8 @@
 void	free_hash_list(t_ssl *ssl)
 {
 	t_hash	*tmp = NULL;
-
-	for (t_hash *node = ssl->hash_list; node->next; node = tmp)
+	t_hash *node = ssl->hash_list;
+	while (node)
 	{
 		tmp = node->next;
 		if (node->input)
@@ -12,6 +12,7 @@ void	free_hash_list(t_ssl *ssl)
 		if (node->file)
 			(free(node->file), node->file = NULL);
 		(free(node), node = NULL);
+		node = tmp;
 	}
 }
 
