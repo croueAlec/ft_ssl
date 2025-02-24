@@ -46,6 +46,7 @@ bool	parse_arguments(t_ssl *ssl, char const *argv[])
 			if (parse_flags(ssl, argv[i], &is_previous_str) == ERROR)
 				return (ERROR);
 		} else if (is_previous_str) {
+			is_previous_str = false;
 			if (add_hash_node(STRING, ssl, argv[i], NULL) == ERROR)
 				return (ERROR);
 		} else if (add_hash_node(INFILE, ssl, NULL, argv[i]) == ERROR) {
