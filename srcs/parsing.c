@@ -42,12 +42,15 @@ bool	parse_arguments(t_ssl *ssl, char const *argv[])
 	for (size_t i = 0; argv[i]; i++)
 	{
 		printf("verif ici %s\n", argv[i]);
-		if (argv[i][0] == '-')
-			return (parse_flags(ssl, argv[i], &is_previous_str)); //TODO retirer le return et ne return qu'en cas d'erreur, sinon continuer
-		else if (is_previous_str)
-			return (add_hash_node(STRING, ssl, argv[i], NULL));
-		else
-			return (add_hash_node(INFILE, ssl, NULL, argv[i]));
+		if (argv[i][0] == '-') {
+			if (parse_flags(ssl, argv[i], &is_previous_str) == ERROR)
+				return (ERROR);
+		} else if (is_previous_str) {
+			if (add_hash_node(STRING, ssl, argv[i], NULL) == ERROR)
+				return (ERROR);
+		} else if (add_hash_node(INFILE, ssl, NULL, argv[i]) == ERROR) {
+			return (ERROR);
+		}
 	}
 
 	return (SUCCESS);
