@@ -20,6 +20,7 @@ static	t_hash *set_node_last(t_ssl *ssl, t_hash *node)
 	t_hash	*head = ssl->hash_list;
 	while (head->next)
 		head = head->next;
+	head->next = node;
 	return (node);
 }
 
