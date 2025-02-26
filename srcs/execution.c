@@ -57,5 +57,5 @@ bool	execution(t_ssl *ssl)
 		node = tmp;
 	}
 
-	return (SUCCESS); //bug here ./ft_ssl md5 -s salut -qrssalut
+	return (SUCCESS);
 }
