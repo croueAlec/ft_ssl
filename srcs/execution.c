@@ -12,24 +12,6 @@ char	*placeholder_sha256(t_hash *node)
 	return ("This is a sha256\n");
 }
 
-static char	*get_message(t_hash *node)
-{
-	switch (node->input_type)
-	{
-	case STDIN:
-		return ("STDIN");
-		break;
-
-	case STRING:
-		return (node->input);
-		break;
-
-	case INFILE:
-		return (node->file);
-		break;
-	}
-}
-
 static hash_func_array *define_algorithm_array(void)
 {
 	hash_func_array	*arr = calloc(MAX_HASH_NBR, sizeof(hash_func_array));
