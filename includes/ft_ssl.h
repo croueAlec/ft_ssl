@@ -7,6 +7,8 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "../libs/libft/libft.h"
+
 #define ERROR 0
 #define SUCCESS 1
 

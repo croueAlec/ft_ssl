@@ -24,8 +24,15 @@ LIBS_DIR = libs
 SRCS_DIR = srcs
 INCS_DIR = includes
 OBJS_DIR = objs
+LIBFT_DIR = $(LIBS_DIR)/libft
+
 #	Files
-INCLUDES := $(INCS_DIR)
+LIBFT = $(LIBFT_DIR)/libft.a
+
+LIB :=	$(LIBFT)
+
+INCLUDES := $(INCS_DIR) \
+			$(LIBFT_DIR)
 
 INCLUDES_FLAGS := $(addprefix -I , $(INCLUDES))
 
@@ -45,7 +52,7 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
 	@echo "$(GREEN)* Assembling $(BWHITE)$@$(DEFAULT)"
-	@$(CC) $(CFLAGS) $(OBJ) $(INCLUDES_FLAGS) -o $@
+	@$(CC) $(CFLAGS) $(OBJ) $(LIB) $(INCLUDES_FLAGS) -o $@
 
 -include %(DEPS)
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
@@ -66,3 +73,17 @@ re: fclean all
 cre:
 	@clear
 	@make re --no-print-directory
+
+$(LIBFT):
+	@echo "$(CYAN)~ Compiling$(DEFAULT) $(PURPLE)$(LIBFT_DIR)$(DEFAULT)"
+	@make -C $(LIBFT_DIR) $(LIB_FLAGS)
+
+cleanlib:
+	@echo "$(RED)! Removing$(DEFAULT) $(PURPLE)$(LIBFT_DIR)$(DEFAULT)"
+	@make clean -C $(LIBFT_DIR) $(LIB_FLAGS)
+
+fcleanlib:
+	@echo "$(RED)! Removing$(DEFAULT) $(PURPLE)$(LIBFT_DIR)$(DEFAULT)"
+	@make fclean -C $(LIBFT_DIR) $(LIB_FLAGS)
+
+relib: fcleanlib $(LIBFT)
