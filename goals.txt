@@ -26,3 +26,5 @@ il faut une struct d'arguments qui contient une liste chainee
 Pendant l'execution, si input_type == STRING et string == NULL alors missing_string_argument
 
 Changer code retour du programme si une des operations echoue
+
+A la fin, retirer le return du switch -ppppp pour creer plusieurs nodes sur un seul argument comme le vrai "md5 -pppp"

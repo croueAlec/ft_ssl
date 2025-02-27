@@ -31,12 +31,22 @@ static char	*open_infile(t_hash *node, t_ssl *ssl)
 	}
 }
 
+static char	*open_stdin(void)
+{
+	int fd = STDIN_FILENO;
+	char	*str = read_file(fd);
+	if (!str)
+		return (calloc(0, sizeof(char)));
+	else
+		return (str);
+}
+
 char	*get_message(t_hash *node, t_ssl *ssl)
 {
 	switch (node->input_type)
 	{
 	case STDIN:
-		return ("STDIN");
+		return (open_stdin());
 		break;
 
 	case STRING:
