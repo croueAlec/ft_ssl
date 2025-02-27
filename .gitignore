@@ -1,2 +1,6 @@
 ft_ssl
-objs/*
+objs/
+a.out
+invalid
+normal
+test.c
