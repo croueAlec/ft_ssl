@@ -1,4 +1,5 @@
 #include "ft_ssl.h"
+#include <errno.h>
 
 void	print_usage(void)
 {
@@ -13,5 +14,14 @@ void	error_invalid_cmd(const char *cmd)
 bool	error_missing_string_argument(t_ssl *ssl)
 {
 	dprintf(2, "ft_ssl: %s: option requires an argument -- %c\n", ssl->hash_type == MD5 ? "md5" : "sha256", 's');
+	return (ERROR);
+}
+
+bool	error_open_infile(t_ssl *ssl)
+{
+	if (errno == 2)
+		dprintf(2, "ft_ssl: %s: No such file or directory\n", ssl->hash_type == MD5 ? "md5" : "sha256");
+	else if (errno == 13)
+		dprintf(2, "ft_ssl: %s: Permission denied\n", ssl->hash_type == MD5 ? "md5" : "sha256");
 	return (ERROR);
 }
