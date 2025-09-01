@@ -1,0 +1,14 @@
+we split the message into blocks of 512bits (in our case 64 chars)
+
+full blocks of 64 chars get added as such to the linked list until we have less than 64 chars left.
+if the remaining string is 55 < len < 64 then we put the text in the block and append the separator in the following block we put the lenght of the original message in the trailing 8 chars
+if the remaining string is len < 56 then we put the text in the block and append the separator and put the length in the trailing 8 chars.
+
+in its last block, the last 8 bits are reserved for the length in bits of the original message.
+
+8 | 8
+8 | 8
+8 | 8
+8 | > 8 < the length in bits of the original message
+
+and after the last written character in our block we put a separator 0b1000 0000
