@@ -6,4 +6,12 @@ Supported commands include **md5** and **sha256**.
 
 ## Documentation
 
-https://crypto.stackexchange.com/questions/1434/are-there-two-known-strings-which-have-the-same-md5-hash-value
+### MD5
+
+The [md5 algorithm wikipedia page](https://en.wikipedia.org/wiki/MD5).  
+
+[Collision wikipedia page](https://en.wikipedia.org/wiki/Hash_collision).  
+[Collision example](https://crypto.stackexchange.com/questions/1434/are-there-two-known-strings-which-have-the-same-md5-hash-value).  
+
+A good step by step explanation of the [md5 algorithm](https://www.comparitech.com/blog/information-security/md5-algorithm-with-examples/).  
+And a good [md5 block visualization](https://fthb321.github.io/MD5-Hash/MD5OurVersion2.html)
