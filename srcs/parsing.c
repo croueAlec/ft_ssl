@@ -1,16 +1,16 @@
 #include "ft_ssl.h"
 
-static bool	parse_flags(t_ssl *ssl, const char *arg, bool *is_str)
+static bool	parse_flags(t_ssl *ssl, const char *flags, bool *is_separate_string)
 {
-	for (size_t i = 1; arg[i]; i++)
+	for (size_t i = 1; flags[i]; i++)
 	{
-		switch (arg[i])
+		switch (flags[i])
 		{
 		case 's':
-			if (!arg[i + 1])
-				*is_str = true;
+			if (!flags[i + 1])
+				*is_separate_string = true;
 			else
-				return (add_hash_node(STRING, ssl, &arg[i + 1], NULL));
+				return (add_hash_node(STRING, ssl, &flags[i + 1], NULL));
 			break;
 
 		case 'q':
@@ -30,6 +30,10 @@ static bool	parse_flags(t_ssl *ssl, const char *arg, bool *is_str)
 	return (SUCCESS);
 }
 
+/**
+ * @brief This function parses the arguments and builds the linked-list of inputs.
+ * The call to add_hash_node using the STRING enum in this function and in parse_flags handles two cases ["-s<string>" and "-s <string>"] (note the space that separates the flag and the string)
+ * */
 bool	parse_arguments(t_ssl *ssl, char const *argv[])
 {
 	if (!argv[0])
@@ -37,30 +41,30 @@ bool	parse_arguments(t_ssl *ssl, char const *argv[])
 		return (add_hash_node(STDIN, ssl, NULL, NULL));
 	}
 
-	bool	is_previous_str = false;
-	bool	is_file_only = false;
+	bool	is_separate_string = false;
+	bool	no_options_found = false;
 
 	for (size_t i = 0; argv[i]; i++)
 	{
-		printf("verif ici %s\nprevious_str %d\n", argv[i], is_previous_str);
-		if (argv[i][0] == '-' && is_file_only == false) {
-			if (parse_flags(ssl, argv[i], &is_previous_str) == ERROR)
+		printf("verif ici %s\nprevious_str %d\n", argv[i], is_separate_string);
+		if (argv[i][0] == '-' && no_options_found == false) {
+			if (parse_flags(ssl, argv[i], &is_separate_string) == ERROR)
 				return (ERROR);
-		} else if (is_previous_str) {
-			is_previous_str = false;
+		} else if (is_separate_string) {
+			is_separate_string = false;
 			if (add_hash_node(STRING, ssl, argv[i], NULL) == ERROR)
 				return (ERROR);
 		} else {
-			is_file_only = true;
+			no_options_found = true;
 			if (add_hash_node(INFILE, ssl, NULL, argv[i]) == ERROR)
 				return (ERROR);
 		}
 	}
 
-		if (is_previous_str) {
-			if (add_hash_node(STRING, ssl, NULL, NULL) == ERROR)
-				return (ERROR);
-		}
+	if (is_separate_string) {	// handles trailing [-s] option with no string after
+		if (add_hash_node(STRING, ssl, NULL, NULL) == ERROR)
+			return (ERROR);
+	}
 
 	return (SUCCESS);
 }
