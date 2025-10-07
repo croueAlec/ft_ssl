@@ -17,3 +17,9 @@ A good step by step explanation of the [md5 algorithm](https://www.comparitech.c
 **WARNING :** the constants used in this example are wrong, favor using the [official md5 documentation rfc](https://www.ietf.org/rfc/rfc1321.txt).
 
 And a good [md5 block visualization](https://fthb321.github.io/MD5-Hash/MD5OurVersion2.html).
+
+[Figure 1]
+![A visual representation of the core MD5 loop](https://cdn.comparitech.com/wp-content/uploads/2021/06/md5-no-2fix-02-scaled.jpg)
+
+[Figure 2]
+![A visual representation of the individual operation inside the core MD5 loop](https://cdn.comparitech.com/wp-content/uploads/2021/06/md5-011-scaled.jpg)
