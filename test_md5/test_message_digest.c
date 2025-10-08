@@ -177,6 +177,8 @@ int main(int argc, char *argv[])
 
 	print_msg_blocks(list);
 
+	md5(list);
+
 	free_blocks(list);
 
 	return 0;

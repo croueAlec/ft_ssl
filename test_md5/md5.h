@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "hashing.h"
 
 #define CHUNK_SIZE 64
 #define PADDED_CHUNK_SIZE 56

@@ -1,4 +1,4 @@
-#include "hashing.h"
+#include "md5.h"
 
 context_vectors	init_vectors(void)
 {
@@ -98,7 +98,6 @@ void	rounds(uint32_t const message[16], context_vectors *vec, t_round_nbr round_
 	}
 }
 
-
 /**
  * @brief Converts src to little endian in dest using a buffer.
  * @param buf="ABCD";
@@ -108,11 +107,11 @@ void	rounds(uint32_t const message[16], context_vectors *vec, t_round_nbr round_
  * @param tmp+=buf[3]<<24;	tmp=="DCBA";
  * @note We do this every 4 byte word
  */
-void	big_to_little_endian(uint32_t *dest, uint32_t const *src)
+void	big_to_little_endian(uint32_t *dest, char const *src)
 {
 	uint32_t	tmp = 0;
 	uint8_t		buffer[64] = {0};
-	memcpy(buffer, src, sizeof(uint32_t) * 16);
+	memcpy(buffer, src, sizeof(char) * 64);
 
 	for (int i = 0; i < 16; i++) {
 		tmp =
@@ -140,12 +139,16 @@ void	add_original_vectors(context_vectors *vec)
 	vec->d += INIT_VECTOR_D;
 }
 
-int	main(void)
+
+// int	main(void)
+int	md5(t_block *list)
 {
 	context_vectors	vec = init_vectors();
+
 	uint32_t		little_endian_message[16];
 
-	big_to_little_endian(little_endian_message, empty_example_block);
+	big_to_little_endian(little_endian_message, list->chunk);
+	(void)empty_example_block;
 
 	rounds(little_endian_message, &vec, ROUND1);
 	rounds(little_endian_message, &vec, ROUND2);
