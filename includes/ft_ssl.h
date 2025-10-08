@@ -7,6 +7,9 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "ft_md5.h"
+#include "ft_sha256.h"
+
 #include "../libs/libft/libft.h"
 
 #define ERROR 0

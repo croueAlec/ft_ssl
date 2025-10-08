@@ -4,6 +4,7 @@
 		"bitset": "c",
 		"unordered_map": "c",
 		"algorithm": "c",
-		"format": "c"
+		"format": "c",
+		"ft_ssl.h": "c"
 	}
 }

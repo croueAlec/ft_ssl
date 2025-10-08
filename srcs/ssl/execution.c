@@ -1,17 +1,5 @@
 #include "ft_ssl.h"
 
-char	*placeholder_md5(t_hash *node)
-{
-	(void)node;
-	return ("This is an md5\n");
-}
-
-char	*placeholder_sha256(t_hash *node)
-{
-	(void)node;
-	return ("This is a sha256\n");
-}
-
 static hash_func_array *define_algorithm_array(void)
 {
 	hash_func_array	*arr = calloc(MAX_HASH_NBR, sizeof(hash_func_array));

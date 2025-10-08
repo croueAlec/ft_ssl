@@ -22,6 +22,9 @@ LIB_FLAGS = --no-print-directory --silent
 #	Directories
 LIBS_DIR = libs
 SRCS_DIR = srcs
+SSL_DIR = ssl
+MD5_DIR = md5/
+SHA256_DIR = sha256/
 INCS_DIR = includes
 OBJS_DIR = objs
 LIBFT_DIR = $(LIBS_DIR)/libft
@@ -36,13 +39,17 @@ INCLUDES := $(INCS_DIR) \
 
 INCLUDES_FLAGS := $(addprefix -I , $(INCLUDES))
 
-SRC :=	\
+SRC :=	$(addprefix $(SSL_DIR)/, \
 	errors.c \
 	execution.c \
 	get_message.c \
 	hash_list.c \
 	main.c \
-	parsing.c
+	parsing.c) \
+	$(addprefix $(MD5_DIR)/, \
+	placeholder_md5.c) \
+	$(addprefix $(SHA256_DIR)/, \
+	placeholder_sha256.c)
 
 OBJ := $(patsubst %.c,$(OBJS_DIR)/%.o,$(SRC))
 DEPS := $(patsubst %.c,$(OBJS_DIR)/%.d,$(SRC))
@@ -58,6 +65,9 @@ $(NAME): $(LIBFT) $(OBJ)
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 	@echo "$(CYAN)- Compiling$(DEFAULT) $<"
 	@mkdir -p $(OBJS_DIR)
+	@mkdir -p $(OBJS_DIR)/$(SSL_DIR)
+	@mkdir -p $(OBJS_DIR)/$(MD5_DIR)
+	@mkdir -p $(OBJS_DIR)/$(SHA256_DIR)
 	@$(CC) $(DEP_FLAGS) $(CFLAGS) $(INCLUDES_FLAGS) -c $< -o $@
 
 clean:
