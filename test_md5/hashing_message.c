@@ -161,7 +161,7 @@ void	operation(
 
 void	print_vector(init_vectors const *vec)
 {
-	printf("%x%x%x%x\n", vec->a, vec->b, vec->c, vec->d);
+	printf("%08x%08x%08x%08x\n", vec->a, vec->b, vec->c, vec->d);
 }
 
 /**
@@ -183,6 +183,7 @@ void	rounds(uint32_t const message[16], init_vectors *vec, t_round_nbr round_nbr
 			shift_array[round_nbr][i]);
 	}
 	print_vector(vec);
+	printf("%08x\t%08x\t%08x\n", A, vec->a, A+vec->a);
 }
 
 #include "hashing.h"
@@ -201,9 +202,7 @@ void	big_to_little_endian(uint32_t *dest, uint32_t const *src)
 {
 	uint32_t	tmp = 0;
 	uint8_t		buffer[64] = {0};
-	buffer[0] = 0x80;
-	// memcpy(&buffer, src, sizeof(uint8_t) * 64);
-	(void)src;
+	memcpy(buffer, src, sizeof(uint32_t) * 16);
 
 	for (int i = 0; i < 16; i++) {
 		tmp =
@@ -213,6 +212,16 @@ void	big_to_little_endian(uint32_t *dest, uint32_t const *src)
 			((uint32_t)buffer[i * 4 + 3] << 24);
 		dest[i] = tmp;
 	}
+}
+
+#define L_TO_BIG_ENDIAN(x) (((x & 0x000000FF) << 24) | ((x & 0x0000FF00) << 8) | ((x & 0x00FF0000) >> 8) | ((x & 0xFF000000) >> 24))
+
+void	little_to_big_endian(init_vectors *vec)
+{
+	vec->a = L_TO_BIG_ENDIAN(vec->a);
+	vec->b = L_TO_BIG_ENDIAN(vec->b);
+	vec->c = L_TO_BIG_ENDIAN(vec->c);
+	vec->d = L_TO_BIG_ENDIAN(vec->d);
 }
 
 void	add_original_vectors(init_vectors *vec)
@@ -226,22 +235,22 @@ void	add_original_vectors(init_vectors *vec)
 
 const uint32_t	empty_example_block[16] = {
 
-	0b10000000000000000000000000000000,
-	0b00000000000000000000000000000000,
-	0b00000000000000000000000000000000,
-	0b00000000000000000000000000000000,
-	0b00000000000000000000000000000000,
-	0b00000000000000000000000000000000,
-	0b00000000000000000000000000000000,
-	0b00000000000000000000000000000000,
-	0b00000000000000000000000000000000,
-	0b00000000000000000000000000000000,
-	0b00000000000000000000000000000000,
-	0b00000000000000000000000000000000,
-	0b00000000000000000000000000000000,
-	0b00000000000000000000000000000000,
-	0b00000000000000000000000000000000,
-	0b00000000000000000000000000000000
+	0x00000080,
+	0x00000000,
+	0x00000000,
+	0x00000000,
+	0x00000000,
+	0x00000000,
+	0x00000000,
+	0x00000000,
+	0x00000000,
+	0x00000000,
+	0x00000000,
+	0x00000000,
+	0x00000000,
+	0x00000000,
+	0x00000000,
+	0x00000000
 };
 
 int	main(void)
@@ -250,8 +259,6 @@ int	main(void)
 	uint32_t		little_endian_message[16];
 
 	big_to_little_endian(little_endian_message, empty_example_block);
-
-	// printf("%d\n%d\n",vec.a, F(vec.b, vec.c, vec.d));
 
 	print_vector(&vec);
 	rounds(little_endian_message, &vec, ROUND1);
@@ -263,5 +270,8 @@ int	main(void)
 
 	print_vector(&vec);
 
+	little_to_big_endian(&vec);
+
+	print_vector(&vec);
 	return 0;
 }
