@@ -19,13 +19,13 @@
 
 #define L_TO_BIG_ENDIAN(x) (((x & 0x000000FF) << 24) | ((x & 0x0000FF00) << 8) | ((x & 0x00FF0000) >> 8) | ((x & 0xFF000000) >> 24))
 
-typedef struct	initialization_vectors
+typedef struct	md5_context_vectors
 {
 	uint32_t	a;
 	uint32_t	b;
 	uint32_t	c;
 	uint32_t	d;
-}				init_vectors;
+}				context_vectors;
 
 typedef enum	e_round_number
 {

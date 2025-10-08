@@ -1,8 +1,8 @@
 #include "hashing.h"
 
-init_vectors	set_default_vectors(void)
+context_vectors	init_vectors(void)
 {
-	init_vectors	vectors;
+	context_vectors	vectors;
 
 	vectors.a = INIT_VECTOR_A;
 	vectors.b = INIT_VECTOR_B;
@@ -19,7 +19,7 @@ init_vectors	set_default_vectors(void)
  * @param round_nbr specifies which function depending on round number
  * @return * uint32_t value added to A
  */
-uint32_t	apply_core_function(init_vectors const *vec, t_round_nbr round_nbr)
+uint32_t	apply_core_function(context_vectors const *vec, t_round_nbr round_nbr)
 {
 	switch (round_nbr)
 	{
@@ -55,12 +55,12 @@ short	input_order(t_round_nbr round_nbr, size_t i)
  * @param rotation_amount corresponds to <<<s
  */
 void	operation(
-	init_vectors *vec, t_round_nbr round_nbr,
+	context_vectors *vec, t_round_nbr round_nbr,
 	uint32_t message_word,
 	uint32_t current_k_constant,
 	short rotation_amount )
 {
-	init_vectors	tmp = *vec;
+	context_vectors	tmp = *vec;
 
 	tmp.a += apply_core_function(&tmp, round_nbr);
 	tmp.a += message_word;
@@ -74,7 +74,7 @@ void	operation(
 	vec->d = tmp.c;
 }
 
-void	print_vector(init_vectors const *vec)
+void	print_vector(context_vectors const *vec)
 {
 	printf("%08x%08x%08x%08x\n", vec->a, vec->b, vec->c, vec->d);
 }
@@ -86,7 +86,7 @@ void	print_vector(init_vectors const *vec)
  * @param vec current state of the md5 vectors
  * @param round_nbr current round number
  */
-void	rounds(uint32_t const message[16], init_vectors *vec, t_round_nbr round_nbr)
+void	rounds(uint32_t const message[16], context_vectors *vec, t_round_nbr round_nbr)
 {
 	for (size_t i = 0; i < 16; i++)
 	{
@@ -124,7 +124,7 @@ void	big_to_little_endian(uint32_t *dest, uint32_t const *src)
 	}
 }
 
-void	little_to_big_endian(init_vectors *vec)
+void	little_to_big_endian(context_vectors *vec)
 {
 	vec->a = L_TO_BIG_ENDIAN(vec->a);
 	vec->b = L_TO_BIG_ENDIAN(vec->b);
@@ -132,7 +132,7 @@ void	little_to_big_endian(init_vectors *vec)
 	vec->d = L_TO_BIG_ENDIAN(vec->d);
 }
 
-void	add_original_vectors(init_vectors *vec)
+void	add_original_vectors(context_vectors *vec)
 {
 	vec->a += INIT_VECTOR_A;
 	vec->b += INIT_VECTOR_B;
@@ -142,7 +142,7 @@ void	add_original_vectors(init_vectors *vec)
 
 int	main(void)
 {
-	init_vectors	vec = set_default_vectors();
+	context_vectors	vec = init_vectors();
 	uint32_t		little_endian_message[16];
 
 	big_to_little_endian(little_endian_message, empty_example_block);
