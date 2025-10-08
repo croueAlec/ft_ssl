@@ -65,16 +65,26 @@ typedef enum	e_round_number
 #define G(b, c, d) (((b) & (d)) | ((c) & (~d)))
 #define H(b, c, d) ((b) ^ (c) ^ (d))
 #define I(b, c, d) ((c) ^ ((b) | (~d)))
-#define ROTATE_LEFT(x, n) (((x) << (n)) | ((x) >> (32-(n))))
+#define ROTATE_LEFT(x, n) (((uint32_t)(x) << (n)) | ((uint32_t)(x) >> (32 - (n))))
+
+#define A 0x67452301
+#define B 0xefcdab89
+#define C 0x98badcfe
+#define D 0x10325476
 
 init_vectors	set_default_vectors(void)
 {
 	init_vectors	vectors;
 
-	vectors.a = INIT_VECTOR_A;
-	vectors.b = INIT_VECTOR_B;
-	vectors.c = INIT_VECTOR_C;
-	vectors.d = INIT_VECTOR_D;
+	// vectors.a = INIT_VECTOR_A;
+	// vectors.b = INIT_VECTOR_B;
+	// vectors.c = INIT_VECTOR_C;
+	// vectors.d = INIT_VECTOR_D;
+
+	vectors.a = A;
+	vectors.b = B;
+	vectors.c = C;
+	vectors.d = D;
 
 	return (vectors);
 }
@@ -136,17 +146,17 @@ void	operation(
 	init_vectors	tmp = *vec;
 
 	// printf("base a:%08x\tb:%08x\tc:%08x\td:%08x\n", tmp.a, tmp.b, tmp.c, tmp.d);
-	tmp.a += apply_core_function(&tmp, round_nbr);	// printf("a:%08x  %08x\t\t<core function\n", tmp.a, apply_core_function(&tmp, round_nbr));
-	tmp.a += message_word;							// printf("a:%08x  %08x\t\t<Mi\n", tmp.a, message_word);
-	tmp.a += current_k_constant;					// printf("a:%08x  %08x\t\t<k const\n", tmp.a, current_k_constant);
-	tmp.a = ROTATE_LEFT ((tmp.a), rotation_amount);	// printf("a:%08x  %d\t\t\t<Rotation\n", tmp.a, rotation_amount);
-	tmp.a += tmp.b;									// printf("a:%08x  %08x\t\t<adding b\n", tmp.a, tmp.b);
+	tmp.a += apply_core_function(&tmp, round_nbr);	printf("a:%08x  %08x\t\t<core function\n", tmp.a, apply_core_function(&tmp, round_nbr));
+	tmp.a += message_word;							printf("a:%08x  %08x\t\t<Mi\n", tmp.a, message_word);
+	tmp.a += current_k_constant;					printf("a:%08x  %08x\t\t<k const\n", tmp.a, current_k_constant);
+	tmp.a = ROTATE_LEFT ((tmp.a), rotation_amount);	printf("a:%08x  %d\t\t\t<Rotation\n", tmp.a, rotation_amount);
+	tmp.a += tmp.b;									printf("a:%08x  %08x\t\t<adding b\n", tmp.a, tmp.b);
 
 	vec->a = tmp.d;
 	vec->b = tmp.a;
 	vec->c = tmp.b;
 	vec->d = tmp.c;
-	// printf("new  a:%08x\tb:\033[1;33m%08x\033[0m\tc:%08x\td:%08x\n\n", vec->a, vec->b, vec->c, vec->d);
+	printf("new  a:%08x\tb:\033[1;33m%08x\033[0m\tc:%08x\td:%08x\n\n", vec->a, vec->b, vec->c, vec->d);
 }
 
 void	print_vector(init_vectors const *vec)
@@ -176,18 +186,80 @@ void	rounds(uint32_t const message[16], init_vectors *vec, t_round_nbr round_nbr
 }
 
 #include "hashing.h"
+#include <string.h>
+
+/**
+ * @brief Converts src to little endian in dest using a buffer.
+ * @param buf="ABCD";
+ * @param tmp=buf[0];		tmp=="   A";
+ * @param tmp+=buf[1]<<8;	tmp=="  BA";
+ * @param tmp+=buf[2]<<16;	tmp==" CBA";
+ * @param tmp+=buf[3]<<24;	tmp=="DCBA";
+ * @note We do this every 4 byte word
+ */
+void	big_to_little_endian(uint32_t *dest, uint32_t const *src)
+{
+	uint32_t	tmp = 0;
+	uint8_t		buffer[64] = {0};
+	buffer[0] = 0x80;
+	// memcpy(&buffer, src, sizeof(uint8_t) * 64);
+	(void)src;
+
+	for (int i = 0; i < 16; i++) {
+		tmp =
+			((uint32_t)buffer[i * 4])       |
+			((uint32_t)buffer[i * 4 + 1] << 8)  |
+			((uint32_t)buffer[i * 4 + 2] << 16) |
+			((uint32_t)buffer[i * 4 + 3] << 24);
+		dest[i] = tmp;
+	}
+}
+
+void	add_original_vectors(init_vectors *vec)
+{
+	vec->a += A;
+	vec->b += B;
+	vec->c += C;
+	vec->d += D;
+}
+
+
+const uint32_t	empty_example_block[16] = {
+
+	0b10000000000000000000000000000000,
+	0b00000000000000000000000000000000,
+	0b00000000000000000000000000000000,
+	0b00000000000000000000000000000000,
+	0b00000000000000000000000000000000,
+	0b00000000000000000000000000000000,
+	0b00000000000000000000000000000000,
+	0b00000000000000000000000000000000,
+	0b00000000000000000000000000000000,
+	0b00000000000000000000000000000000,
+	0b00000000000000000000000000000000,
+	0b00000000000000000000000000000000,
+	0b00000000000000000000000000000000,
+	0b00000000000000000000000000000000,
+	0b00000000000000000000000000000000,
+	0b00000000000000000000000000000000
+};
 
 int	main(void)
 {
 	init_vectors	vec = set_default_vectors();
+	uint32_t		little_endian_message[16];
+
+	big_to_little_endian(little_endian_message, empty_example_block);
 
 	// printf("%d\n%d\n",vec.a, F(vec.b, vec.c, vec.d));
 
 	print_vector(&vec);
-	rounds(guide_example_block, &vec, ROUND1);
-	rounds(guide_example_block, &vec, ROUND2);
-	rounds(guide_example_block, &vec, ROUND3);
-	rounds(guide_example_block, &vec, ROUND4);
+	rounds(little_endian_message, &vec, ROUND1);
+	rounds(little_endian_message, &vec, ROUND2);
+	rounds(little_endian_message, &vec, ROUND3);
+	rounds(little_endian_message, &vec, ROUND4);
+
+	add_original_vectors(&vec);
 
 	print_vector(&vec);
 
