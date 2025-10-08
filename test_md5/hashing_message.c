@@ -135,16 +135,23 @@ void	operation(
 {
 	init_vectors	tmp = *vec;
 
-	tmp.a += apply_core_function(&tmp, round_nbr);
-	tmp.a += message_word;
-	tmp.a += current_k_constant;
-	tmp.a = ROTATE_LEFT ((tmp.a), rotation_amount);
-	tmp.a += tmp.b;
+	// printf("base a:%08x\tb:%08x\tc:%08x\td:%08x\n", tmp.a, tmp.b, tmp.c, tmp.d);
+	tmp.a += apply_core_function(&tmp, round_nbr);	// printf("a:%08x  %08x\t\t<core function\n", tmp.a, apply_core_function(&tmp, round_nbr));
+	tmp.a += message_word;							// printf("a:%08x  %08x\t\t<Mi\n", tmp.a, message_word);
+	tmp.a += current_k_constant;					// printf("a:%08x  %08x\t\t<k const\n", tmp.a, current_k_constant);
+	tmp.a = ROTATE_LEFT ((tmp.a), rotation_amount);	// printf("a:%08x  %d\t\t\t<Rotation\n", tmp.a, rotation_amount);
+	tmp.a += tmp.b;									// printf("a:%08x  %08x\t\t<adding b\n", tmp.a, tmp.b);
 
 	vec->a = tmp.d;
 	vec->b = tmp.a;
 	vec->c = tmp.b;
 	vec->d = tmp.c;
+	// printf("new  a:%08x\tb:\033[1;33m%08x\033[0m\tc:%08x\td:%08x\n\n", vec->a, vec->b, vec->c, vec->d);
+}
+
+void	print_vector(init_vectors const *vec)
+{
+	printf("%x%x%x%x\n", vec->a, vec->b, vec->c, vec->d);
 }
 
 /**
@@ -158,19 +165,14 @@ void	rounds(uint32_t const message[16], init_vectors *vec, t_round_nbr round_nbr
 {
 	for (size_t i = 0; i < 16; i++)
 	{
-		printf("%zu\n", i);
+		// printf("Round %d | Operation %zu\n", round_nbr, i);
 		operation(
 			vec, round_nbr,
 			message[input_order(round_nbr, i)],
 			k_constant[round_nbr][i],
 			shift_array[round_nbr][i]);
 	}
-
-}
-
-void	print_vector(init_vectors const *vec)
-{
-	printf("%x%x%x%x\n", vec->a, vec->b, vec->c, vec->d);
+	print_vector(vec);
 }
 
 #include "hashing.h"
@@ -181,10 +183,11 @@ int	main(void)
 
 	// printf("%d\n%d\n",vec.a, F(vec.b, vec.c, vec.d));
 
-	rounds(empty_example_block, &vec, ROUND1);
-	rounds(empty_example_block, &vec, ROUND2);
-	rounds(empty_example_block, &vec, ROUND3);
-	rounds(empty_example_block, &vec, ROUND4);
+	print_vector(&vec);
+	rounds(guide_example_block, &vec, ROUND1);
+	rounds(guide_example_block, &vec, ROUND2);
+	rounds(guide_example_block, &vec, ROUND3);
+	rounds(guide_example_block, &vec, ROUND4);
 
 	print_vector(&vec);
 
