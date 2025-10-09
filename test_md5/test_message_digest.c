@@ -28,7 +28,8 @@ void	length_to_bytes(t_block *block, const size_t original_message_length)
 {
 	for (size_t i = 0; i < 8; i++)
 	{
-		block->chunk[(CHUNK_SIZE - 1) - i] = ((original_message_length >> (i * 8)) & 0b11111111) << 3; // is it litte or big endian ?
+		// block->chunk[(CHUNK_SIZE - 1) - i] = ((original_message_length >> (i * 8)) & 0b11111111) << 3; // is it litte or big endian ?
+		block->chunk[(PADDED_CHUNK_SIZE) + i] = ((original_message_length >> (i * 8)) & 0b11111111) << 3; // it was little endian
 	}
 }
 
@@ -175,7 +176,7 @@ int main(int argc, char *argv[])
 
 	// printf("b\n");
 
-	print_msg_blocks(list);
+	// print_msg_blocks(list);
 
 	md5(list);
 
