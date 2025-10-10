@@ -1,4 +1,18 @@
 #include "md5.h"
+#include <stdarg.h>  // Required for variadic arguments
+
+#ifndef DEBUG
+# define DEBUG 1
+#endif
+
+void printIF(const char *format, ...) {
+	if (DEBUG == 1) {
+		va_list args;
+		va_start(args, format);
+		vprintf(format, args);
+		va_end(args);
+	}
+}
 
 t_block	*fill_msg_blocks(char *message, t_block *previous_block)
 {
@@ -29,7 +43,7 @@ void	length_to_bytes(t_block *block, const size_t original_message_length)
 	for (size_t i = 0; i < 8; i++)
 	{
 		// block->chunk[(CHUNK_SIZE - 1) - i] = ((original_message_length >> (i * 8)) & 0b11111111) << 3; // is it litte or big endian ?
-		block->chunk[(PADDED_CHUNK_SIZE) + i] = ((original_message_length >> (i * 8)) & 0b11111111) << 3; // it was little endian
+		block->chunk[(PADDED_CHUNK_SIZE) + i] = ((original_message_length >> (i * 8)) & 0b11111111); // it was little endian
 	}
 }
 
@@ -49,7 +63,7 @@ t_block	*fill_tail_block(char *message, const size_t original_message_length, bo
 
 	// printf("b b b\n");
 
-	length_to_bytes(block, original_message_length);
+	length_to_bytes(block, original_message_length * 8);
 
 	// printf("c c c\n");
 
@@ -113,11 +127,21 @@ t_block	*separate_message_in_blocks(char *message)
 	return first_block;
 }
 
-void	print_bits(char ch)
+void	print_bits(uint8_t ch)
 {
-	printf("%d%d%d%d%d%d%d%d",
+	printIF("%d%d%d%d%d%d%d%d",
 		(ch >> 7) & 1, (ch >> 6) & 1, (ch >> 5) & 1, (ch >> 4) & 1,
 		(ch >> 3) & 1, (ch >> 2) & 1, (ch >> 1) & 1, (ch & 1));
+}
+
+uint32_t	print_hex(char *buf)
+{
+	uint32_t val = buf[3] << 24 | buf[2] << 16 | buf[1] << 8 | buf[0];
+	// printf(" ");
+	// print_bits(buf[1]);
+	// printf(" ");
+	// print_bits(buf[0]);
+	return val;
 }
 
 void	print_msg_blocks(t_block *blocks)
@@ -129,14 +153,14 @@ void	print_msg_blocks(t_block *blocks)
 		// printf("%d:", j);
 		for (size_t i = 0; i < 64; i++)
 		{
-			print_bits(node->chunk[i]);
+			print_bits((uint8_t)(node->chunk[i]));
 			// printf("%zu ", i);
-			if ((i+1) % 8 == 0 && i != 63)
-				printf("\n");
+			if ((i+1) % 8 == 0)
+				printIF("\t\t%08x\t%08x\n", print_hex(&node->chunk[i-7]), print_hex(&node->chunk[i-3]));
 			else if (i != 63)
-				printf(" ");
+				printIF(" ");
 		}
-		printf("\n");
+		printIF("\n");
 		node = node->next;
 	}
 }
@@ -166,6 +190,8 @@ int main(int argc, char *argv[])
 	if (argc != 2)
 		return err("Bad argument count");
 
+	// printIF("%d", DEBUG);
+
 	// print_hello();
 
 	// printf("a\n");
@@ -176,7 +202,7 @@ int main(int argc, char *argv[])
 
 	// printf("b\n");
 
-	// print_msg_blocks(list);
+	print_msg_blocks(list);
 
 	md5(list);
 

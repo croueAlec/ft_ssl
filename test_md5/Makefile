@@ -3,3 +3,6 @@ INCLUDES = hashing.h md5.h
 
 all:
 	cc -Wall -Werror -Wextra -g3 $(SRC) -I$(INCLUDES)
+
+debug:
+	cc -Wall -Werror -Wextra -g3 -DDEBUG=0 $(SRC) -I$(INCLUDES)

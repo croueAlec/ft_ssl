@@ -62,17 +62,17 @@ void	operation(
 {
 	context_vectors	tmp = *vec;
 
-	tmp.a += apply_core_function(&tmp, round_nbr);		// printf("a:%08x  %08x\t\t<core function\n", tmp.a,  apply_core_function(&tmp, round_nbr));
-	tmp.a += message_word;								// printf("a:%08x  %08x\t\t<Mi\n", tmp.a, message_word);
-	tmp.a += current_k_constant;						// printf("a:%08x  %08x\t\t<k const\n", tmp.a, current_k_constant);
-	tmp.a = ROTATE_LEFT ((tmp.a), rotation_amount);		// printf("a:%08x  %d\t\t\t<Rotation\n", tmp.a, rotation_amount);
-	tmp.a += tmp.b;										// printf("a:%08x  %08x\t\t<adding b\n", tmp.a, tmp.b);
+	tmp.a += apply_core_function(&tmp, round_nbr);		printIF("a:%08x  %08x\t\t<core function\n", tmp.a,  apply_core_function(&tmp, round_nbr));
+	tmp.a += message_word;								printIF("a:%08x  %08x\t\t<Mi\n", tmp.a, message_word);
+	tmp.a += current_k_constant;						printIF("a:%08x  %08x\t\t<k const\n", tmp.a, current_k_constant);
+	tmp.a = ROTATE_LEFT ((tmp.a), rotation_amount);		printIF("a:%08x  %d\t\t\t<Rotation\n", tmp.a, rotation_amount);
+	tmp.a += tmp.b;										printIF("a:%08x  %08x\t\t<adding b\n", tmp.a, tmp.b);
 
 	vec->a = tmp.d;
 	vec->b = tmp.a;
 	vec->c = tmp.b;
 	vec->d = tmp.c;
-	// printf("new  a:%08x\tb:\033[1;33m%08x\033[0m\tc:%08x\td:%08x\n\n", vec->a, vec->b, vec->c, vec->d);
+	printIF("new  a:%08x\tb:\033[1;33m%08x\033[0m\tc:%08x\td:%08x\n\n", vec->a, vec->b, vec->c, vec->d);
 }
 
 void	print_vector(context_vectors const *vec)
@@ -91,6 +91,7 @@ void	rounds(uint32_t const message[16], context_vectors *vec, t_round_nbr round_
 {
 	for (size_t i = 0; i < 16; i++)
 	{
+		printIF("Step %zu\n", 1+i+16*(round_nbr));
 		operation(
 			vec, round_nbr,
 			message[input_order(round_nbr, i)],
@@ -132,14 +133,15 @@ void	little_to_big_endian(context_vectors *vec)
 	vec->d = L_TO_BIG_ENDIAN(vec->d);
 }
 
-void	add_original_vectors(context_vectors *vec)
+void	add_start_of_step_vectors(context_vectors *vec, context_vectors const *start_of_step_vectors)
 {
-	// printf("before og a:%08x%08x%08x%08x\n", vec->a, vec->b, vec->c, vec->d);
-	vec->a += INIT_VECTOR_A;
-	vec->b += INIT_VECTOR_B;
-	vec->c += INIT_VECTOR_C;
-	vec->d += INIT_VECTOR_D;
-	// printf("before og a:%08x%08x%08x%08x\n", vec->a, vec->b, vec->c, vec->d);
+	printIF("before og a:%08x%08x%08x%08x\n", vec->a, vec->b, vec->c, vec->d);
+	printIF("before og a:%08x%08x%08x%08x\n", start_of_step_vectors->a, start_of_step_vectors->b, start_of_step_vectors->c, start_of_step_vectors->d);
+	vec->a += start_of_step_vectors->a;
+	vec->b += start_of_step_vectors->b;
+	vec->c += start_of_step_vectors->c;
+	vec->d += start_of_step_vectors->d;
+	printIF("after og a:%08x%08x%08x%08x\n", vec->a, vec->b, vec->c, vec->d);
 }
 
 
@@ -150,16 +152,23 @@ int	md5(t_block *list)
 
 	uint32_t		little_endian_message[16];
 
-	big_to_little_endian(little_endian_message, list->chunk);
-	// memcpy(little_endian_message, list->chunk, sizeof(uint32_t)*16);
-	(void)empty_example_block;
+	while (list)
+	{
+		context_vectors	start_of_step_vectors = {0};
+		memcpy(&start_of_step_vectors, &vec, sizeof(context_vectors));
 
-	rounds(little_endian_message, &vec, ROUND1);
-	rounds(little_endian_message, &vec, ROUND2);
-	rounds(little_endian_message, &vec, ROUND3);
-	rounds(little_endian_message, &vec, ROUND4);
+		big_to_little_endian(little_endian_message, list->chunk);
+		// memcpy(little_endian_message, list->chunk, sizeof(uint32_t)*16);
+		(void)empty_example_block;
 
-	add_original_vectors(&vec);
+		rounds(little_endian_message, &vec, ROUND1);
+		rounds(little_endian_message, &vec, ROUND2);
+		rounds(little_endian_message, &vec, ROUND3);
+		rounds(little_endian_message, &vec, ROUND4);
+
+		add_start_of_step_vectors(&vec, &start_of_step_vectors);
+		list = list->next;
+	}
 
 	little_to_big_endian(&vec);
 

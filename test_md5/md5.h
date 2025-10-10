@@ -19,4 +19,6 @@ typedef struct	block_512_bits
 	struct block_512_bits	*next;
 }	t_block;
 
+void printIF(const char *format, ...);
+
 #endif
