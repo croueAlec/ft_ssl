@@ -1,0 +1,39 @@
+name: MD5 Testing
+
+#on:
+#  push:
+#    branches: [ "main" ]
+#  pull_request:
+#    branches: [ "main" ]
+
+on:
+  workflow_dispatch:
+    inputs:
+      custom_input:
+        description: 'Trigger md5 test'
+        required: false
+        default: ''
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up build environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y make gcc openssl
+
+    - name: Compile the code with make debug
+      run: |
+        cd test_md5/
+        make debug
+
+    - name: Capture command output
+      id: capture_output
+      run: |
+        ./md5_test_suite.sh
