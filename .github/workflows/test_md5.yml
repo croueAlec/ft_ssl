@@ -36,4 +36,4 @@ jobs:
     - name: Capture command output
       id: capture_output
       run: |
-        ./md5_test_suite.sh
+        ./test_md5/md5_test_suite.sh
