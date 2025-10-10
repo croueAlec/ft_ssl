@@ -34,6 +34,9 @@ uint32_t	apply_core_function(context_vectors const *vec, t_round_nbr round_nbr)
 
 	case ROUND4:
 		return (I(vec->b, vec->c, vec->d));
+
+	default:
+		return (0x00000000);
 	}
 }
 
