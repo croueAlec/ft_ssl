@@ -1,18 +1,4 @@
 #include "./includes/md5.h"
-#include <stdarg.h>  // Required for variadic arguments
-
-#ifndef DEBUG
-# define DEBUG 1
-#endif
-
-void printIF(const char *format, ...) {
-	if (DEBUG == 1) {
-		va_list args;
-		va_start(args, format);
-		vprintf(format, args);
-		va_end(args);
-	}
-}
 
 t_block	*fill_msg_blocks(char *message, t_block *previous_block)
 {
@@ -125,62 +111,6 @@ t_block	*separate_message_in_blocks(char *message)
 	// printf("d d\n");
 
 	return first_block;
-}
-
-void	print_bits(uint8_t ch)
-{
-	printIF("%d%d%d%d%d%d%d%d",
-		(ch >> 7) & 1, (ch >> 6) & 1, (ch >> 5) & 1, (ch >> 4) & 1,
-		(ch >> 3) & 1, (ch >> 2) & 1, (ch >> 1) & 1, (ch & 1));
-}
-
-uint32_t	print_hex(uint8_t *buf)
-{
-	uint32_t val = buf[3] << 24 | buf[2] << 16 | buf[1] << 8 | buf[0];
-	// printf(" ");
-	// print_bits(buf[1]);
-	// printf(" ");
-	// print_bits(buf[0]);
-	return val;
-}
-
-void	print_msg_blocks(t_block *blocks)
-{
-	t_block	*node = blocks;
-
-	while (node)
-	{
-		for (size_t i = 0; i < 64; i++)
-		{
-			print_bits((uint8_t)(node->chunk[i]));
-			if ((i+1) % 8 == 0)
-				printIF("\t\t%08x\t%08x\n", print_hex(&node->chunk[i-7]), print_hex(&node->chunk[i-3]));
-			else if (i != 63)
-				printIF(" ");
-		}
-		printIF("\n");
-		node = node->next;
-	}
-}
-
-int	err(char *err_msg)
-{
-	dprintf(2, "Error : %s\n", err_msg);
-
-	return 1;
-}
-
-void	free_blocks(t_block *blocks)
-{
-
-	t_block	*next_node = blocks;
-
-	while (next_node)
-	{
-		blocks = next_node;
-		next_node = next_node->next;
-		free(blocks);
-	}
 }
 
 int main(int argc, char *argv[])

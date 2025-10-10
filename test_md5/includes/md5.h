@@ -19,6 +19,12 @@ typedef struct	block_512_bits
 	struct block_512_bits	*next;
 }	t_block;
 
-void printIF(const char *format, ...);
+/* 		Utils		 */
+void		printIF(const char *format, ...);
+void		print_bits(uint8_t ch);
+uint32_t	print_hex(uint8_t *buf);
+void		print_msg_blocks(t_block *blocks);
+int			err(char *err_msg);
+void		free_blocks(t_block *blocks);
 
 #endif
