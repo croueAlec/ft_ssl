@@ -14,8 +14,8 @@
 
 typedef struct	block_512_bits
 {
-	char	chunk[CHUNK_SIZE];
-	char	_pad;
+	uint8_t	chunk[CHUNK_SIZE];
+	uint8_t	_pad;
 	struct block_512_bits	*next;
 }	t_block;
 

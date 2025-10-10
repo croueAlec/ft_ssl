@@ -110,11 +110,11 @@ void	rounds(uint32_t const message[16], context_vectors *vec, t_round_nbr round_
  * @param tmp+=buf[3]<<24;	tmp=="DCBA";
  * @note We do this every 4 byte word
  */
-void	big_to_little_endian(uint32_t *dest, char const *src)
+void	big_to_little_endian(uint32_t *dest, uint8_t const *src)
 {
 	uint32_t	tmp = 0;
 	uint8_t		buffer[64] = {0};
-	memcpy(buffer, src, sizeof(char) * 64);
+	memcpy(buffer, src, sizeof(uint8_t) * 64);
 
 	for (int i = 0; i < 16; i++) {
 		tmp =

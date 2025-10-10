@@ -1,4 +1,4 @@
-#include "md5.h"
+#include "./includes/md5.h"
 #include <stdarg.h>  // Required for variadic arguments
 
 #ifndef DEBUG
@@ -23,7 +23,7 @@ t_block	*fill_msg_blocks(char *message, t_block *previous_block)
 	if (previous_block)
 		previous_block->next = block;
 
-	strncpy(block->chunk, message, CHUNK_SIZE);
+	memcpy(block->chunk, message, sizeof(uint8_t) * CHUNK_SIZE);
 
 	return block;
 }
@@ -56,7 +56,7 @@ t_block	*fill_tail_block(char *message, const size_t original_message_length, bo
 
 	// printf("a a a\n");
 
-	strncpy(block->chunk, message, message_length);
+	memcpy(block->chunk, message, sizeof(uint8_t) * message_length);
 
 	if (separator_added == false)
 		block->chunk[message_length] = SEPARATOR;
@@ -111,7 +111,7 @@ t_block	*separate_message_in_blocks(char *message)
 	// printf("c c\n");
 
 	if (add_separator == true)
-		previous_block->chunk[strlen(previous_block->chunk)] = SEPARATOR;
+		previous_block->chunk[strlen((char*)(previous_block->chunk))] = SEPARATOR;
 
 	t_block	*last_block = fill_tail_block(new_message, original_message_length, add_separator);
 	if (!last_block)
@@ -134,7 +134,7 @@ void	print_bits(uint8_t ch)
 		(ch >> 3) & 1, (ch >> 2) & 1, (ch >> 1) & 1, (ch & 1));
 }
 
-uint32_t	print_hex(char *buf)
+uint32_t	print_hex(uint8_t *buf)
 {
 	uint32_t val = buf[3] << 24 | buf[2] << 16 | buf[1] << 8 | buf[0];
 	// printf(" ");
@@ -150,11 +150,9 @@ void	print_msg_blocks(t_block *blocks)
 
 	while (node)
 	{
-		// printf("%d:", j);
 		for (size_t i = 0; i < 64; i++)
 		{
 			print_bits((uint8_t)(node->chunk[i]));
-			// printf("%zu ", i);
 			if ((i+1) % 8 == 0)
 				printIF("\t\t%08x\t%08x\n", print_hex(&node->chunk[i-7]), print_hex(&node->chunk[i-3]));
 			else if (i != 63)
@@ -190,17 +188,9 @@ int main(int argc, char *argv[])
 	if (argc != 2)
 		return err("Bad argument count");
 
-	// printIF("%d", DEBUG);
-
-	// print_hello();
-
-	// printf("a\n");
-
 	t_block	*list = separate_message_in_blocks(argv[1]);
 	if (!list)
 		return err("Malloc fail");
-
-	// printf("b\n");
 
 	print_msg_blocks(list);
 
