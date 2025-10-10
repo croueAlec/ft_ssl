@@ -67,7 +67,7 @@ t_block	*separate_message_in_blocks(char *message)
 	t_block	*previous_block = NULL;
 	char	*new_message = message;
 
-	bool	add_separator = false;
+	bool			add_separator = false;
 	const size_t	original_message_length = strlen(message);
 	const size_t	block_count = count_blocks(original_message_length, &add_separator);
 
