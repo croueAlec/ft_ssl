@@ -5,4 +5,4 @@ all:
 	cc -Wall -Werror -Wextra -g3 $(SRC) -I$(INCLUDES)
 
 debug:
-	cc -Wall -Werror -Wextra -g3 -DDEBUG=0 $(SRC) -I$(INCLUDES)
+	cc -g3 -DDEBUG=0 $(SRC)
