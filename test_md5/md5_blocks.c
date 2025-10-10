@@ -28,8 +28,7 @@ void	length_to_bytes(t_block *block, const size_t original_message_length)
 {
 	for (size_t i = 0; i < 8; i++)
 	{
-		// block->chunk[(CHUNK_SIZE - 1) - i] = ((original_message_length >> (i * 8)) & 0b11111111) << 3; // is it litte or big endian ?
-		block->chunk[(PADDED_CHUNK_SIZE) + i] = ((original_message_length >> (i * 8)) & 0b11111111); // it was little endian
+		block->chunk[(PADDED_CHUNK_SIZE) + i] = ((original_message_length >> (i * 8)) & 0b11111111);
 	}
 }
 
@@ -40,18 +39,12 @@ t_block	*fill_tail_block(char *message, const size_t original_message_length, bo
 	if (!block)
 		return NULL;
 
-	// printf("a a a\n");
-
 	memcpy(block->chunk, message, sizeof(uint8_t) * message_length);
 
 	if (separator_added == false)
 		block->chunk[message_length] = SEPARATOR;
 
-	// printf("b b b\n");
-
 	length_to_bytes(block, original_message_length * 8);
-
-	// printf("c c c\n");
 
 	return block;
 }
@@ -69,7 +62,6 @@ size_t	count_blocks(const size_t original_message_length, bool *add_separator)
 
 t_block	*separate_message_in_blocks(char *message)
 {
-	// printf("a a\n");
 
 	t_block	*first_block = NULL;
 	t_block	*previous_block = NULL;
@@ -78,9 +70,6 @@ t_block	*separate_message_in_blocks(char *message)
 	bool	add_separator = false;
 	const size_t	original_message_length = strlen(message);
 	const size_t	block_count = count_blocks(original_message_length, &add_separator);
-
-
-	// printf("b b block count :%zu\n", block_count);
 
 	for (size_t i = 0; i < block_count; i++)
 	{
@@ -94,8 +83,6 @@ t_block	*separate_message_in_blocks(char *message)
 		new_message = slide_message(new_message);
 	}
 
-	// printf("c c\n");
-
 	if (add_separator == true)
 		previous_block->chunk[strlen((char*)(previous_block->chunk))] = SEPARATOR;
 
@@ -107,8 +94,6 @@ t_block	*separate_message_in_blocks(char *message)
 		first_block = last_block;
 	else
 		previous_block->next = last_block;
-
-	// printf("d d\n");
 
 	return first_block;
 }
