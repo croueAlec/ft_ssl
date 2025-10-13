@@ -133,7 +133,7 @@ int main(int argc, char *argv[])
 
 	end(&input);
 
-	return 0;
+	return (0);
 }
 
 
