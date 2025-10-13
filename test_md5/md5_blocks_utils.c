@@ -1,4 +1,4 @@
-#include "./includes/md5.h"
+#include "ft_md5.h"
 #include <stdarg.h>  // Required for variadic arguments
 
 #ifndef DEBUG
@@ -31,23 +31,17 @@ uint32_t	print_hex(uint8_t *buf)
 	return val;
 }
 
-void	print_msg_blocks(t_block *blocks)
+void	print_msg_blocks(t_block *block)
 {
-	t_block	*node = blocks;
-
-	while (node)
+	for (size_t i = 0; i < 64; i++)
 	{
-		for (size_t i = 0; i < 64; i++)
-		{
-			print_bits((uint8_t)(node->chunk[i]));
-			if ((i+1) % 8 == 0)
-				printIF("\t\t%08x\t%08x\n", print_hex(&node->chunk[i-7]), print_hex(&node->chunk[i-3]));
-			else if (i != 63)
-				printIF(" ");
-		}
-		printIF("\n");
-		node = node->next;
+		print_bits((uint8_t)(block->chunk[i]));
+		if ((i+1) % 8 == 0)
+			printIF("\t\t%08x\t%08x\n", print_hex(&block->chunk[i-7]), print_hex(&block->chunk[i-3]));
+		else if (i != 63)
+			printIF(" ");
 	}
+	printIF("\n");
 }
 
 int	err(char *err_msg)
@@ -57,15 +51,17 @@ int	err(char *err_msg)
 	return 1;
 }
 
-void	free_blocks(t_block *blocks)
+void	free_blocks(t_block *block)
 {
+	if (block->input_fd >= 0)
+		close(block->input_fd);
+	if (block->input_string)
+		free(block->input_string);
+}
 
-	t_block	*next_node = blocks;
-
-	while (next_node)
-	{
-		blocks = next_node;
-		next_node = next_node->next;
-		free(blocks);
-	}
+t_block	init_block(char *argv)
+{
+	t_block	block = {0};
+	block.input_string = strdup(argv);
+	block.input_fd = UNDEFINED_FD;
 }

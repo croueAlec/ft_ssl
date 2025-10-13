@@ -1,101 +1,59 @@
-#include "./includes/md5.h"
+#include "ft_md5.h"
 
-t_block	*fill_msg_blocks(char *message, t_block *previous_block)
-{
-	t_block	*block = calloc(1, sizeof(t_block));
-	if (!block)
-		return NULL;
-
-	if (previous_block)
-		previous_block->next = block;
-
-	memcpy(block->chunk, message, sizeof(uint8_t) * CHUNK_SIZE);
-
-	return block;
-}
-
-char	*slide_message(char *message)
-{
-	size_t	message_length = strlen(message);
-	size_t	new_start = (message_length < CHUNK_SIZE) ? message_length : CHUNK_SIZE;
-
-	message = &message[new_start];
-
-	return message;
-}
-
-void	length_to_bytes(t_block *block, const size_t original_message_length)
+void	length_to_bytes(t_block *block)
 {
 	for (size_t i = 0; i < 8; i++)
 	{
-		block->chunk[(PADDED_CHUNK_SIZE) + i] = ((original_message_length >> (i * 8)) & 0b11111111);
+		block->chunk[(PADDED_CHUNK_SIZE) + i] = ((block->total_length >> (i * 8)) & 0b11111111);
 	}
 }
 
-t_block	*fill_tail_block(char *message, const size_t original_message_length, bool separator_added)
+void	fill_block_metadata(t_block *block, bool add_separator, bool is_last_block)
 {
-	size_t	message_length = strlen(message);
-	t_block	*block = calloc(1, sizeof(t_block));
-	if (!block)
-		return NULL;
-
-	memcpy(block->chunk, message, sizeof(uint8_t) * message_length);
-
-	if (separator_added == false)
-		block->chunk[message_length] = SEPARATOR;
-
-	length_to_bytes(block, original_message_length * 8);
-
-	return block;
-}
-
-size_t	count_blocks(const size_t original_message_length, bool *add_separator)
-{
-	size_t	block_count = (original_message_length / CHUNK_SIZE);
-	if ((original_message_length % CHUNK_SIZE) > (PADDED_CHUNK_SIZE - 1)) { // verifier ici
-		block_count++;
-		*add_separator = true;
-	}
-
-	return block_count;
-}
-
-t_block	*separate_message_in_blocks(char *message)
-{
-
-	t_block	*first_block = NULL;
-	t_block	*previous_block = NULL;
-	char	*new_message = message;
-
-	bool			add_separator = false;
-	const size_t	original_message_length = strlen(message);
-	const size_t	block_count = count_blocks(original_message_length, &add_separator);
-
-	for (size_t i = 0; i < block_count; i++)
-	{
-		previous_block = fill_msg_blocks(new_message, previous_block);
-		if (!previous_block)
-			return (NULL); // gerer free
-
-		if (i == 0)
-			first_block = previous_block;
-
-		new_message = slide_message(new_message);
-	}
-
 	if (add_separator == true)
-		previous_block->chunk[strlen((char*)(previous_block->chunk))] = SEPARATOR;
+		block->chunk[block->buffer_length] = SEPARATOR;
 
-	t_block	*last_block = fill_tail_block(new_message, original_message_length, add_separator);
-	if (!last_block)
-		return NULL; // gerer free
+	if (is_last_block)
+		length_to_bytes(block);
+}
 
-	if (first_block == NULL)
-		first_block = last_block;
+void	get_next_chunk(t_block *block)
+{
+	if (block->input_fd != UNDEFINED_FD)
+		read(block->input_fd, block->chunk, CHUNK_SIZE);
 	else
-		previous_block->next = last_block;
+		memcpy(block->chunk, &block->input_string[block->total_length], sizeof(uint8_t) * CHUNK_SIZE);
+}
 
-	return first_block;
+void	md5_block_building(t_block *block)
+{
+	bool	last_block_reached = false;
+
+
+	while (last_block_reached == false || block->buffer_length)
+	{
+		get_next_chunk(block);
+		block->buffer_length = strlen((char*)block->chunk);
+		block->total_length += block->buffer_length;
+
+		if (block->buffer_length < PADDED_CHUNK_SIZE && last_block_reached == false) {
+			fill_block_metadata(block, true, true);
+			last_block_reached = true;
+			block->buffer_length = 0;
+
+		} else if (block->buffer_length >= PADDED_CHUNK_SIZE && block->buffer_length < CHUNK_SIZE) {
+			fill_block_metadata(block, true, false);
+			last_block_reached = true;
+
+		} else if (block->buffer_length == 0 && last_block_reached == true) {
+			fill_block_metadata(block, false, true);
+		}
+
+		print_msg_blocks(block);
+
+		md5(block);
+		bzero(block->chunk, CHUNK_SIZE);
+	}
 }
 
 int main(int argc, char *argv[])
@@ -103,15 +61,10 @@ int main(int argc, char *argv[])
 	if (argc != 2)
 		return err("Bad argument count");
 
-	t_block	*list = separate_message_in_blocks(argv[1]);
-	if (!list)
-		return err("Malloc fail");
+	t_block	block = init_block(argv[1]);
+	md5_block_building(&block);
 
-	print_msg_blocks(list);
+	free_blocks(&block);
 
-	md5(list);
-
-	free_blocks(list);
-
-	return 0;
+	return (0);
 }
