@@ -147,29 +147,25 @@ void	add_start_of_step_vectors(context_vectors *vec, context_vectors const *star
 
 
 // int	main(void)
-int	md5(t_block *list)
+int	md5(t_block *block)
 {
 	context_vectors	vec = init_vectors();
 
 	uint32_t		little_endian_message[16];
 
-	while (list)
-	{
-		context_vectors	start_of_step_vectors = {0};
-		memcpy(&start_of_step_vectors, &vec, sizeof(context_vectors));
+	context_vectors	start_of_step_vectors = {0};
+	memcpy(&start_of_step_vectors, &vec, sizeof(context_vectors));
 
-		big_to_little_endian(little_endian_message, list->chunk);
-		// memcpy(little_endian_message, list->chunk, sizeof(uint32_t)*16);
-		(void)empty_example_block;
+	big_to_little_endian(little_endian_message, block->chunk);
+	// memcpy(little_endian_message, block->chunk, sizeof(uint32_t)*16);
+	(void)empty_example_block;
 
-		rounds(little_endian_message, &vec, ROUND1);
-		rounds(little_endian_message, &vec, ROUND2);
-		rounds(little_endian_message, &vec, ROUND3);
-		rounds(little_endian_message, &vec, ROUND4);
+	rounds(little_endian_message, &vec, ROUND1);
+	rounds(little_endian_message, &vec, ROUND2);
+	rounds(little_endian_message, &vec, ROUND3);
+	rounds(little_endian_message, &vec, ROUND4);
 
-		add_start_of_step_vectors(&vec, &start_of_step_vectors);
-		list = list->next;
-	}
+	add_start_of_step_vectors(&vec, &start_of_step_vectors);
 
 	little_to_big_endian(&vec);
 

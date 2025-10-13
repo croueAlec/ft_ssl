@@ -64,4 +64,6 @@ t_block	init_block(char *argv)
 	t_block	block = {0};
 	block.input_string = strdup(argv);
 	block.input_fd = UNDEFINED_FD;
+
+	return (block);
 }
