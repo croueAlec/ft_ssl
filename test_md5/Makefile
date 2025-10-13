@@ -1,4 +1,4 @@
-SRC = test_message_digest.c hashing_message.c md5_constants.c
+SRC = md5_algorithm.c md5_blocks_utils.c md5_blocks.c md5_constants.c
 INCLUDES = includes/
 
 all:
