@@ -76,13 +76,13 @@ void	operation(
 	printIF("new  a:%08x\tb:\033[1;33m%08x\033[0m\tc:%08x\td:%08x\n\n", vec->a, vec->b, vec->c, vec->d);
 }
 
-void	print_vector(context_vectors const *vec)
+void	print_vector(context_vectors const *vec, char const *message)
 {
-	printf("%08x%08x%08x%08x\n", vec->a, vec->b, vec->c, vec->d);
+	printIF("%s %08x%08x%08x%08x\n", message, vec->a, vec->b, vec->c, vec->d);
 }
 
 /**
- * @brief This function implements the main md5 loop as seen in [Figure 1] of the README
+ * @brief This function implements the main md5 loop as seen in the blue step of [Figure 1] in the README
  *
  * @param message current block split in 16 uint32_t blocks
  * @param vec current state of the md5 vectors
@@ -136,17 +136,21 @@ void	little_to_big_endian(context_vectors *vec)
 
 void	add_start_of_step_vectors(context_vectors *vec, context_vectors const *start_of_step_vectors)
 {
-	printIF("before og a:%08x%08x%08x%08x\n", vec->a, vec->b, vec->c, vec->d);
-	printIF("before og a:%08x%08x%08x%08x\n", start_of_step_vectors->a, start_of_step_vectors->b, start_of_step_vectors->c, start_of_step_vectors->d);
+	print_vector(vec, "Current vectors :");
+	print_vector(start_of_step_vectors, "Start of round vectors :");
 	vec->a += start_of_step_vectors->a;
 	vec->b += start_of_step_vectors->b;
 	vec->c += start_of_step_vectors->c;
 	vec->d += start_of_step_vectors->d;
-	printIF("after og a:%08x%08x%08x%08x\n", vec->a, vec->b, vec->c, vec->d);
+	print_vector(vec, "New state of vectors after adding start of round vectors :\n");
 }
 
-
-// int	main(void)
+/**
+ * @brief The main MD5 algorithm as shown in [Figure 1]
+ *
+ * @param block
+ * @return * int
+ */
 int	md5(t_block *block)
 {
 	context_vectors	vec = init_vectors();
@@ -169,7 +173,7 @@ int	md5(t_block *block)
 
 	little_to_big_endian(&vec);
 
-	print_vector(&vec);
+	print_vector(&vec, "");
 
 	return 0;
 }
