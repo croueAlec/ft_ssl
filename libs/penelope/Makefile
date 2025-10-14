@@ -38,20 +38,20 @@ re: fclean all
 ${NAME} : ${OBJS}
 	@ar rcs ${NAME} ${OBJS}
 
-fatal:
+fatal: fclean
 	@$(MAKE) LOG_LVL=P_LOG_FATAL --no-print-directory
 
-error:
+error: fclean
 	@$(MAKE) LOG_LVL=P_LOG_ERROR --no-print-directory
 
-default:
+default: fclean
 	@$(MAKE) LOG_LVL=P_LOG_DEFAULT --no-print-directory
 
-info:
+info: fclean
 	@$(MAKE) LOG_LVL=P_LOG_INFO --no-print-directory
 
-debug:
+debug: fclean
 	@$(MAKE) LOG_LVL=P_LOG_DEBUG --no-print-directory
 
-trace:
+trace: fclean
 	@$(MAKE) LOG_LVL=P_LOG_TRACE --no-print-directory
