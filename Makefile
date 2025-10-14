@@ -20,22 +20,29 @@ RM = rm -rf
 LIB_FLAGS = --no-print-directory --silent
 
 #	Directories
-LIBS_DIR = libs
 SRCS_DIR = srcs
-SSL_DIR = ssl
+SSL_DIR = ssl/
 MD5_DIR = md5/
 SHA256_DIR = sha256/
 INCS_DIR = includes
 OBJS_DIR = objs
+
+# Libraries
+LIBS_DIR = libs
+
 LIBFT_DIR = $(LIBS_DIR)/libft
+LIBFT = $(LIBFT_DIR)/libft.a
+PENELOPE_DIR = $(LIBS_DIR)/penelope
+PENELOPE = $(PENELOPE_DIR)/penelope.a
+P_LOG_LEVEL=P_LOG_DEFAULT
+
+LIB :=	$(LIBFT) $(PENELOPE)
 
 #	Files
-LIBFT = $(LIBFT_DIR)/libft.a
-
-LIB :=	$(LIBFT)
 
 INCLUDES := $(INCS_DIR) \
-			$(LIBFT_DIR)
+			$(LIBFT_DIR) \
+			$(PENELOPE_DIR)
 
 INCLUDES_FLAGS := $(addprefix -I , $(INCLUDES))
 
@@ -57,7 +64,7 @@ DEPS := $(patsubst %.c,$(OBJS_DIR)/%.d,$(SRC))
 # Rules
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJ)
+$(NAME): $(LIBFT) $(PENELOPE) $(OBJ)
 	@echo "$(GREEN)* Assembling $(BWHITE)$@$(DEFAULT)"
 	@$(CC) $(CFLAGS) $(OBJ) $(LIB) $(INCLUDES_FLAGS) -o $@
 
@@ -88,12 +95,26 @@ $(LIBFT):
 	@echo "$(CYAN)~ Compiling$(DEFAULT) $(PURPLE)$(LIBFT_DIR)$(DEFAULT)"
 	@make -C $(LIBFT_DIR) $(LIB_FLAGS)
 
+$(PENELOPE):
+	@echo "$(CYAN)~ Compiling$(DEFAULT) $(PURPLE)$(PENELOPE_DIR)$(DEFAULT)"
+	@make $(LOG_LEVEL) -C $(PENELOPE_DIR) $(LIB_FLAGS)
+
 cleanlib:
 	@echo "$(RED)! Removing$(DEFAULT) $(PURPLE)$(LIBFT_DIR)$(DEFAULT)"
 	@make clean -C $(LIBFT_DIR) $(LIB_FLAGS)
+	@echo "$(RED)! Removing$(DEFAULT) $(PURPLE)$(PENELOPE_DIR)$(DEFAULT)"
+	@make clean -C $(PENELOPE_DIR) $(LIB_FLAGS)
 
 fcleanlib:
 	@echo "$(RED)! Removing$(DEFAULT) $(PURPLE)$(LIBFT_DIR)$(DEFAULT)"
 	@make fclean -C $(LIBFT_DIR) $(LIB_FLAGS)
+	@echo "$(RED)! Removing$(DEFAULT) $(PURPLE)$(PENELOPE_DIR)$(DEFAULT)"
+	@make fclean -C $(PENELOPE_DIR) $(LIB_FLAGS)
 
 relib: fcleanlib $(LIBFT)
+
+debug: fclean fcleanlib
+	@$(MAKE) LOG_LEVEL=debug $(LIB_FLAGS)
+
+trace: fclean fcleanlib
+	@$(MAKE) LOG_LEVEL=trace $(LIB_FLAGS)

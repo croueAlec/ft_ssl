@@ -11,6 +11,7 @@
 #include "ft_sha256.h"
 
 #include "../libs/libft/libft.h"
+#include "../libs/penelope/penelope.h"
 
 #define ERROR 0
 #define SUCCESS 1
