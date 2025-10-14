@@ -1,5 +1,7 @@
 #include "ft_ssl.h"
 
+t_penelope_log_level	P_LOG_LEVEL = LOG_LEVEL;
+
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
 #define BYTE_TO_BINARY(byte)  \
   ((byte) & 0x80 ? '1' : '0'), \

@@ -54,9 +54,7 @@ typedef enum	e_penelope_log_level
 	P_LOG_USR_OUTPUT2 = 10
 }	t_penelope_log_level;
 
-#ifndef P_LOG_LEVEL
-# define P_LOG_LEVEL P_LOG_DEFAULT
-#endif
+extern t_penelope_log_level	P_LOG_LEVEL;
 
 void	p_print_level(t_penelope_log_level log_level, char const *format, ...);
 

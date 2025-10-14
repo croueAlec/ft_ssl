@@ -9,8 +9,7 @@ SRCS =	penelope_tools.c \
 
 # Compilation
 CC = cc
-LOG_LVL=P_LOG_DEFAULT
-CFLAGS = -Wall -Wextra -Werror -g3 -DP_LOG_LEVEL=$(LOG_LVL)
+CFLAGS = -Wall -Wextra -Werror -g3
 
 # Objs
 OBJDIR = objs
@@ -21,7 +20,7 @@ OBJS := $(addprefix $(OBJDIR)/, $(OBJS))
 NAME = penelope.a
 RM = rm -rf
 
-all: fclean ${NAME}
+all: ${NAME}
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(OBJDIR)
@@ -37,21 +36,3 @@ re: fclean all
 
 ${NAME} : ${OBJS}
 	@ar rcs ${NAME} ${OBJS}
-
-fatal: fclean
-	@$(MAKE) LOG_LVL=P_LOG_FATAL --no-print-directory
-
-error: fclean
-	@$(MAKE) LOG_LVL=P_LOG_ERROR --no-print-directory
-
-default: fclean
-	@$(MAKE) LOG_LVL=P_LOG_DEFAULT --no-print-directory
-
-info: fclean
-	@$(MAKE) LOG_LVL=P_LOG_INFO --no-print-directory
-
-debug: fclean
-	@$(MAKE) LOG_LVL=P_LOG_DEBUG --no-print-directory
-
-trace: fclean
-	@$(MAKE) LOG_LVL=P_LOG_TRACE --no-print-directory

@@ -13,6 +13,10 @@
 #include "../libs/libft/libft.h"
 #include "../libs/penelope/penelope.h"
 
+#ifndef LOG_LEVEL
+# define LOG_LEVEL P_LOG_DEFAULT
+#endif
+
 #define ERROR 0
 #define SUCCESS 1
 

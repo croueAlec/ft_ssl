@@ -34,7 +34,8 @@ LIBFT_DIR = $(LIBS_DIR)/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 PENELOPE_DIR = $(LIBS_DIR)/penelope
 PENELOPE = $(PENELOPE_DIR)/penelope.a
-P_LOG_LEVEL=P_LOG_DEFAULT
+LOG_VALUE=P_LOG_DEFAULT
+LOG_LVL=-DLOG_LEVEL=$(LOG_VALUE)
 
 LIB :=	$(LIBFT) $(PENELOPE)
 
@@ -62,7 +63,7 @@ OBJ := $(patsubst %.c,$(OBJS_DIR)/%.o,$(SRC))
 DEPS := $(patsubst %.c,$(OBJS_DIR)/%.d,$(SRC))
 
 # Rules
-all: $(NAME)
+all: fclean $(NAME)
 
 $(NAME): $(LIBFT) $(PENELOPE) $(OBJ)
 	@echo "$(GREEN)* Assembling $(BWHITE)$@$(DEFAULT)"
@@ -75,7 +76,7 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 	@mkdir -p $(OBJS_DIR)/$(SSL_DIR)
 	@mkdir -p $(OBJS_DIR)/$(MD5_DIR)
 	@mkdir -p $(OBJS_DIR)/$(SHA256_DIR)
-	@$(CC) $(DEP_FLAGS) $(CFLAGS) $(INCLUDES_FLAGS) -c $< -o $@
+	@$(CC) $(DEP_FLAGS) $(LOG_LVL) $(CFLAGS) $(INCLUDES_FLAGS) -c $< -o $@
 
 clean:
 	@echo "$(RED)! Removing$(DEFAULT) ${OBJS_DIR} files"
@@ -97,7 +98,7 @@ $(LIBFT):
 
 $(PENELOPE):
 	@echo "$(CYAN)~ Compiling$(DEFAULT) $(PURPLE)$(PENELOPE_DIR)$(DEFAULT)"
-	@make $(LOG_LEVEL) -C $(PENELOPE_DIR) $(LIB_FLAGS)
+	@make -C $(PENELOPE_DIR) $(LIB_FLAGS)
 
 cleanlib:
 	@echo "$(RED)! Removing$(DEFAULT) $(PURPLE)$(LIBFT_DIR)$(DEFAULT)"
@@ -113,8 +114,8 @@ fcleanlib:
 
 relib: fcleanlib $(LIBFT)
 
-debug: fclean fcleanlib
-	@$(MAKE) LOG_LEVEL=debug $(LIB_FLAGS)
+debug: fclean
+	@$(MAKE) LOG_VALUE=P_LOG_DEBUG $(LIB_FLAGS)
 
-trace: fclean fcleanlib
-	@$(MAKE) LOG_LEVEL=trace $(LIB_FLAGS)
+trace: fclean
+	@$(MAKE) LOG_VALUE=P_LOG_TRACE $(LIB_FLAGS)
