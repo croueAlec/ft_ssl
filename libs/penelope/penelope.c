@@ -31,19 +31,14 @@ static void	penelope_print_level(t_penelope_log_level log_level, char const *for
 
 
 	case P_LOG_FATAL:
-		penelope_vdprintf(PENELOPE_ERROR_OUTPUT, format, args, log_level);
-		break;
 	case P_LOG_ERROR:
 		penelope_vdprintf(PENELOPE_ERROR_OUTPUT, format, args, log_level);
 		break;
 
 
 	case P_LOG_DEFAULT:
-		penelope_vdprintf(PENELOPE_LOG_OUTPUT, format, args, log_level);
-		break;
+	case P_LOG_INFO:
 	case P_LOG_DEBUG:
-		penelope_vdprintf(PENELOPE_LOG_OUTPUT, format, args, log_level);
-		break;
 	case P_LOG_TRACE:
 		penelope_vdprintf(PENELOPE_LOG_OUTPUT, format, args, log_level);
 		break;
@@ -170,4 +165,28 @@ void	p_print_usr_output2(char const *format, ...)
 	penelope_print_level(P_LOG_USR_OUTPUT2, format, args);
 
 	va_end(args);
+}
+
+/**
+ * @brief Returns True or False depending on the log_level argument when compared with P_LOG_LEVEL.
+ */
+bool	level_verification(t_penelope_log_level log_level)
+{
+	if (P_LOG_LEVEL == P_LOG_NONE || log_level == P_LOG_NONE)
+		return (false);
+
+	if (log_level == P_LOG_USR_OUTPUT1 || log_level == P_LOG_USR_OUTPUT2)
+	{
+		if (log_level == P_LOG_USR_OUTPUT1 && ENABLE_USR_OUTPUT1 == true)
+			return (true);
+		else if (log_level == P_LOG_USR_OUTPUT2 && ENABLE_USR_OUTPUT2 == true)
+			return (true);
+		else
+			return (false);
+	}
+
+	if (log_level <= P_LOG_LEVEL)
+		return (true);
+	else
+		return (false);
 }

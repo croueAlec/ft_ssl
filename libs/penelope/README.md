@@ -1,6 +1,7 @@
 # Penelope; the debugging library
 made by acroue
-### MIT License
+
+The current log_level can be changed using the `P_LOG_LEVEL` define in [penelope.h](./penelope.h).
 
 The main usage of this lib is the `print_level` function.\
 It implements a variation of the standard log levels :
@@ -69,18 +70,26 @@ There are also two more log levels that are independent from the log_level syste
 1. **P_LOG_USR_OUTPUT1** < Prints on **STDOUT by default**
 2. **P_LOG_USR_OUTPUT2** < Prints on **STDERR by default**
 
-These two log_levels don't have a specific use. They will **always print** when used.\
+These two log_levels don't have a specific use. By default, they will print but you can disable them using their respective defines.\
 Just like with the default log_level system, you can change the output of each of these logs independently in the `penelope.h` header file :
 
 ```c
 #ifndef PENELOPE_LOG_USR_OUTPUT1
 # define PENELOPE_LOG_USR_OUTPUT1 STDOUT_FILENO
 #endif
+
+#ifndef ENABLE_USR_OUTPUT1
+# define ENABLE_USR_OUTPUT1 true
+#endif
 ```
 
 ```c
 #ifndef PENELOPE_LOG_USR_OUTPUT2
 # define PENELOPE_LOG_USR_OUTPUT2 STDERR_FILENO
+#endif
+
+#ifndef ENABLE_USR_OUTPUT2
+# define ENABLE_USR_OUTPUT2 true
 #endif
 ```
 
@@ -104,3 +113,27 @@ void	p_print_usr_output2(char const *format, ...);
 ## Various printing functions
 
 Penelope also offers various printing functions.
+
+
+#### Bits printing
+Prints the bits of a uint8_t value.
+```c
+void	p_print_bits_uint8(t_penelope_log_level log_level, uint8_t byte, char const *description, bool print_value);
+```
+
+Prints the bits of a uint32_t value.
+```c
+void	p_print_bits_uint32(t_penelope_log_level log_level, uint32_t value, bool print_value, char const *description, bool space_each_byte);
+```
+
+#### Level_verification
+Returns true or false depending on the passed log_level. Useful for when you want to use a specific printing function while retaining the log_level system.
+```c
+bool	level_verification(t_penelope_log_level log_level);
+```
+
+Can be used like so.
+```c
+if (!level_verification(log_level))
+	return ;
+```
