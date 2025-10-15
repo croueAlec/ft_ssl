@@ -2,3 +2,4 @@ penelope.a
 objs/
 test.c
 a.out
+penelope.h.gch
