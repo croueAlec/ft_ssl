@@ -12,6 +12,7 @@
 #include <unistd.h>
 
 #include "hashing.h"
+#include "../../libs/penelope/penelope.h"
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 64
@@ -21,6 +22,10 @@
 #define PADDED_CHUNK_SIZE 56
 #define SEPARATOR 0b10000000
 #define	UNDEFINED_FD -2
+
+#ifndef LOG_LEVEL
+# define LOG_LEVEL P_LOG_DEFAULT
+#endif
 
 typedef struct	block_512_bits
 {
@@ -33,7 +38,6 @@ typedef struct	block_512_bits
 }	t_block;
 
 /* 		Utils		 */
-void		printIF(const char *format, ...);
 void		print_bits(uint8_t ch);
 uint32_t	print_hex(uint8_t *buf);
 void		print_msg_blocks(t_block *block);
