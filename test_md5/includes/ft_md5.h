@@ -11,7 +11,7 @@
 #include <strings.h>
 #include <unistd.h>
 
-#include "hashing.h"
+#include "ft_md5_algorithm.h"
 #include "../../libs/penelope/penelope.h"
 
 #ifndef BUFFER_SIZE

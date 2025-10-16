@@ -1,5 +1,5 @@
-#ifndef HASHING_H
-# define HASHING_H
+#ifndef FT_MD5_ALGORITHM_H
+# define FT_MD5_ALGORITHM_H
 
 #include <stdio.h>
 #include <stdint.h>
