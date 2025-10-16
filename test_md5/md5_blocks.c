@@ -58,7 +58,7 @@ void	md5_block_building(t_block *block)
 			fill_block_metadata(block, false, true);
 		}
 
-		print_msg_blocks(block);
+		print_block_chunk(block);
 
 		md5(block);
 		bzero(block->chunk, CHUNK_SIZE);

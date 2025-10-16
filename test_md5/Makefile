@@ -6,3 +6,6 @@ all:
 
 debug:
 	cc -g3 -DLOG_LEVEL=P_LOG_DEBUG $(SRC) -I$(INCLUDES)
+
+trace:
+	cc -g3 -DLOG_LEVEL=P_LOG_TRACE $(SRC) -I$(INCLUDES)

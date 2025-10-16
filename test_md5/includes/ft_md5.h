@@ -40,7 +40,7 @@ typedef struct	block_512_bits
 /* 		Utils		 */
 void		print_bits(uint8_t ch);
 uint32_t	print_hex(uint8_t *buf);
-void		print_msg_blocks(t_block *block);
+void		print_block_chunk(t_block *block);
 int			err(char *err_msg);
 void		free_blocks(t_block *block);
 t_block		init_block(char *argv);
