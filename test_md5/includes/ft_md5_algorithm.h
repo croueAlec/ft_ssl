@@ -42,6 +42,11 @@ extern const short		input_order_array[4][16];
 extern const short		shift_array[4][16];
 extern const uint32_t	empty_example_block[16];
 
-int	md5(t_block *list);
+/* 		Algorithm Utils		 */
+context_vectors	init_vectors(void);
+short			input_order(t_round_nbr round_nbr, size_t i);
+void			print_vector(context_vectors const *vec, char const *message, bool verbose);
+void			big_to_little_endian(uint32_t *dest, uint8_t const *src);
+void			little_to_big_endian(context_vectors *vec);
 
 #endif

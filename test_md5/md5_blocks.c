@@ -2,7 +2,7 @@
 
 t_penelope_log_level	P_LOG_LEVEL = LOG_LEVEL;
 
-void	length_to_bytes(t_block *block)
+static void	length_to_bytes(t_block *block)
 {
 	for (size_t i = 0; i < 8; i++)
 	{
@@ -10,7 +10,7 @@ void	length_to_bytes(t_block *block)
 	}
 }
 
-void	fill_block_metadata(t_block *block, bool add_separator, bool is_last_block)
+static void	fill_block_metadata(t_block *block, bool add_separator, bool is_last_block)
 {
 	if (add_separator == true) {
 		block->chunk[block->buffer_length] = SEPARATOR;
@@ -23,7 +23,7 @@ void	fill_block_metadata(t_block *block, bool add_separator, bool is_last_block)
 	}
 }
 
-void	get_next_chunk(t_block *block)
+static void	get_next_chunk(t_block *block)
 {
 	if (block->input_fd != UNDEFINED_FD)
 		read(block->input_fd, block->chunk, CHUNK_SIZE);
@@ -31,7 +31,11 @@ void	get_next_chunk(t_block *block)
 		memcpy(block->chunk, &block->input_string[block->total_length], sizeof(uint8_t) * CHUNK_SIZE);
 }
 
-void	md5_block_building(t_block *block)
+/**
+ * @brief The general MD5 Loop. It extracts chunks from the input to the block as shown in [Figure 3] of the README.
+ * It then calls md5_update(); to apply the algorithm on this chunk
+ */
+void	md5_loop(t_block *block)
 {
 	bool	last_block_reached = false;
 
@@ -60,9 +64,21 @@ void	md5_block_building(t_block *block)
 
 		print_block_chunk(block);
 
-		md5(block);
+		md5_update(block);
 		bzero(block->chunk, CHUNK_SIZE);
 	}
+}
+
+/**
+ * @brief The MD5 itself, inits the Block using the input values,
+ * starts the hashing and free's everything at the end.
+ */
+void	md5(char *str)
+{
+	t_block	block = init_block(str);
+	md5_loop(&block);
+	
+	free_blocks(&block);
 }
 
 int main(int argc, char *argv[])
@@ -70,10 +86,7 @@ int main(int argc, char *argv[])
 	if (argc != 2)
 		return (err("Bad argument count"));
 
-	t_block	block = init_block(argv[1]);
-	md5_block_building(&block);
-
-	free_blocks(&block);
+	md5(argv[1]);
 
 	return (0);
 }

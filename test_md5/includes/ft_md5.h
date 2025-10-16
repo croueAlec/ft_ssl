@@ -43,4 +43,8 @@ int			err(char *err_msg);
 void		free_blocks(t_block *block);
 t_block		init_block(char *argv);
 
+/* 		Main MD5 Algorithm */
+void		md5_update(t_block *block);
+void		md5(char *str);
+
 #endif
