@@ -1,7 +1,7 @@
 #include "ft_md5.h"
 #include "ft_md5_algorithm.h"
 
-context_vectors	init_vectors(void)
+context_vectors	init_vectors(t_block *block)
 {
 	context_vectors	vectors;
 
@@ -10,7 +10,10 @@ context_vectors	init_vectors(void)
 	vectors.c = INIT_VECTOR_C;
 	vectors.d = INIT_VECTOR_D;
 
-	return (vectors);
+	if (block->block_number == 1)
+		return (vectors);
+	else
+		return (block->vectors);
 }
 
 /**
@@ -27,9 +30,9 @@ void	print_vector(context_vectors const *vec, char const *message, bool verbose,
 		return ;
 
 	if (verbose == true)
-		p_print_debug("%s a:%08x b:%08x c:%08x d:%08x\n\n", message, vec->a, vec->b, vec->c, vec->d);
+		p_print_level(log_level, "%s a:%08x b:%08x c:%08x d:%08x\n\n", message, vec->a, vec->b, vec->c, vec->d);
 	else
-		p_print_debug("%08x%08x%08x%08x\n\n", vec->a, vec->b, vec->c, vec->d);
+		p_print_level(log_level, "%08x%08x%08x%08x\n\n", vec->a, vec->b, vec->c, vec->d);
 }
 
 /**

@@ -33,11 +33,14 @@
 
 typedef struct	block_512_bits
 {
-	uint8_t	chunk[CHUNK_SIZE + 1];
-	size_t	total_length;
-	size_t	buffer_length;
-	int		input_fd;
-	char	*input_string;
+	uint8_t			chunk[CHUNK_SIZE + 1];
+	size_t			total_length;
+	size_t			buffer_length;
+	int				input_fd;
+	char			*input_string;
+	size_t			block_number;
+
+	context_vectors	vectors;
 
 }	t_block;
 

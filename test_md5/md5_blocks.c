@@ -75,11 +75,17 @@ void	md5_loop(t_block *block)
 			p_print_debug("Processing default full MD5 block containing 64 bytes from the buffer\n");
 		}
 
+		block->block_number++;
+
 		print_block_chunk(block, separator_index);
 
 		md5_update(block);
 		bzero(block->chunk, CHUNK_SIZE);
 	}
+
+	little_to_big_endian(&block->vectors);
+	p_print_debug("Final vectors : ");
+	print_vector(&block->vectors, "", false, P_LOG_DEFAULT);
 }
 
 /**

@@ -98,7 +98,8 @@ static void	add_start_of_step_vectors(context_vectors *vec, context_vectors cons
  */
 void	md5_update(t_block *block)
 {
-	context_vectors	vec = init_vectors();
+	p_print_debug("[Block %zu]\n", block->block_number);
+	context_vectors	vec = init_vectors(block);
 
 	uint32_t		little_endian_message[16];
 
@@ -114,6 +115,8 @@ void	md5_update(t_block *block)
 
 	add_start_of_step_vectors(&vec, &start_of_step_vectors);
 
+	
+	memcpy(&block->vectors, &vec, sizeof(context_vectors));
 	little_to_big_endian(&vec);
 
 	print_vector(&vec, "", false, P_LOG_DEBUG);

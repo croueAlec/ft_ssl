@@ -45,7 +45,7 @@ extern const short		shift_array[4][16];
 extern const uint32_t	empty_example_block[16];
 
 /* 		Algorithm Utils		 */
-context_vectors	init_vectors(void);
+context_vectors	init_vectors(t_block *block);
 short			input_order(t_round_nbr round_nbr, size_t i);
 void			print_vector(context_vectors const *vec, char const *message, bool verbose, t_penelope_log_level log_level);
 void			big_to_little_endian(uint32_t *dest, uint8_t const *src);
