@@ -5,6 +5,8 @@ t_penelope_log_level	P_LOG_LEVEL = LOG_LEVEL;
 static void	length_to_bytes(t_block *block)
 {
 	p_print_trace("\ttotal length to add as bytes : %zu\n", block->total_length);
+	block->total_length *= 8;
+
 	for (size_t i = 0; i < 8; i++)
 	{
 		block->chunk[(PADDED_CHUNK_SIZE) + i] = ((block->total_length >> (i * 8)) & 0b11111111);
