@@ -1,4 +1,10 @@
-SRC = md5_algorithm.c md5_blocks_utils.c md5_blocks.c md5_constants.c ../libs/penelope/penelope.a
+SRC =	md5_algorithm_utils.c \
+		md5_algorithm.c \
+		md5_blocks_utils.c \
+		md5_blocks.c \
+		md5_constants.c \
+		md5_gnl.c \
+		../libs/penelope/penelope.a
 INCLUDES = includes/
 
 all:

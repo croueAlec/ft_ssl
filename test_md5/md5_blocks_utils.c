@@ -14,6 +14,9 @@ static uint32_t	uint8_to_uint32(uint8_t *buf)
 	return val;
 }
 
+/**
+ * @brief Prints only on TRACE log_level
+ */
 void	print_block_chunk(t_block *block)
 {
 	if (!level_verification(P_LOG_TRACE))
@@ -59,7 +62,7 @@ t_block	init_block(char *argv)
 	block.input_string = strdup(argv);
 	block.input_fd = UNDEFINED_FD;
 
-	p_print_debug("Initializing block input values to file descriptor : %d\n and string to : %s\n", block.input_fd, block.input_string);
+	p_print_debug("Initializing block input values to file descriptor : %d\n and string to : %s\n\n", block.input_fd, block.input_string);
 
 	return (block);
 }

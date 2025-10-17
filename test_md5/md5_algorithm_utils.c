@@ -1,4 +1,5 @@
 #include "ft_md5.h"
+#include "ft_md5_algorithm.h"
 
 context_vectors	init_vectors(void)
 {
@@ -20,15 +21,15 @@ short	input_order(t_round_nbr round_nbr, size_t i)
 	return (input_order_array[round_nbr][i]);
 }
 
-void	print_vector(context_vectors const *vec, char const *message, bool verbose)
+void	print_vector(context_vectors const *vec, char const *message, bool verbose, t_penelope_log_level log_level)
 {
-	if (!level_verification(P_LOG_LEVEL))
+	if (!level_verification(log_level))
 		return ;
 
 	if (verbose == true)
-		p_print_debug("%s a:%08x b:%08x c:%08x d:%08x\n", message, vec->a, vec->b, vec->c, vec->d);
+		p_print_debug("%s a:%08x b:%08x c:%08x d:%08x\n\n", message, vec->a, vec->b, vec->c, vec->d);
 	else
-		p_print_debug("%08x%08x%08x%08x\n", message, vec->a, vec->b, vec->c, vec->d);
+		p_print_debug("%08x%08x%08x%08x\n\n", message, vec->a, vec->b, vec->c, vec->d);
 }
 
 /**

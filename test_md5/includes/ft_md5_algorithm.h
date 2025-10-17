@@ -5,6 +5,8 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "../../libs/penelope/penelope.h"
+
 #define INIT_VECTOR_A 0x67452301
 #define INIT_VECTOR_B 0xefcdab89
 #define INIT_VECTOR_C 0x98badcfe
@@ -45,7 +47,7 @@ extern const uint32_t	empty_example_block[16];
 /* 		Algorithm Utils		 */
 context_vectors	init_vectors(void);
 short			input_order(t_round_nbr round_nbr, size_t i);
-void			print_vector(context_vectors const *vec, char const *message, bool verbose);
+void			print_vector(context_vectors const *vec, char const *message, bool verbose, t_penelope_log_level log_level);
 void			big_to_little_endian(uint32_t *dest, uint8_t const *src);
 void			little_to_big_endian(context_vectors *vec);
 

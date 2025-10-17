@@ -1,4 +1,5 @@
 #include "ft_md5.h"
+#include "ft_md5_algorithm.h"
 
 /**
  * @brief This function implements the green square in [Figure 2] of the README
@@ -43,17 +44,17 @@ static void	operation(
 {
 	context_vectors	tmp = *vec;
 
-	tmp.a += apply_core_function(&tmp, round_nbr);		// printf("a:%08x  %08x\t\t<core function\n", tmp.a,  apply_core_function(&tmp, round_nbr));
-	tmp.a += message_word;								// printf("a:%08x  %08x\t\t<Mi\n", tmp.a, message_word);
-	tmp.a += current_k_constant;						// printf("a:%08x  %08x\t\t<k const\n", tmp.a, current_k_constant);
-	tmp.a = ROTATE_LEFT ((tmp.a), rotation_amount);		// printf("a:%08x  %d\t\t\t<Rotation\n", tmp.a, rotation_amount);
-	tmp.a += tmp.b;										// printf("a:%08x  %08x\t\t<adding b\n", tmp.a, tmp.b);
+	tmp.a += apply_core_function(&tmp, round_nbr);		p_print_trace("\ta:%08x  %08x\t\t<core function\n", tmp.a,  apply_core_function(&tmp, round_nbr));
+	tmp.a += message_word;								p_print_trace("\ta:%08x  %08x\t\t<Mi\n", tmp.a, message_word);
+	tmp.a += current_k_constant;						p_print_trace("\ta:%08x  %08x\t\t<k const\n", tmp.a, current_k_constant);
+	tmp.a = ROTATE_LEFT ((tmp.a), rotation_amount);		p_print_trace("\ta:%08x  %d\t\t\t<Rotation\n", tmp.a, rotation_amount);
+	tmp.a += tmp.b;										p_print_trace("\ta:%08x  %08x\t\t<adding b\n", tmp.a, tmp.b);
 
 	vec->a = tmp.d;
 	vec->b = tmp.a;
 	vec->c = tmp.b;
 	vec->d = tmp.c;
-	// printf("new  a:%08x\tb:\033[1;33m%08x\033[0m\tc:%08x\td:%08x\n\n", vec->a, vec->b, vec->c, vec->d);
+	p_print_trace("\tnew  a:%08x\tb:\033[1;33m%08x\033[0m\tc:%08x\td:%08x\n\n", vec->a, vec->b, vec->c, vec->d);
 }
 
 /**
@@ -65,6 +66,8 @@ static void	operation(
  */
 static void	rounds(uint32_t const message[16], context_vectors *vec, t_round_nbr round_nbr)
 {
+	p_print_debug("[Round %zu] beginning vectors :", round_nbr + 1);
+	print_vector(vec, "", true, P_LOG_DEBUG);
 	for (size_t i = 0; i < 16; i++)
 	{
 		// printf("Step %zu\n", 1+i+16*(round_nbr));
@@ -74,17 +77,19 @@ static void	rounds(uint32_t const message[16], context_vectors *vec, t_round_nbr
 			k_constant[round_nbr][i],
 			shift_array[round_nbr][i]);
 	}
+	p_print_debug(" [Round %zu] end vectors :", round_nbr + 1);
+	print_vector(vec, "", true, P_LOG_DEBUG);
 }
 
 static void	add_start_of_step_vectors(context_vectors *vec, context_vectors const *start_of_step_vectors)
 {
-	print_vector(vec, "Current vectors :", true);
-	print_vector(start_of_step_vectors, "Start of round vectors :", true);
+	print_vector(start_of_step_vectors, "Start of step vectors :\n", true, P_LOG_DEBUG);
+	print_vector(vec, "Current vectors :\n", true, P_LOG_DEBUG);
 	vec->a += start_of_step_vectors->a;
 	vec->b += start_of_step_vectors->b;
 	vec->c += start_of_step_vectors->c;
 	vec->d += start_of_step_vectors->d;
-	print_vector(vec, "New state of vectors after adding start of round vectors :\n", true);
+	print_vector(vec, "New state of vectors after adding start of step vectors :\n", true, P_LOG_DEBUG);
 }
 
 /**
@@ -110,7 +115,7 @@ void	md5_update(t_block *block)
 
 	little_to_big_endian(&vec);
 
-	print_vector(&vec, "", false);
-
-	return 0;
+	print_vector(&vec, "", false, P_LOG_DEBUG);
 }
+
+// block64 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789--"

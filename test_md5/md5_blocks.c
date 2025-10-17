@@ -47,20 +47,24 @@ void	md5_loop(t_block *block)
 		block->total_length += block->buffer_length;
 
 		if (block->buffer_length < PADDED_CHUNK_SIZE && last_block_reached == false) {
-			p_print_debug("Processing full MD5 trailing block\n");
+			p_print_debug("Processing full MD5 trailing block containing %d bytes from the buffer\n", block->buffer_length);
 			fill_block_metadata(block, true, true);
 			last_block_reached = true;
 			block->buffer_length = 0;
 
 		} else if (block->buffer_length >= PADDED_CHUNK_SIZE && block->buffer_length < CHUNK_SIZE) {
-			p_print_debug("Processing penultimate MD5 block containing the separator\n");
+			p_print_debug("Processing penultimate MD5 block containing the separator and %d bytes from the buffer\n", block->buffer_length);
 			fill_block_metadata(block, true, false);
 			last_block_reached = true;
 
 		} else if (block->buffer_length == 0 && last_block_reached == true) {
-			p_print_debug("Processing trailing MD5 block containing byte length only\n");
+			p_print_debug("Processing trailing MD5 block containing byte length only and 0 bytes from the buffer\n");
 			fill_block_metadata(block, false, true);
+		} else if (block->buffer_length == 64)
+		{
+			p_print_debug("Processing default full MD5 block containing 64 bytes from the buffer\n");
 		}
+		
 
 		print_block_chunk(block);
 
