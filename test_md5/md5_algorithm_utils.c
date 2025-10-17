@@ -29,7 +29,7 @@ void	print_vector(context_vectors const *vec, char const *message, bool verbose,
 	if (verbose == true)
 		p_print_debug("%s a:%08x b:%08x c:%08x d:%08x\n\n", message, vec->a, vec->b, vec->c, vec->d);
 	else
-		p_print_debug("%08x%08x%08x%08x\n\n", message, vec->a, vec->b, vec->c, vec->d);
+		p_print_debug("%08x%08x%08x%08x\n\n", vec->a, vec->b, vec->c, vec->d);
 }
 
 /**

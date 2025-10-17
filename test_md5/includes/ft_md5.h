@@ -27,6 +27,10 @@
 # define LOG_LEVEL P_LOG_DEFAULT
 #endif
 
+#define RED "\033[0;91m"
+#define BYELLOW "\033[1;33m"
+#define CLEAR "\033[0;m"
+
 typedef struct	block_512_bits
 {
 	uint8_t	chunk[CHUNK_SIZE + 1];
