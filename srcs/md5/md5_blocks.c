@@ -1,8 +1,6 @@
 #include "ft_md5.h"
 #include <string.h>
 
-t_penelope_log_level	P_LOG_LEVEL = LOG_LEVEL;
-
 static void	length_to_bytes(t_block *block)
 {
 	p_print_trace("\ttotal length to add as bytes : %zu\n", block->total_length);

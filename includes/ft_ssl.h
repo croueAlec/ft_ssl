@@ -45,7 +45,7 @@ typedef struct hashes
 }		t_hash;
 
 #define MAX_HASH_NBR 2
-typedef char	*(*hash_func_array)(t_hash*);
+typedef void	(*hash_func_array)(t_hash*);
 typedef enum	e_hash_types
 {
 	INVALID = 0,

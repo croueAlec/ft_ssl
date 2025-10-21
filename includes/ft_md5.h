@@ -14,13 +14,11 @@
 #define SEPARATOR 0b10000000
 #define	UNDEFINED_FD -2
 
-#ifndef LOG_LEVEL
-# define LOG_LEVEL P_LOG_DEFAULT
-#endif
-
 #define RED "\033[0;91m"
 #define BYELLOW "\033[1;33m"
 #define CLEAR "\033[0;m"
+
+typedef struct	hashes t_hash;
 
 typedef struct	block_512_bits
 {
@@ -44,6 +42,7 @@ void		free_blocks(t_block *block);
 /* 		Main MD5 Algorithm */
 
 void		md5_update(t_block *block);
+void		md5_loop(t_block *block);
 void		md5(t_hash *node);
 
 #endif

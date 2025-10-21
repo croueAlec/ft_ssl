@@ -5,10 +5,9 @@ static void	init_block(t_block *block, t_hash *node)
 {
 	block->input_string = strdup(node->input);
 	block->input_fd = UNDEFINED_FD;
+	printf("init first block md5\n");
 
 	p_print_debug("Initializing block input values to file descriptor : %d\n and string to : %s\n\n", block->input_fd, block->input_string);
-
-	return (block);
 }
 
 /**
@@ -19,6 +18,7 @@ void	md5(t_hash *node)
 {
 	t_block	block = {0};
 	init_block(&block, node);
+	printf("init first block md5\n");
 	md5_loop(&block);
 
 	free_blocks(&block);

@@ -5,6 +5,6 @@
 
 typedef struct hashes t_hash;
 
-char	*placeholder_sha256(t_hash *node);
+void	placeholder_sha256(t_hash *node);
 
 #endif
