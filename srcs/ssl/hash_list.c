@@ -11,7 +11,7 @@ static char	*read_stdin(int fd)
 	while (tmp)
 	{
 		file_str = ft_sep_join(file_str, tmp, NULL);
-		tmp = NULL;
+		(free(tmp), tmp = NULL);
 		if (!file_str)
 			return (NULL);
 		tmp = get_next_line(fd);
@@ -50,6 +50,8 @@ void	free_hash_list(t_ssl *ssl)
 			(free(node->input), node->input = NULL);
 		if (node->file)
 			(free(node->file), node->file = NULL);
+		if (node->infile_fd != UNDEFINED_FD && node->infile_fd >= 0)
+			(close(node->infile_fd), node->infile_fd = UNDEFINED_FD, free(node->input), node->input = NULL);
 		(free(node), node = NULL);
 		node = tmp;
 	}

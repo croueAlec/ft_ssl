@@ -74,5 +74,7 @@ int	main(__attribute__((unused)) int argc, char const *argv[])
 
 	execution(&ssl);
 
-	return 0;
+	free_hash_list(&ssl);
+
+	return (0);
 }

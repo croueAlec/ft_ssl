@@ -59,8 +59,7 @@ SRC :=	$(addprefix $(SSL_DIR)/, \
 	md5_algorithm.c \
 	md5_blocks_utils.c \
 	md5_blocks.c \
-	md5_constants.c \
-	md5_gnl.c ) \
+	md5_constants.c ) \
 	$(addprefix $(SHA256_DIR)/, \
 	placeholder_sha256.c)
 

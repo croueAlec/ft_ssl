@@ -57,18 +57,3 @@ int	err(char *err_msg)
 
 	return (1);
 }
-
-void	free_blocks(t_block *block)
-{
-	p_print_debug("Freeing block input values\n");
-	if (block->input_fd >= 0) {
-		p_print_trace(" Closing file descriptor %d\n", block->input_fd);
-		close(block->input_fd);
-		block->input_fd = UNDEFINED_FD;
-	}
-	if (block->input_string) {
-		p_print_trace(" Freeing input string %s\n", block->input_string);
-		free(block->input_string);
-		block->input_string = NULL;
-	}
-}
