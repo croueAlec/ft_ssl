@@ -1,5 +1,6 @@
 #include "ft_md5.h"
-#include <stdarg.h>  // Required for variadic arguments
+#include <string.h>
+#include <stdlib.h>
 
 static void	print_chunk_uint8_t(uint8_t ch)
 {

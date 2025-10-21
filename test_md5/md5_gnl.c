@@ -1,4 +1,5 @@
 #include "ft_md5.h"
+#include <stdlib.h>
 
 int	ft_safe_strlen(const char *str)
 {

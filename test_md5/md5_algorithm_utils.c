@@ -1,5 +1,6 @@
 #include "ft_md5.h"
 #include "ft_md5_algorithm.h"
+#include <string.h>
 
 context_vectors	init_vectors(t_block *block)
 {

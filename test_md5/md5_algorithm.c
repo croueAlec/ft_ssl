@@ -1,5 +1,6 @@
 #include "ft_md5.h"
 #include "ft_md5_algorithm.h"
+#include <string.h>
 
 /**
  * @brief This function implements the green square in [Figure 2] of the README

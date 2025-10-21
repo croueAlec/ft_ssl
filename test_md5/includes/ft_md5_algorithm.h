@@ -1,10 +1,6 @@
 #ifndef FT_MD5_ALGORITHM_H
 # define FT_MD5_ALGORITHM_H
 
-#include <stdio.h>
-#include <stdint.h>
-#include <string.h>
-
 #include "../../libs/penelope/penelope.h"
 
 #define INIT_VECTOR_A 0x67452301

@@ -1,16 +1,6 @@
 #ifndef MD5_H
 # define MD5_H
 
-#include <fcntl.h>
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <strings.h>
-#include <unistd.h>
-
 #include "ft_md5_algorithm.h"
 #include "../../libs/penelope/penelope.h"
 

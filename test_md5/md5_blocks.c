@@ -1,4 +1,5 @@
 #include "ft_md5.h"
+#include <string.h>
 
 t_penelope_log_level	P_LOG_LEVEL = LOG_LEVEL;
 
@@ -96,7 +97,7 @@ void	md5(char *str)
 {
 	t_block	block = init_block(str);
 	md5_loop(&block);
-	
+
 	free_blocks(&block);
 }
 
