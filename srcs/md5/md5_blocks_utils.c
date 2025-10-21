@@ -72,14 +72,3 @@ void	free_blocks(t_block *block)
 		block->input_string = NULL;
 	}
 }
-
-t_block	init_block(char *argv)
-{
-	t_block	block = {0};
-	block.input_string = strdup(argv);
-	block.input_fd = UNDEFINED_FD;
-
-	p_print_debug("Initializing block input values to file descriptor : %d\n and string to : %s\n\n", block.input_fd, block.input_string);
-
-	return (block);
-}

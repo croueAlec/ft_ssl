@@ -88,25 +88,3 @@ void	md5_loop(t_block *block)
 	p_print_debug("Final vectors : ");
 	print_vector(&block->vectors, "", false, P_LOG_DEFAULT);
 }
-
-/**
- * @brief The MD5 itself, inits the Block using the input values,
- * starts the hashing and free's everything at the end.
- */
-void	md5(char *str)
-{
-	t_block	block = init_block(str);
-	md5_loop(&block);
-
-	free_blocks(&block);
-}
-
-int main(int argc, char *argv[])
-{
-	if (argc != 2)
-		return (err("Bad argument count"));
-
-	md5(argv[1]);
-
-	return (0);
-}

@@ -4,7 +4,6 @@
 #include "ft_ssl.h"
 
 #include "ft_md5_algorithm.h"
-#include "../../libs/penelope/penelope.h"
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 64
@@ -41,11 +40,10 @@ typedef struct	block_512_bits
 void		print_block_chunk(t_block *block, size_t separator_index);
 int			err(char *err_msg);
 void		free_blocks(t_block *block);
-t_block		init_block(char *argv);
 
 /* 		Main MD5 Algorithm */
 
 void		md5_update(t_block *block);
-void		md5(char *str);
+void		md5(t_hash *node);
 
 #endif
