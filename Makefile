@@ -1,6 +1,10 @@
 #	Program name
 NAME = ft_ssl
 
+#	Enabled hashes	here you can disable each hash independently
+COMPIL_DEFINES=" -DENABLE_MD5=true"
+COMPIL_DEFINES:=" -DENABLE_SHA256=true"
+
 #	Colors
 DEFAULT    = \033[0m
 BLACK    = \033[0;30m
@@ -35,7 +39,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 PENELOPE_DIR = $(LIBS_DIR)/penelope
 PENELOPE = $(PENELOPE_DIR)/penelope.a
 LOG_VALUE=P_LOG_DEBUG
-LOG_LVL=-DLOG_LEVEL=$(LOG_VALUE)
+COMPIL_DEFINES:=" -DLOG_LEVEL=$(LOG_VALUE)"
 
 LIB :=	$(LIBFT) $(PENELOPE)
 
@@ -48,6 +52,7 @@ INCLUDES := $(INCS_DIR) \
 INCLUDES_FLAGS := $(addprefix -I , $(INCLUDES))
 
 SRC :=	$(addprefix $(SSL_DIR)/, \
+	debug_prints.c \
 	errors.c \
 	execution.c \
 	hash_list.c \
@@ -80,7 +85,7 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 	@mkdir -p $(OBJS_DIR)/$(SSL_DIR)
 	@mkdir -p $(OBJS_DIR)/$(MD5_DIR)
 	@mkdir -p $(OBJS_DIR)/$(SHA256_DIR)
-	@$(CC) $(DEP_FLAGS) $(LOG_LVL) $(CFLAGS) $(INCLUDES_FLAGS) -c $< -o $@
+	@$(CC) $(DEP_FLAGS) $(COMPIL_DEFINES) $(CFLAGS) $(INCLUDES_FLAGS) -c $< -o $@
 
 clean:
 	@echo "$(RED)! Removing$(DEFAULT) ${OBJS_DIR} files"

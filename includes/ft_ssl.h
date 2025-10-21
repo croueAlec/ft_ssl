@@ -9,6 +9,7 @@
 
 #include "ft_md5.h"
 #include "ft_sha256.h"
+#include "ft_hash_list.h"
 
 #include "../libs/libft/libft.h"
 #include "../libs/penelope/penelope.h"
@@ -53,15 +54,6 @@ typedef struct hashes
 	struct hashes			*next;
 }		t_hash;
 
-#define MAX_HASH_NBR 2 +2 // Always add +2 to the hash_number to account for INVALID and the NULL terminating
-typedef void	(*hash_func_array)(t_hash*);
-typedef enum	e_hash_types
-{
-	INVALID = 0,
-	MD5	= 1,
-	SHA256	= 2
-}		t_hash_type;
-
 typedef struct	ft_ssl
 {
 	t_hash_type	hash_type;
@@ -72,7 +64,7 @@ typedef struct	ft_ssl
 /*			error.c			*/
 void	print_usage(void);
 void	error_invalid_cmd(const char *cmd);
-bool	error_missing_string_argument(t_ssl *ssl);
+void	error_disabled_hash(const char *cmd);
 int		error_open_infile(t_ssl *ssl, t_hash *hash, bool is_stdin);
 /*			execution.c		*/
 bool	execution(t_ssl *ssl);
@@ -81,6 +73,7 @@ char	*get_message(t_hash *node, t_ssl *ssl);
 /*			hash_list.c		*/
 void	free_hash_list(t_ssl *ssl);
 int		add_hash_node(t_input_type type, t_ssl *ssl, char const *string, char const *filename);
+void	print_hash_list(t_ssl *ssl);
 /*			parsing.c		*/
 bool	parse_arguments(t_ssl *ssl, char const *argv[]);
 
