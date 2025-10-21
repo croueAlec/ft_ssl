@@ -12,7 +12,6 @@
 #define CHUNK_SIZE 64
 #define PADDED_CHUNK_SIZE 56
 #define SEPARATOR 0b10000000
-#define	UNDEFINED_FD -2
 
 #define RED "\033[0;91m"
 #define BYELLOW "\033[1;33m"

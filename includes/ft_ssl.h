@@ -17,8 +17,11 @@
 # define LOG_LEVEL P_LOG_DEFAULT
 #endif
 
+#define	UNDEFINED_FD -2
+
 #define ERROR 0
 #define SUCCESS 1
+#define INFILE_ERROR 2
 
 typedef enum	e_input_types
 {
@@ -41,6 +44,7 @@ typedef struct hashes
 	size_t			local_flags;
 	char			*input;
 	char			*file;
+	int				infile_fd;
 	struct hashes			*next;
 }		t_hash;
 
@@ -64,14 +68,14 @@ typedef struct	ft_ssl
 void	print_usage(void);
 void	error_invalid_cmd(const char *cmd);
 bool	error_missing_string_argument(t_ssl *ssl);
-bool	error_open_infile(t_ssl *ssl);
+int		error_open_infile(t_ssl *ssl, t_hash *hash, bool is_stdin);
 /*			execution.c		*/
 bool	execution(t_ssl *ssl);
 /*			get_message.c	*/
 char	*get_message(t_hash *node, t_ssl *ssl);
 /*			hash_list.c		*/
 void	free_hash_list(t_ssl *ssl);
-bool	add_hash_node(t_input_type type, t_ssl *ssl, char const *string, char const *filename);
+int		add_hash_node(t_input_type type, t_ssl *ssl, char const *string, char const *filename);
 /*			parsing.c		*/
 bool	parse_arguments(t_ssl *ssl, char const *argv[]);
 
