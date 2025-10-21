@@ -46,7 +46,6 @@ bool	parse_arguments(t_ssl *ssl, char const *argv[])
 
 	for (size_t i = 0; argv[i]; i++)
 	{
-		printf("verif ici %s\nprevious_str %d\n", argv[i], is_separate_string);
 		if (argv[i][0] == '-' && no_options_found == false) {
 			if (parse_flags(ssl, argv[i], &is_separate_string) == ERROR)
 				return (ERROR);
@@ -62,7 +61,7 @@ bool	parse_arguments(t_ssl *ssl, char const *argv[])
 	}
 
 	if (is_separate_string) {	// handles trailing [-s] option with no string after
-		if (add_hash_node(STRING, ssl, NULL, NULL) == ERROR)
+		if (add_hash_node(STRING, ssl, "", NULL) == ERROR)
 			return (ERROR);
 	}
 

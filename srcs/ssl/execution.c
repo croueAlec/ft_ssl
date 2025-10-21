@@ -25,6 +25,7 @@ bool	execution(t_ssl *ssl)
 		message = get_message(node, ssl);
 		// printf("%s\n%s\n", message, algorithm[ssl->hash_type](node));
 		printf("executing\n");
+		printf("input string : %s\n", node->input);
 		algorithm[ssl->hash_type](node);
 		node = tmp;
 	}
