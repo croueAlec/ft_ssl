@@ -18,7 +18,7 @@ bool	execution(t_ssl *ssl)
 	{
 		tmp = node->next;
 		printf("executing\n");
-		printf("input string : %s\n", node->input);
+		printf("input string : %s\ninput file : %s - %d\n", node->input, node->file, node->infile_fd);
 		algorithm[ssl->hash_type](node);
 		node = tmp;
 	}
