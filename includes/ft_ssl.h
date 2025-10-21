@@ -23,6 +23,9 @@
 #define SUCCESS 1
 #define INFILE_ERROR 2
 
+#define MAX_DIGEST_SIZE 64
+#define MD5_DIGEST_SIZE 32
+
 typedef enum	e_input_types
 {
 	STDIN = 0,
@@ -45,6 +48,8 @@ typedef struct hashes
 	char			*input;
 	char			*file;
 	int				infile_fd;
+
+	char			digest[MAX_DIGEST_SIZE];
 	struct hashes			*next;
 }		t_hash;
 
