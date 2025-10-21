@@ -14,13 +14,14 @@ bool	execution(t_ssl *ssl)
 	define_algorithm_array(algorithm);
 
 	t_hash	*tmp = NULL, *node = ssl->hash_list;
+	size_t	node_count = 0;
 	while (node)
 	{
 		tmp = node->next;
-		printf("executing\n");
-		printf("input string : %s\ninput file : %s - %d\n", node->input, node->file, node->infile_fd);
+		p_print_debug("Processing node number : %zu\n", node_count);
 		algorithm[ssl->hash_type](node);
 		node = tmp;
+		node_count++;
 	}
 
 	return (SUCCESS);

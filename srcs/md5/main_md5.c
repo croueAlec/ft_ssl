@@ -6,7 +6,7 @@ static void	init_block(t_block *block, t_hash *node)
 	block->input_string = node->input;
 	block->input_fd = node->infile_fd;
 
-	p_print_debug("Initializing block input values to file descriptor : %d\n and string to : %s\n\n", block->input_fd, block->input_string);
+	p_print_debug("Initializing block input values to file descriptor : %d\n or string to : %s\n\n", block->input_fd, block->input_string);
 }
 
 #include <stdio.h>

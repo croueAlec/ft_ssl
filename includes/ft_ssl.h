@@ -44,7 +44,7 @@ typedef enum	e_flags
 typedef struct hashes
 {
 	t_input_type	input_type;
-	size_t			local_flags;
+	uint8_t			local_flags;
 	char			*input;
 	char			*file;
 	int				infile_fd;
@@ -65,7 +65,7 @@ typedef enum	e_hash_types
 typedef struct	ft_ssl
 {
 	t_hash_type	hash_type;
-	size_t		general_flags;
+	uint8_t		general_flags;
 	t_hash		*hash_list;
 }		t_ssl;
 
