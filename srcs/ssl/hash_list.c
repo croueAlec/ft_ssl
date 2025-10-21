@@ -22,12 +22,20 @@ static char	*read_stdin(int fd)
 
 static char	*handle_stdin(t_hash *node, t_ssl *ssl)
 {
-	int fd = STDIN_FILENO;
+	int		fd = STDIN_FILENO;
+	char	*str = NULL;
+
 	if (fd < 0) {
 		error_open_infile(ssl, node, true);
+
 		return (NULL);
+
 	} else {
-		return (read_stdin(fd));
+		str = read_stdin(fd);
+		if(!str)
+			str = calloc(1, sizeof(char));
+
+		return (str);
 	}
 }
 
@@ -100,6 +108,7 @@ int	add_hash_node(t_input_type type, t_ssl *ssl, char const *string, char const 
 	} else if (new_hash->input_type == STDIN)
 	{
 		new_hash->input = handle_stdin(new_hash, ssl);
+		printf("\t\t\tstdin string : '%s'\n", new_hash->input);
 		if (!new_hash->input)
 			return (ERROR);
 	}
