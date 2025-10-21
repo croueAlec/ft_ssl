@@ -17,7 +17,7 @@ bool	error_missing_string_argument(t_ssl *ssl)
 	return (ERROR);
 }
 
-bool	error_open_infile(t_ssl *ssl, t_hash *hash, bool is_stdin)
+int	error_open_infile(t_ssl *ssl, t_hash *hash, bool is_stdin)
 {
 	char	stdin_filename[] = "stdin";
 

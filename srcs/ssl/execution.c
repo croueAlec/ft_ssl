@@ -10,7 +10,6 @@ static void	define_algorithm_array(hash_func_array *algorithm_array)
 
 bool	execution(t_ssl *ssl)
 {
-	char			*message = NULL;
 	hash_func_array	algorithm[MAX_HASH_NBR] = {0};
 	define_algorithm_array(algorithm);
 

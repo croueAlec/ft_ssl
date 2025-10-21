@@ -50,7 +50,6 @@ INCLUDES_FLAGS := $(addprefix -I , $(INCLUDES))
 SRC :=	$(addprefix $(SSL_DIR)/, \
 	errors.c \
 	execution.c \
-	get_message.c \
 	hash_list.c \
 	main.c \
 	parsing.c) \

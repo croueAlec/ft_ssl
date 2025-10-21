@@ -20,9 +20,9 @@ static char	*read_stdin(int fd)
 	return (file_str);
 }
 
-static char	*open_stdin(t_hash *node, t_ssl *ssl)
+static char	*handle_stdin(t_hash *node, t_ssl *ssl)
 {
-	int fd = open(stdin, O_RDONLY);
+	int fd = STDIN_FILENO;
 	if (fd < 0) {
 		error_open_infile(ssl, node, true);
 		return (NULL);
@@ -99,10 +99,10 @@ int	add_hash_node(t_input_type type, t_ssl *ssl, char const *string, char const 
 
 	} else if (new_hash->input_type == STDIN)
 	{
-		new_hash->input = open_stdin(new_hash, ssl);
+		new_hash->input = handle_stdin(new_hash, ssl);
 		if (!new_hash->input)
 			return (ERROR);
 	}
-	
+
 	return (SUCCESS);
 }
