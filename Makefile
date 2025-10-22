@@ -2,8 +2,8 @@
 NAME = ft_ssl
 
 #	Enabled hashes	here you can disable each hash independently
-COMPIL_DEFINES=" -DENABLE_MD5=true"
-COMPIL_DEFINES:=" -DENABLE_SHA256=true"
+COMPIL_DEFINES=-DENABLE_MD5=true
+COMPIL_DEFINES+=-DENABLE_SHA256=true
 
 #	Colors
 DEFAULT    = \033[0m
@@ -25,9 +25,9 @@ LIB_FLAGS = --no-print-directory --silent
 
 #	Directories
 SRCS_DIR = srcs
-SSL_DIR = ssl/
-MD5_DIR = md5/
-SHA256_DIR = sha256/
+SSL_DIR = ssl
+MD5_DIR = md5
+SHA256_DIR = sha256
 INCS_DIR = includes
 OBJS_DIR = objs
 
@@ -39,7 +39,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 PENELOPE_DIR = $(LIBS_DIR)/penelope
 PENELOPE = $(PENELOPE_DIR)/penelope.a
 LOG_VALUE=P_LOG_DEBUG
-COMPIL_DEFINES:=" -DLOG_LEVEL=$(LOG_VALUE)"
+COMPIL_DEFINES+=-DLOG_LEVEL=$(LOG_VALUE)
 
 LIB :=	$(LIBFT) $(PENELOPE)
 

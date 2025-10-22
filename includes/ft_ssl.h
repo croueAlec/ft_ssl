@@ -65,7 +65,7 @@ typedef struct	ft_ssl
 void	print_usage(void);
 void	error_invalid_cmd(const char *cmd);
 void	error_disabled_hash(const char *cmd);
-int		error_open_infile(t_ssl *ssl, t_hash *hash, bool is_stdin);
+int	error_open_infile(const t_ssl *ssl, t_hash *hash, bool is_stdin);
 /*			execution.c		*/
 bool	execution(t_ssl *ssl);
 /*			get_message.c	*/

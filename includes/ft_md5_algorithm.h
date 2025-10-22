@@ -43,7 +43,7 @@ extern const uint32_t	empty_example_block[16];
 
 /* 		Algorithm Utils		 */
 
-context_vectors	init_vectors(t_block *block);
+context_vectors	init_vectors(const t_block *block);
 short			input_order(t_round_nbr round_nbr, size_t i);
 void			print_vector(const context_vectors *vec, const char *message, bool verbose, t_penelope_log_level log_level);
 void			big_to_little_endian(uint32_t *dest, uint8_t const *src);
