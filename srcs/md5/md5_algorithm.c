@@ -9,7 +9,7 @@
  * @param round_nbr specifies which function depending on round number
  * @return * uint32_t value added to A
  */
-static uint32_t	apply_core_function(context_vectors const *vec, t_round_nbr round_nbr)
+static uint32_t	apply_core_function(const context_vectors *vec, t_round_nbr round_nbr)
 {
 	switch (round_nbr)
 	{
@@ -66,7 +66,7 @@ static void	operation(
  * @param vec current state of the md5 vectors
  * @param round_nbr current round number
  */
-static void	rounds(uint32_t const message[16], context_vectors *vec, t_round_nbr round_nbr)
+static void	rounds(const uint32_t message[16], context_vectors *vec, t_round_nbr round_nbr)
 {
 	p_print_debug("[Round %zu] beginning vectors :", round_nbr + 1);
 	print_vector(vec, "", true, P_LOG_DEBUG);
@@ -83,7 +83,7 @@ static void	rounds(uint32_t const message[16], context_vectors *vec, t_round_nbr
 	print_vector(vec, "", true, P_LOG_DEBUG);
 }
 
-static void	add_start_of_step_vectors(context_vectors *vec, context_vectors const *start_of_step_vectors)
+static void	add_start_of_step_vectors(context_vectors *vec, const context_vectors *start_of_step_vectors)
 {
 	print_vector(start_of_step_vectors, "Start of step vectors :\n", true, P_LOG_DEBUG);
 	print_vector(vec, "Current vectors :\n", true, P_LOG_DEBUG);

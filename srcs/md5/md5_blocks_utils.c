@@ -9,7 +9,7 @@ static void	print_chunk_uint8_t(uint8_t ch)
 		(ch >> 3) & 1, (ch >> 2) & 1, (ch >> 1) & 1, (ch & 1));
 }
 
-static uint32_t	uint8_to_uint32(uint8_t *buf)
+static uint32_t	uint8_to_uint32(const uint8_t *buf)
 {
 	uint32_t val = buf[3] << 24 | buf[2] << 16 | buf[1] << 8 | buf[0];
 	return val;
@@ -33,7 +33,7 @@ static void	set_byte_color(size_t separator_index, size_t current_index)
 /**
  * @brief Prints only on TRACE log_level
  */
-void	print_block_chunk(t_block *block, size_t separator_index)
+void	print_block_chunk(const t_block *block, size_t separator_index)
 {
 	if (!level_verification(P_LOG_TRACE))
 		return ;
@@ -49,11 +49,4 @@ void	print_block_chunk(t_block *block, size_t separator_index)
 			p_print_trace(" ");
 	}
 	p_print_trace("\n");
-}
-
-int	err(char *err_msg)
-{
-	p_print_error(err_msg);
-
-	return (1);
 }

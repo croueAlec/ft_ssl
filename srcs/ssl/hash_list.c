@@ -87,7 +87,6 @@ int	add_hash_node(t_input_type type, t_ssl *ssl, char const *string, char const 
 	t_hash	*new_hash = allocate_new_node(ssl);
 	if (!new_hash)
 		return (ERROR);
-	printf("adding node type %d\t%s\t%s\n", type, string, filename);
 
 	new_hash->input_type = type;
 	new_hash->local_flags = ssl->general_flags;
@@ -110,7 +109,6 @@ int	add_hash_node(t_input_type type, t_ssl *ssl, char const *string, char const 
 	} else if (new_hash->input_type == STDIN)
 	{
 		new_hash->input = handle_stdin(new_hash, ssl);
-		printf("\t\t\tstdin string : '%s'\n", new_hash->input);
 		if (!new_hash->input)
 			return (ERROR);
 	}

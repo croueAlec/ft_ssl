@@ -1,7 +1,7 @@
 #include "ft_ssl.h"
 #include "ft_md5.h"
 
-static void	init_block(t_block *block, t_hash *node)
+static void	init_block(t_block *block, const t_hash *node)
 {
 	block->input_string = node->input;
 	block->input_fd = node->infile_fd;
@@ -9,10 +9,7 @@ static void	init_block(t_block *block, t_hash *node)
 	p_print_debug("Initializing block input values to file descriptor : %d\n or string to : %s\n\n", block->input_fd, block->input_string);
 }
 
-#include <stdio.h>
-#include <stdint.h>
-
-void vectors_to_str(context_vectors const *vectors, char *output) {
+static void vectors_to_str(const context_vectors *vectors, char *output) {
 	const char hex_chars[] = "0123456789abcdef";
 
 	p_print_debug("Converting our context_vectors to a digest stored in node->digest\n");

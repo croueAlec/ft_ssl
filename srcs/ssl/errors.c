@@ -18,7 +18,7 @@ void	error_disabled_hash(const char *cmd)
 	p_print_error("ft_ssl: Error: '%s' is currently disabled. This setting can be changed in the Makefile.\n", cmd);
 }
 
-int	error_open_infile(t_ssl *ssl, t_hash *hash, bool is_stdin)
+int	error_open_infile(const t_ssl *ssl, t_hash *hash, bool is_stdin)
 {
 	char	stdin_filename[] = "stdin";
 

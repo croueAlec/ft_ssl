@@ -26,7 +26,7 @@ typedef struct	md5_context_vectors
 	uint32_t	d;
 }				context_vectors;
 
-typedef enum	e_round_number
+typedef const enum	e_round_number
 {
 	ROUND1 = 0,
 	ROUND2 = 1,
@@ -42,9 +42,10 @@ extern const short		shift_array[4][16];
 extern const uint32_t	empty_example_block[16];
 
 /* 		Algorithm Utils		 */
+
 context_vectors	init_vectors(t_block *block);
 short			input_order(t_round_nbr round_nbr, size_t i);
-void			print_vector(context_vectors const *vec, char const *message, bool verbose, t_penelope_log_level log_level);
+void			print_vector(const context_vectors *vec, const char *message, bool verbose, t_penelope_log_level log_level);
 void			big_to_little_endian(uint32_t *dest, uint8_t const *src);
 void			little_to_big_endian(context_vectors *vec);
 

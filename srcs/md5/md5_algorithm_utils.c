@@ -2,7 +2,7 @@
 #include "ft_md5_algorithm.h"
 #include <string.h>
 
-context_vectors	init_vectors(t_block *block)
+context_vectors	init_vectors(const t_block *block)
 {
 	context_vectors	vectors;
 
@@ -25,7 +25,7 @@ short	input_order(t_round_nbr round_nbr, size_t i)
 	return (input_order_array[round_nbr][i]);
 }
 
-void	print_vector(context_vectors const *vec, char const *message, bool verbose, t_penelope_log_level log_level)
+void	print_vector(const context_vectors *vec, const char *message, bool verbose, t_penelope_log_level log_level)
 {
 	if (!level_verification(log_level))
 		return ;
