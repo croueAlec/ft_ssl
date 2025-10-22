@@ -1,0 +1,16 @@
+SRC =	sha256_blocks_utils.c \
+		sha256_blocks.c \
+		main.c \
+		sha256_algorithm.c \
+		../../libs/penelope/penelope.a \
+		../../libs/libft/libft.a
+INCLUDES = .
+
+all:
+	cc -Wall -Werror -Wextra -g3 -DLOG_LEVEL=P_LOG_DEFAULT $(SRC) -I$(INCLUDES)
+
+debug:
+	cc -g3 -DLOG_LEVEL=P_LOG_DEBUG $(SRC) -I$(INCLUDES)
+
+trace:
+	cc -g3 -DLOG_LEVEL=P_LOG_TRACE $(SRC) -I$(INCLUDES)
