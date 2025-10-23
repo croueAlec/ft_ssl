@@ -18,6 +18,8 @@
 
 #define UNDEFINED_FD -2
 
+#define ROTATE_RIGHT(x, n) (((uint32_t)(x) >> (n)) | ((uint32_t)(x) << (32 - (n))))
+
 typedef struct	sha256_hash_values
 {
 	uint32_t	h0;
