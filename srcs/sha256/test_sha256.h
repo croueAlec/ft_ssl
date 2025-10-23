@@ -20,18 +20,20 @@
 
 #define ROTATE_RIGHT(x, n) (((uint32_t)(x) >> (n)) | ((uint32_t)(x) << (32 - (n))))
 
-typedef struct	sha256_hash_values
-{
-	uint32_t	h0;
-	uint32_t	h1;
-	uint32_t	h2;
-	uint32_t	h3;
-	uint32_t	h4;
-	uint32_t	h5;
-	uint32_t	h6;
-	uint32_t	h7;
-}				hash_values;
+extern const uint32_t	sha256_k_constant[64];
 
+typedef uint32_t	hash_values[8];
+typedef enum	e_hash_values_index
+{
+	A = 0,
+	B = 1,
+	C = 2,
+	D = 3,
+	E = 4,
+	F = 5,
+	G = 6,
+	H = 7
+}				t_hash_values_index;
 
 typedef struct	block_512_bits_sha256
 {
@@ -47,8 +49,17 @@ typedef struct	block_512_bits_sha256
 	
 }	t_block_sha256;
 
+/* 			Utils			 */
+
 uint32_t	uint8_to_uint32_big_endian(const uint8_t *buf);
 void		print_block_chunk(const t_block_sha256 *block, size_t separator_index);
+
+/* 			Schedule Array	 */
+
+void		build_schedule_array(t_block_sha256 *block);
+
+/* 			sha256			 */
+
 void		sha256_loop(t_block_sha256 *block);
 void		sha256_update(t_block_sha256 *block);
 

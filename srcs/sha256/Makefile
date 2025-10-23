@@ -2,6 +2,8 @@ SRC =	sha256_blocks_utils.c \
 		sha256_blocks.c \
 		main.c \
 		sha256_algorithm.c \
+		sha256_constants.c \
+		sha256_schedule_array.c \
 		../../libs/penelope/penelope.a \
 		../../libs/libft/libft.a
 INCLUDES = .
