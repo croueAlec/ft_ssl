@@ -45,7 +45,9 @@ typedef struct	block_512_bits_sha256
 	
 }	t_block_sha256;
 
-void	print_block_chunk(const t_block_sha256 *block, size_t separator_index);
-void	sha256_loop(t_block_sha256 *block);
+uint32_t	uint8_to_uint32_big_endian(const uint8_t *buf);
+void		print_block_chunk(const t_block_sha256 *block, size_t separator_index);
+void		sha256_loop(t_block_sha256 *block);
+void		sha256_update(t_block_sha256 *block);
 
 #endif

@@ -9,9 +9,9 @@ static void	print_chunk_uint8_t(uint8_t ch)
 		(ch >> 3) & 1, (ch >> 2) & 1, (ch >> 1) & 1, (ch & 1));
 }
 
-static uint32_t	uint8_to_uint32(const uint8_t *buf)
+uint32_t	uint8_to_uint32_big_endian(const uint8_t *buf)
 {
-	uint32_t val = buf[3] << 24 | buf[2] << 16 | buf[1] << 8 | buf[0];
+	uint32_t val = buf[0] << 24 | buf[1] << 16 | buf[2] << 8 | buf[3];
 	return val;
 }
 
@@ -44,7 +44,7 @@ void	print_block_chunk(const t_block_sha256 *block, size_t separator_index)
 		set_byte_color(separator_index, i);
 		print_chunk_uint8_t((uint8_t)(block->chunk[i]));
 		if ((i+1) % 4 == 0) {
-			p_print_trace("\033[0;1m\t     0x%08x\033[0m\n", uint8_to_uint32(&block->chunk[i-3]));
+			p_print_trace("\033[0;1m\t     0x%08x\033[0m\n", uint8_to_uint32_big_endian(&block->chunk[i-3]));
 		}
 		else if (i != 63)
 			p_print_trace(" ");

@@ -80,6 +80,7 @@ void	sha256_loop(t_block_sha256 *block)
 		print_block_chunk(block, separator_index);
 
 		// md5_update(block);
+		sha256_update(block);
 		bzero(block->chunk, sha256_CHUNK_SIZE);
 	}
 
