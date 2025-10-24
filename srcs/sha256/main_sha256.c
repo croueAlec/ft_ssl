@@ -9,14 +9,14 @@ static void	init_block(t_block_sha256 *block, const t_hash *node)
 
 static void	init_hash_values(uint32_t h_values[8])
 {
-	h_values[0] = 0x6a09e667;
-	h_values[1] = 0xbb67ae85;
-	h_values[2] = 0x3c6ef372;
-	h_values[3] = 0xa54ff53a;
-	h_values[4] = 0x510e527f;
-	h_values[5] = 0x9b05688c;
-	h_values[6] = 0x1f83d9ab;
-	h_values[7] = 0x5be0cd19;
+	h_values[0] = SHA256_INIT_VECTOR_A;
+	h_values[1] = SHA256_INIT_VECTOR_B;
+	h_values[2] = SHA256_INIT_VECTOR_C;
+	h_values[3] = SHA256_INIT_VECTOR_D;
+	h_values[4] = SHA256_INIT_VECTOR_E;
+	h_values[5] = SHA256_INIT_VECTOR_F;
+	h_values[6] = SHA256_INIT_VECTOR_G;
+	h_values[7] = SHA256_INIT_VECTOR_H;
 }
 
 static void	hash_values_to_str(const hash_values h_values, char *output)

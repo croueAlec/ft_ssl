@@ -8,6 +8,15 @@
 #include "../libs/penelope/penelope.h"
 #include "../libs/libft/libft.h"
 
+#define SHA256_INIT_VECTOR_A 0x6a09e667
+#define SHA256_INIT_VECTOR_B 0xbb67ae85
+#define SHA256_INIT_VECTOR_C 0x3c6ef372
+#define SHA256_INIT_VECTOR_D 0xa54ff53a
+#define SHA256_INIT_VECTOR_E 0x510e527f
+#define SHA256_INIT_VECTOR_F 0x9b05688c
+#define SHA256_INIT_VECTOR_G 0x1f83d9ab
+#define SHA256_INIT_VECTOR_H 0x5be0cd19
+
 #ifndef LOG_LEVEL
 # define LOG_LEVEL P_LOG_DEFAULT
 #endif
