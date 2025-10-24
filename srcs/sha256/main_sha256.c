@@ -1,7 +1,5 @@
 #include "ft_sha256.h"
 
-t_penelope_log_level	P_LOG_LEVEL = LOG_LEVEL;
-
 static void	init_block(t_block_sha256 *block, const t_hash *node)
 {
 	block->input_string = node->input;
@@ -49,6 +47,4 @@ void	sha256(t_hash *node)
 	hash_values_to_str(block.h_values, digest);
 
 	p_print_info("%s\n", digest);
-
-	return (0);
 }

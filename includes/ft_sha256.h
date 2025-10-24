@@ -23,6 +23,8 @@
 
 #define ROTATE_RIGHT(x, n) (((uint32_t)(x) >> (n)) | ((uint32_t)(x) << (32 - (n))))
 
+typedef struct	hashes t_hash;
+
 extern const uint32_t	sha256_k_constant[64];
 
 typedef uint32_t	hash_values[8];
@@ -63,5 +65,6 @@ void		build_schedule_array(t_block_sha256 *block);
 
 void		sha256_loop(t_block_sha256 *block);
 void		sha256_update(t_block_sha256 *block);
+void		sha256(t_hash *node);
 
 #endif

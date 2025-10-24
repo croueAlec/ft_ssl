@@ -77,7 +77,7 @@ void	sha256_loop(t_block_sha256 *block)
 
 		// block->block_number++;
 
-		print_block_chunk(block, separator_index);
+		print_sha256_block_chunk(block, separator_index);
 
 		// md5_update(block);
 		sha256_update(block);
