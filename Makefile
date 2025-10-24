@@ -1,11 +1,12 @@
-#	Program name
+################################################################################
+#                                 PROGRAM NAME                                 #
+################################################################################
+
 NAME = ft_ssl
 
-#	Enabled hashes	here you can disable each hash independently
-COMPIL_DEFINES=-DENABLE_MD5=true
-COMPIL_DEFINES+=-DENABLE_SHA256=true
-
-#	Colors
+################################################################################
+#                                    COLORS                                    #
+################################################################################
 DEFAULT    = \033[0m
 BLACK    = \033[0;30m
 RED        = \033[0;31m
@@ -16,14 +17,24 @@ PURPLE    = \033[0;35m
 CYAN    = \033[0;36m
 BWHITE    = \033[1;37m
 
-# Utils
+################################################################################
+#                               COMPILATION FLAGS                              #
+################################################################################
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 DEP_FLAGS = -MMD -MP
 RM = rm -rf
 LIB_FLAGS = --no-print-directory --silent
 
-#	Directories
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Compilation Defines ~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+COMPIL_DEFINES=-DENABLE_MD5=true
+COMPIL_DEFINES+=-DENABLE_SHA256=true
+LOG_VALUE=P_LOG_DEBUG
+COMPIL_DEFINES+=-DLOG_LEVEL=$(LOG_VALUE)
+
+################################################################################
+#                                  DIRECTORIES                                 #
+################################################################################
 SRCS_DIR = srcs
 SSL_DIR = ssl
 MD5_DIR = md5
@@ -31,20 +42,21 @@ SHA256_DIR = sha256
 INCS_DIR = includes
 OBJS_DIR = objs
 
-# Libraries
+################################################################################
+#                                   LIBRARIES                                  #
+################################################################################
 LIBS_DIR = libs
 
 LIBFT_DIR = $(LIBS_DIR)/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 PENELOPE_DIR = $(LIBS_DIR)/penelope
 PENELOPE = $(PENELOPE_DIR)/penelope.a
-LOG_VALUE=P_LOG_DEBUG
-COMPIL_DEFINES+=-DLOG_LEVEL=$(LOG_VALUE)
 
 LIB :=	$(LIBFT) $(PENELOPE)
 
-#	Files
-
+################################################################################
+#                                    SOURCES                                   #
+################################################################################
 INCLUDES := $(INCS_DIR) \
 			$(LIBFT_DIR) \
 			$(PENELOPE_DIR)
@@ -76,7 +88,9 @@ SRC :=	$(addprefix $(SSL_DIR)/, \
 OBJ := $(patsubst %.c,$(OBJS_DIR)/%.o,$(SRC))
 DEPS := $(patsubst %.c,$(OBJS_DIR)/%.d,$(SRC))
 
-# Rules
+################################################################################
+#                                     RULES                                    #
+################################################################################
 all: fclean $(NAME)
 
 $(NAME): $(LIBFT) $(PENELOPE) $(OBJ)
@@ -106,6 +120,7 @@ cre:
 	@clear
 	@make re --no-print-directory
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Lib Rules ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 $(LIBFT):
 	@echo "$(CYAN)~ Compiling$(DEFAULT) $(PURPLE)$(LIBFT_DIR)$(DEFAULT)"
 	@make -C $(LIBFT_DIR) $(LIB_FLAGS)
@@ -128,6 +143,7 @@ fcleanlib:
 
 relib: fcleanlib $(LIBFT)
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Penelope Rules ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 debug: fclean
 	@$(MAKE) LOG_VALUE=P_LOG_DEBUG $(LIB_FLAGS)
 
