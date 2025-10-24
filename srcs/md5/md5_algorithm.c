@@ -76,8 +76,8 @@ static void	rounds(const uint32_t message[16], context_vectors *vec, t_round_nbr
 		operation(
 			vec, round_nbr,
 			message[input_order(round_nbr, i)],
-			k_constant[round_nbr][i],
-			shift_array[round_nbr][i]);
+			md5_k_constant[round_nbr][i],
+			md5_shift_array[round_nbr][i]);
 	}
 	p_print_debug(" [Round %zu] end vectors :", round_nbr + 1);
 	print_vector(vec, "", true, P_LOG_DEBUG);

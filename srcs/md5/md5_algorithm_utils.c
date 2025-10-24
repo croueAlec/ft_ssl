@@ -22,7 +22,7 @@ context_vectors	init_vectors(const t_block *block)
  */
 short	input_order(t_round_nbr round_nbr, size_t i)
 {
-	return (input_order_array[round_nbr][i]);
+	return (md5_input_order_array[round_nbr][i]);
 }
 
 void	print_vector(const context_vectors *vec, const char *message, bool verbose, t_penelope_log_level log_level)

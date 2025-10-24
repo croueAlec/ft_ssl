@@ -3,7 +3,7 @@
 /*
 	This constant is documented in the MD5 rfc1321 as magic values.
 */
-const uint32_t k_constant[4][16] = {
+const uint32_t md5_k_constant[4][16] = {
 	{ 0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee, 0xf57c0faf, 0x4787c62a, 0xa8304613, 0xfd469501,
 	  0x698098d8, 0x8b44f7af, 0xffff5bb1, 0x895cd7be, 0x6b901122, 0xfd987193, 0xa679438e, 0x49b40821	},
 
@@ -21,7 +21,7 @@ const uint32_t k_constant[4][16] = {
 	input_order_array specifies the order in which each word in the block is input.
 	This order is documented in the MD5 rfc1321 as x[0..15].
 */
-const short input_order_array[4][16] = {
+const short md5_input_order_array[4][16] = {
 	{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 },
 	{ 1, 6, 11, 0, 5, 10, 15, 4, 9, 14, 3, 8, 13, 2, 7, 12 },
 	{ 5, 8, 11, 14, 1, 4, 7, 10, 13, 0, 3, 6, 9, 12, 15, 2 },
@@ -32,7 +32,7 @@ const short input_order_array[4][16] = {
 	shift_array specifies the per-round shift amounts.
 	This is documented in the MD5 rfc1321 as S1 to S4.
 */
-const short shift_array[4][16] = {
+const short md5_shift_array[4][16] = {
 	{ 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22 },
 	{ 5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20 },
 	{ 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23 },
