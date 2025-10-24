@@ -36,6 +36,8 @@ typedef const enum	e_round_number
 
 typedef struct	block_512_bits t_block;
 
+/* 		Constants			 */
+
 extern const uint32_t	k_constant[4][16];
 extern const short		input_order_array[4][16];
 extern const short		shift_array[4][16];
