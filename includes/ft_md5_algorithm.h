@@ -4,10 +4,10 @@
 #include <stdint.h>
 #include "../libs/penelope/penelope.h"
 
-#define INIT_VECTOR_A 0x67452301
-#define INIT_VECTOR_B 0xefcdab89
-#define INIT_VECTOR_C 0x98badcfe
-#define INIT_VECTOR_D 0x10325476
+#define MD5_INIT_VECTOR_A 0x67452301
+#define MD5_INIT_VECTOR_B 0xefcdab89
+#define MD5_INIT_VECTOR_C 0x98badcfe
+#define MD5_INIT_VECTOR_D 0x10325476
 
 #define F(b, c, d) (((b) & (c)) | ((~b) & (d)))
 #define G(b, c, d) (((b) & (d)) | ((c) & (~d)))

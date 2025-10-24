@@ -6,10 +6,10 @@ context_vectors	init_vectors(const t_block *block)
 {
 	context_vectors	vectors;
 
-	vectors.a = INIT_VECTOR_A;
-	vectors.b = INIT_VECTOR_B;
-	vectors.c = INIT_VECTOR_C;
-	vectors.d = INIT_VECTOR_D;
+	vectors.a = MD5_INIT_VECTOR_A;
+	vectors.b = MD5_INIT_VECTOR_B;
+	vectors.c = MD5_INIT_VECTOR_C;
+	vectors.d = MD5_INIT_VECTOR_D;
 
 	if (block->block_number == 1)
 		return (vectors);
