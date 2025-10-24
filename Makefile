@@ -66,7 +66,12 @@ SRC :=	$(addprefix $(SSL_DIR)/, \
 	md5_blocks.c \
 	md5_constants.c ) \
 	$(addprefix $(SHA256_DIR)/, \
-	placeholder_sha256.c)
+	main_sha256.c \
+	sha256_algorithm.c \
+	sha256_blocks_utils.c \
+	sha256_blocks.c \
+	sha256_constants.c \
+	sha256_schedule_array.c )
 
 OBJ := $(patsubst %.c,$(OBJS_DIR)/%.o,$(SRC))
 DEPS := $(patsubst %.c,$(OBJS_DIR)/%.d,$(SRC))
@@ -128,3 +133,6 @@ debug: fclean
 
 trace: fclean
 	@$(MAKE) LOG_VALUE=P_LOG_TRACE $(LIB_FLAGS)
+
+info: fclean
+	@$(MAKE) LOG_VALUE=P_LOG_INFO $(LIB_FLAGS)

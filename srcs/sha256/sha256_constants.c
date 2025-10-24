@@ -1,4 +1,4 @@
-#include "test_sha256.h"
+#include "ft_sha256.h"
 
 const uint32_t sha256_k_constant[64] = {
 	0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,

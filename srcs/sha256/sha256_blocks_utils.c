@@ -1,6 +1,4 @@
-#include "test_sha256.h"
-#include <string.h>
-#include <stdlib.h>
+#include "ft_sha256.h"
 
 static void	print_chunk_uint8_t(uint8_t ch)
 {
@@ -34,7 +32,7 @@ static void	set_byte_color(size_t separator_index, size_t current_index)
 /**
  * @brief Prints only on TRACE log_level
  */
-void	print_block_chunk(const t_block_sha256 *block, size_t separator_index)
+void	print_sha256_block_chunk(const t_block_sha256 *block, size_t separator_index)
 {
 	if (!level_verification(P_LOG_TRACE))
 		return ;
