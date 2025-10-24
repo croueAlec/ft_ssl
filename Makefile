@@ -29,7 +29,7 @@ LIB_FLAGS = --no-print-directory --silent
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Compilation Defines ~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 COMPIL_DEFINES=-DENABLE_MD5=true
 COMPIL_DEFINES+=-DENABLE_SHA256=true
-LOG_VALUE=P_LOG_DEBUG
+LOG_VALUE=P_LOG_DEFAULT
 COMPIL_DEFINES+=-DLOG_LEVEL=$(LOG_VALUE)
 
 ################################################################################
