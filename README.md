@@ -71,6 +71,51 @@ Finally once all the blocks have been processed, we **convert** the 4 context ve
 
 </details>
 
+### SHA256
+
+
+The [SHA-2 algorithm family wikipedia page](https://en.wikipedia.org/wiki/SHA-2), the pseudo code there is quite good and *could* suffice to implement it which is why i will not go into much details.
+
+A **VERY GOOD** step-by-step explanation and visualization of the [SHA256 algorithm](https://sha256algorithm.com/), I could not recommend this enough. **Go check it out**.\
+
+<details>
+
+<summary> Brief explanation of the SHA256 algorithm. </summary>
+
+The SHA256 Algorithm takes an input of **any length** and turns it into a digest of **64 bytes**. For a given input, the digest will always be the same.\
+To achieve this, the input is split into blocks of 512 bits (64 bytes) and processed one at a time.
+
+The block separation works like so : \
+// TODO: Insert SHA256 block visualization \
+
+After initializing the first block, a **context** will be set to **constant values**, these values are named h0 to h7. (All the constant values found in this algorithm are specified on the wikipedia page [here](https://en.wikipedia.org/wiki/SHA-2#Pseudocode)), they are defined [here](./srcs/sha256/sha256_constants.c) or [there](./includes/ft_sha256.h)\
+This context will be altered during what is called a **step**, each block will go through one step each, **inhreriting the previous step context** instead of the initial **constant values**.
+
+*This algorithm processes blocks in big-endian.*\
+
+#### Step
+Each block will be expanded to **4 times** it's size. The 1st quarter is a copy of the block. Each of the 3 following quarters will be based on the first. Using this formula : \
+```python
+w = 1st_quarter
+
+for i from 16 to 63
+	s0 = (w[i-15] >> 7) ^ (w[i-15] >> 18) ^ (w[i-15] >> 3)
+	s1 = (w[i-2] >> 17) ^ (w[i-2] >> 19) ^ (w[i-2] >> 10)
+	w[i] = w[i-16] + s0 + w[i-7] + s1
+```
+
+With this the remaining 3/4th of the block will be overwritten.
+
+Then each value in `w` will **compressed** on the current **context vectors** using **Bitwise Functions**. This part is explained on the wikipedia page better than I could.
+
+After the compression you add the **context vectors** to the original **initialization vectors constants**.
+
+If the input is not done yet, a new block is fetched and applied to the **step** using the **context vectors** from the previous block.
+
+Finally once all the blocks have been processed, we **convert** the 8 context vectors to the **digest** by appending them and return that to the **SSL program** to output later.
+
+</details>
+
 ### Endianness
 
 #### [Figure 3]
