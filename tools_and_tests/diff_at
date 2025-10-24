@@ -1,7 +1,0 @@
-string "salut", diff at gold 62fc2f48
-
-own
-clear && make && ./a.out "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123"
-
-other
-clear && make && ./md5 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123"
