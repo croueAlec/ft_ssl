@@ -23,6 +23,8 @@
 # define SHA256_index 0
 #endif
 
+typedef struct	hashes t_hash;
+
 #define MAX_HASH_NBR 2	// Increment MAX_HASH_NBR when adding a new hash
 typedef void	(*hash_func_array)(t_hash*);
 typedef enum	e_hash_types
