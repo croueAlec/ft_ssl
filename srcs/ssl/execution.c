@@ -15,7 +15,6 @@ bool	execution(t_ssl *ssl)
 
 	t_hash	*tmp = NULL, *node = ssl->hash_list;
 	size_t	node_count = 0;
-	p_print_info("%d\n", ssl->hash_type);
 
 	while (node)
 	{
