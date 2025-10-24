@@ -5,12 +5,12 @@ static void	define_algorithm_array(hash_func_array *algorithm_array)
 	algorithm_array[INVALID] = NULL;
 	algorithm_array[MD5] = md5;
 	algorithm_array[SHA256] = sha256;
-	algorithm_array[MAX_HASH_NBR - 1] = NULL;
+	algorithm_array[MAX_HASH_NBR] = NULL;
 }
 
 bool	execution(t_ssl *ssl)
 {
-	hash_func_array	algorithm[MAX_HASH_NBR] = {0};
+	hash_func_array	algorithm[MAX_HASH_NBR + 2] = {0};	// Adding 2 for INVALID add NULL terminating.
 	define_algorithm_array(algorithm);
 
 	t_hash	*tmp = NULL, *node = ssl->hash_list;

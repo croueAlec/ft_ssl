@@ -23,7 +23,7 @@
 # define SHA256_index 0
 #endif
 
-#define MAX_HASH_NBR 2 +2 // Always add +2 to the hash_number to account for INVALID and the NULL terminating
+#define MAX_HASH_NBR 2	// Increment MAX_HASH_NBR when adding a new hash
 typedef void	(*hash_func_array)(t_hash*);
 typedef enum	e_hash_types
 {
