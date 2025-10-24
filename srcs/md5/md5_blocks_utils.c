@@ -33,7 +33,7 @@ static void	set_byte_color(size_t separator_index, size_t current_index)
 /**
  * @brief Prints only on TRACE log_level
  */
-void	print_block_chunk(const t_block *block, size_t separator_index)
+void	print_md5_block_chunk(const t_block *block, size_t separator_index)
 {
 	if (!level_verification(P_LOG_TRACE))
 		return ;

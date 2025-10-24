@@ -76,7 +76,7 @@ void	md5_loop(t_block *block)
 
 		block->block_number++;
 
-		print_block_chunk(block, separator_index);
+		print_md5_block_chunk(block, separator_index);
 
 		md5_update(block);
 		bzero(block->chunk, CHUNK_SIZE);

@@ -34,7 +34,7 @@ typedef struct	block_512_bits
 
 /* 		Block Utils		 */
 
-void		print_block_chunk(const t_block *block, size_t separator_index);
+void		print_md5_block_chunk(const t_block *block, size_t separator_index);
 
 /* 		Main MD5 Algorithm */
 
