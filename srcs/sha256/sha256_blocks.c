@@ -16,12 +16,12 @@ static void	fill_block_metadata(t_block_sha256 *block, bool add_separator, bool 
 {
 	if (add_separator == true) {
 		block->chunk[block->buffer_length] = sha256_SEPARATOR;
-		p_print_trace("\tAdding the separator to current MD5 block\n");
+		p_print_trace("\tAdding the separator to current SHA256 block\n");
 	}
 
 	if (is_last_block) {
 		length_to_bytes(block);
-		p_print_trace("\tAdding length in bytes to current MD5 block\n");
+		p_print_trace("\tAdding length in bytes to current SHA256 block\n");
 	}
 }
 
@@ -37,8 +37,8 @@ static void	get_next_chunk(t_block_sha256 *block)
 }
 
 /**
- * @brief The general MD5 Loop. It extracts chunks from the input to the block as shown in [Figure 3] of the README.
- * It then calls md5_update(); to apply the algorithm on this chunk
+ * @brief The general sha256 Loop. It extracts chunks from the input to the block as shown in [Figure 3] of the README.
+ * It then calls sha256_update(); to apply the algorithm on this chunk
  */
 void	sha256_loop(t_block_sha256 *block)
 {
@@ -53,38 +53,31 @@ void	sha256_loop(t_block_sha256 *block)
 		block->total_length += block->buffer_length;
 
 		if (block->buffer_length < sha256_PADDED_CHUNK_SIZE && last_block_reached == false) {
-			p_print_info("Processing full MD5 trailing block containing %d bytes from the buffer\n", block->buffer_length);
+			p_print_info("Processing full SHA256 trailing block containing %d bytes from the buffer\n", block->buffer_length);
 			fill_block_metadata(block, true, true);
 			last_block_reached = true;
 			separator_index = block->buffer_length;
 			block->buffer_length = 0;
 
 		} else if (block->buffer_length >= sha256_PADDED_CHUNK_SIZE && block->buffer_length < sha256_CHUNK_SIZE) {
-			p_print_info("Processing penultimate MD5 block containing the separator and %d bytes from the buffer\n", block->buffer_length);
+			p_print_info("Processing penultimate SHA256 block containing the separator and %d bytes from the buffer\n", block->buffer_length);
 			fill_block_metadata(block, true, false);
 			last_block_reached = true;
 			separator_index = block->buffer_length;
 
 		} else if (block->buffer_length == 0 && last_block_reached == true) {
-			p_print_info("Processing trailing MD5 block containing byte length only and 0 bytes from the buffer\n");
+			p_print_info("Processing trailing SHA256 block containing byte length only and 0 bytes from the buffer\n");
 			fill_block_metadata(block, false, true);
 			separator_index = sha256_CHUNK_SIZE + 2;
 
 		} else if (block->buffer_length == 64)
 		{
-			p_print_info("Processing default full MD5 block containing 64 bytes from the buffer\n");
+			p_print_info("Processing default full SHA256 block containing 64 bytes from the buffer\n");
 		}
-
-		// block->block_number++;
 
 		print_sha256_block_chunk(block, separator_index);
 
-		// md5_update(block);
 		sha256_update(block);
 		bzero(block->chunk, sha256_CHUNK_SIZE);
 	}
-
-	// little_to_big_endian(&block->vectors);
-	// p_print_debug("Final vectors : ");
-	// print_vector(&block->vectors, "", false, P_LOG_DEFAULT);
 }
