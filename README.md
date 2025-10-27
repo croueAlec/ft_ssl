@@ -6,6 +6,20 @@ Supported commands are :
 - **md5**
 - **sha256**
 
+ ## Introduction
+ This is a project about cryptography. You will find below a few wikipedia articles pertaining to this topic :
+
+
+ ### Hashing
+ Hashing is the practice of taking an input of (almost) any length and turning it into an idempotent **digest** (also called hash). The goal is for the **digest** to be a signature of the input in a way that cannot be reversed. Hashing is mainly used for **storing passwords** or **signing documents** to prove authenticity or integrity (often called a Checksum, see ISO image checksums).
+An overview of security concerns about [hash functions](https://en.wikipedia.org/wiki/Hash_function_security_summary).\
+[Puzzle friendliness](https://en.wikipedia.org/wiki/Puzzle_friendliness), the property of a hash function to be secure or not.\
+[Collision, when two random inputs share the same hash(digest).](https://en.wikipedia.org/wiki/Hash_collision).\
+&nbsp;The related [Collision attack](https://en.wikipedia.org/wiki/Collision_attack).\
+&nbsp;&nbsp;[Collision example](https://crypto.stackexchange.com/questions/1434/are-there-two-known-strings-which-have-the-same-md5-hash-value).\
+&nbsp;Also related, [Preimage attack](https://en.wikipedia.org/wiki/Preimage_attack) (finding a message that has a specific hash value).
+
+
 ## Documentation
 
 ### SSL
@@ -19,9 +33,6 @@ Once all the inputs were processed, all their digest will be printed according t
 
 The [md5 algorithm wikipedia page](https://en.wikipedia.org/wiki/MD5).
 
-[Collision wikipedia page](https://en.wikipedia.org/wiki/Hash_collision).\
-[Collision example](https://crypto.stackexchange.com/questions/1434/are-there-two-known-strings-which-have-the-same-md5-hash-value).
-
 An okay-ish step by step explanation of the [md5 algorithm](https://www.comparitech.com/blog/information-security/md5-algorithm-with-examples/).\
 **WARNING :** most of the values used in this example are wrong, favor using the [official md5 documentation rfc](https://www.ietf.org/rfc/rfc1321.txt) for those.
 
@@ -32,7 +43,7 @@ And a good [md5 block visualization](https://fthb321.github.io/MD5-Hash/MD5OurVe
 <summary> The full md5 algorithm explanation. </summary>
 
 The MD5 Algorithm takes an input of **any length** and turns it into a digest of **32 bytes**. For a given input, the digest will always be the same.\
-To achieve this, the input is split into blocks of 512 bits (64 bytes) and processed one at a time.
+To achieve this, the input is split into blocks of 512 bits (64 bytes) (see [Merkle–Damgård construction](https://en.wikipedia.org/wiki/Merkle%E2%80%93Damg%C3%A5rd_construction)) and processed one at a time.
 
 The block separation works like so : \
 // TODO: Insert md5 block visualization \
