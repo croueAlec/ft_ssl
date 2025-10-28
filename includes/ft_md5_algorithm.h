@@ -34,7 +34,7 @@ typedef const enum	e_round_number
 	ROUND4 = 3
 }				t_round_nbr;
 
-typedef struct	block_512_bits t_block;
+typedef struct	block_512_bits_md5 t_block_md5;
 
 /* 		Constants			 */
 
@@ -44,7 +44,7 @@ extern const short		md5_shift_array[4][16];
 
 /* 		Algorithm Utils		 */
 
-context_vectors	init_vectors(const t_block *block);
+context_vectors	init_vectors(const t_block_md5 *block);
 short			input_order(t_round_nbr round_nbr, size_t i);
 void			print_vector(const context_vectors *vec, const char *message, bool verbose, t_penelope_log_level log_level);
 void			big_to_little_endian(uint32_t *dest, uint8_t const *src);

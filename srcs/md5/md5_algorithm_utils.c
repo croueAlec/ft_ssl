@@ -2,7 +2,7 @@
 #include "ft_md5_algorithm.h"
 #include <string.h>
 
-context_vectors	init_vectors(const t_block *block)
+context_vectors	init_vectors(const t_block_md5 *block)
 {
 	context_vectors	vectors;
 

@@ -1,7 +1,7 @@
 #include "ft_ssl.h"
 #include "ft_md5.h"
 
-static void	init_block(t_block *block, const t_hash *node)
+static void	init_block(t_block_md5 *block, const t_hash *node)
 {
 	block->input_string = node->input;
 	block->input_fd = node->infile_fd;
@@ -30,7 +30,7 @@ static void vectors_to_str(const context_vectors *vectors, char *output) {
  */
 void	md5(t_hash *node)
 {
-	t_block	block = {0};
+	t_block_md5	block = {0};
 	init_block(&block, node);
 
 	md5_loop(&block);

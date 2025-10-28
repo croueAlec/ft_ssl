@@ -97,7 +97,7 @@ static void	add_start_of_step_vectors(context_vectors *vec, const context_vector
 /**
  * @brief The main MD5 algorithm as shown in [Figure 1]
  */
-void	md5_update(t_block *block)
+void	md5_update(t_block_md5 *block)
 {
 	p_print_debug("[Block %zu]\n", block->block_number);
 	context_vectors	vec = init_vectors(block);
@@ -122,5 +122,3 @@ void	md5_update(t_block *block)
 
 	print_vector(&vec, "", false, P_LOG_DEBUG);
 }
-
-// block64 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789--"

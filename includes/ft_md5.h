@@ -9,9 +9,9 @@
 # define BUFFER_SIZE 64
 #endif
 
-#define CHUNK_SIZE 64
-#define PADDED_CHUNK_SIZE 56
-#define SEPARATOR 0b10000000
+#define md5_CHUNK_SIZE 64
+#define md5_PADDED_CHUNK_SIZE 56
+#define md5_SEPARATOR 0b10000000
 
 #define RED "\033[0;91m"
 #define BYELLOW "\033[1;33m"
@@ -19,9 +19,9 @@
 
 typedef struct	hashes t_hash;
 
-typedef struct	block_512_bits
+typedef struct	block_512_bits_md5
 {
-	uint8_t			chunk[CHUNK_SIZE + 1];
+	uint8_t			chunk[md5_CHUNK_SIZE + 1];
 	size_t			total_length;
 	size_t			buffer_length;
 	int				input_fd;
@@ -30,16 +30,16 @@ typedef struct	block_512_bits
 
 	context_vectors	vectors;
 
-}	t_block;
+}	t_block_md5;
 
 /* 		Block Utils		 */
 
-void		print_md5_block_chunk(const t_block *block, size_t separator_index);
+void		print_md5_block_chunk(const t_block_md5 *block, size_t separator_index);
 
 /* 		Main MD5 Algorithm */
 
-void		md5_update(t_block *block);
-void		md5_loop(t_block *block);
+void		md5_update(t_block_md5 *block);
+void		md5_loop(t_block_md5 *block);
 void		md5(t_hash *node);
 
 #endif
