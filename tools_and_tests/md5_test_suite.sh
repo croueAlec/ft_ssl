@@ -1,5 +1,7 @@
 #!/bin/bash
 
+make
+
 FAIL=0;
 
 compare() {
@@ -7,20 +9,20 @@ compare() {
 	DIFF_STATUS=$?
 
 	if [ "$DIFF_STATUS" -eq 1 ]; then
-		echo "$2 and $4 are different ========================= WARNING =="
+		printf "\033[0;31m$2 and $4 are different ========================= WARNING ==\033[0m\n"
 		echo ">> $1 $3"
 		FAIL=1;
 	elif [ "$DIFF_STATUS" -eq 2 ]; then
 		echo "Error in diff command!"
 	elif [ "$DIFF_STATUS" -eq 0 ]; then
-		echo "$2 and $4 are identical"
+		printf "\033[1;32m$2 and $4 are identical\033[0m\n"
 	fi
 }
 
 test() {
 	echo "Testing '$1'"
 	echo ""
-	OWN="$(./a.out "$1")"
+	OWN="$(./ft_ssl md5 -s "$1")"
 	OPENSSL="$(echo -n "$1" | openssl md5 | awk '{print $2}')"
 
 	compare "$OWN" "own" "$OPENSSL" "true"
