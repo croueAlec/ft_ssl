@@ -69,7 +69,8 @@ SRC :=	$(addprefix $(SSL_DIR)/, \
 	execution.c \
 	hash_list.c \
 	main.c \
-	parsing.c) \
+	parsing.c \
+	print_digest.c ) \
 	$(addprefix $(MD5_DIR)/, \
 	main_md5.c \
 	md5_algorithm_utils.c \

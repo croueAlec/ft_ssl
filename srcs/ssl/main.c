@@ -42,6 +42,8 @@ int	main(__attribute__((unused)) int argc, char const *argv[])
 
 	execution(&ssl);
 
+	print_hash_list_digests(&ssl);
+
 	free_hash_list(&ssl);
 
 	return (0);

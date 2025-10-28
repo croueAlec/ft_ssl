@@ -48,7 +48,7 @@ typedef struct hashes
 	char			*file;
 	int				infile_fd;
 
-	char			digest[MAX_DIGEST_SIZE];
+	char			digest[MAX_DIGEST_SIZE + 1];
 	struct hashes			*next;
 }		t_hash;
 
@@ -83,6 +83,10 @@ void	print_hash_list(t_ssl *ssl);
 /*			parsing.c		*/
 
 bool	parse_arguments(t_ssl *ssl, char const *argv[]);
+
+/* 			print_digest.c	 */
+
+void	print_hash_list_digests(const t_ssl *ssl);
 
 /* 			Hash commands	 */
 
