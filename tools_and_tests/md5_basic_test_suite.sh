@@ -22,7 +22,7 @@ compare() {
 test() {
 	echo "Testing '$1'"
 	echo ""
-	OWN="$(./ft_ssl md5 -s "$1")"
+	OWN="$(valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -q ./ft_ssl md5 -s "$1")"
 	OPENSSL="$(echo -n "$1" | openssl md5 | awk '{print $2}')"
 
 	compare "$OWN" "own" "$OPENSSL" "true"
