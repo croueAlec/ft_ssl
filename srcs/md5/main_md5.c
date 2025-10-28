@@ -36,4 +36,6 @@ void	md5(t_hash *node)
 	md5_loop(&block);
 
 	vectors_to_str(&(block.vectors), node->digest);
+
+	p_print_info("%s\n", node->digest);
 }
