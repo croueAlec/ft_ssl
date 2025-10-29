@@ -61,9 +61,15 @@ bool	parse_arguments(t_ssl *ssl, char const *argv[])
 		}
 	}
 
-	if (is_separate_string) {	// handles trailing [-s] option with no string after
+	if (is_separate_string)	// Handles trailing [-s] option with no string after
+	{
 		if (add_hash_node(STRING, ssl, "", NULL) == ERROR)
 			return (ERROR);
+	}
+
+	if (ssl->hash_list == NULL)	// Handles '-r' or '-q' flags with nothing else, adds STDIN node
+	{
+		return (add_hash_node(STDIN, ssl, NULL, NULL));
 	}
 
 	return (SUCCESS);
