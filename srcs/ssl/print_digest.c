@@ -100,7 +100,8 @@ void	print_hash_list_digests(const t_ssl *ssl)
 
 	while (node)
 	{
-		select_output(node, capitalized_hash_list[ssl->hash_type]);
+		if (node->disabled == false)
+			select_output(node, capitalized_hash_list[ssl->hash_type]);
 		node = node->next;
 	}
 }

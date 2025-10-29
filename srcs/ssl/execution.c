@@ -19,8 +19,14 @@ bool	execution(t_ssl *ssl)
 	while (node)
 	{
 		tmp = node->next;
-		p_print_debug("Processing node number : %zu\n", node_count);
-		algorithm[ssl->hash_type](node);
+		if (node->disabled == false)
+		{
+			p_print_debug("Processing node number : %zu\n", node_count);
+			algorithm[ssl->hash_type](node);
+		} else {
+			p_print_debug("Skipping disabled node number : %zu\n", node_count);
+		}
+
 		node = tmp;
 		node_count++;
 	}

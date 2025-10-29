@@ -56,7 +56,7 @@ bool	parse_arguments(t_ssl *ssl, char const *argv[])
 				return (ERROR);
 		} else {
 			no_options_found = true;
-			if (add_hash_node(INFILE, ssl, NULL, argv[i]) != SUCCESS) // Checking for ERROR or INFILE_ERROR
+			if (add_hash_node(INFILE, ssl, NULL, argv[i]) == ERROR) // In case of missing file or permission denied, continue program
 				return (ERROR);
 		}
 	}

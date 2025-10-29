@@ -43,6 +43,7 @@ typedef enum	e_flags
 typedef struct hashes
 {
 	t_input_type	input_type;
+	bool			disabled;
 	uint8_t			local_flags;
 	char			*input;
 	char			*file;
@@ -57,6 +58,7 @@ typedef struct	ft_ssl
 	t_hash_type	hash_type;
 	uint8_t		general_flags;
 	t_hash		*hash_list;
+	uint8_t		error_status;
 }		t_ssl;
 
 /*			error.c			*/
@@ -64,15 +66,11 @@ typedef struct	ft_ssl
 void	print_usage(void);
 void	error_invalid_cmd(const char *cmd);
 void	error_disabled_hash(const char *cmd);
-int	error_open_infile(const t_ssl *ssl, t_hash *hash, bool is_stdin);
+int		error_open_infile(t_ssl *ssl, t_hash *hash, bool is_stdin);
 
 /*			execution.c		*/
 
 bool	execution(t_ssl *ssl);
-
-/*			get_message.c	*/
-
-char	*get_message(t_hash *node, t_ssl *ssl);
 
 /*			hash_list.c		*/
 
@@ -90,7 +88,7 @@ void	print_hash_list_digests(const t_ssl *ssl);
 
 /* 			Hash commands	 */
 
-void		md5(t_hash *node);
-void		sha256(t_hash *node);
+void	md5(t_hash *node);
+void	sha256(t_hash *node);
 
 #endif

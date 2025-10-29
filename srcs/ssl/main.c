@@ -33,9 +33,12 @@ int	main(__attribute__((unused)) int argc, char const *argv[])
 
 	if (parse_arguments(&ssl, &argv[2]) == ERROR)
 	{
-		p_print_error("Error, freeing everything\n");
+		if (ssl.error_status != 1)
+			p_print_fatal("ft_ssl: Fatal error: malloc() failed\n");
+		ssl.error_status = 1;
 		free_hash_list(&ssl);
-		return (1);
+
+		return (ssl.error_status);
 	}
 
 	print_hash_list(&ssl);
@@ -46,5 +49,5 @@ int	main(__attribute__((unused)) int argc, char const *argv[])
 
 	free_hash_list(&ssl);
 
-	return (0);
+	return (ssl.error_status);
 }

@@ -18,20 +18,19 @@ void	error_disabled_hash(const char *cmd)
 	p_print_error("ft_ssl: Error: '%s' is currently disabled. This setting can be changed in the Makefile.\n", cmd);
 }
 
-int	error_open_infile(const t_ssl *ssl, t_hash *hash, bool is_stdin)
+int	error_open_infile(t_ssl *ssl, t_hash *hash, bool is_stdin)
 {
-	char	stdin_filename[] = "stdin";
 
+	ssl->error_status = 1;
 	if (is_stdin == true)
-		hash->file = stdin_filename;
+	p_print_fatal("ft_ssl: Fatal error: could not open stdin\n");
+
+	hash->disabled = true;
 
 	if (errno == 2)
-		p_print_error("ft_ssl: %s: %s:No such file or directory\n", hash_list[ssl->hash_type], hash->file);
+		p_print_error("ft_ssl: %s: %s: No such file or directory\n", hash_list[ssl->hash_type], hash->file);
 	else if (errno == 13)
 		p_print_error("ft_ssl: %s: %s: Permission denied\n", hash_list[ssl->hash_type], hash->file);
-
-	if (is_stdin == true)
-		hash->file = NULL;
 
 	return (INFILE_ERROR);
 }
