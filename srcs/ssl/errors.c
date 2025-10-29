@@ -5,17 +5,17 @@ extern char	hash_list[3][8];
 
 void	print_usage(void)
 {
-	p_print_error("usage: ft_ssl command [flags] [file/string]\n");
+	p_print_fatal("usage: ft_ssl command [flags] [file/string]\n");
 }
 
 void	error_invalid_cmd(const char *cmd)
 {
-	p_print_error("ft_ssl: Error: '%s' is an invalid command.\n\n%s\nFlags:\n-p -q -r -s\n", cmd, COMMAND_LIST);
+	p_print_fatal("ft_ssl: Error: '%s' is an invalid command.\n\n%s\nFlags:\n-p -q -r -s\n", cmd, COMMAND_LIST);
 }
 
 void	error_disabled_hash(const char *cmd)
 {
-	p_print_error("ft_ssl: Error: '%s' is currently disabled. This setting can be changed in the Makefile.\n", cmd);
+	p_print_fatal("ft_ssl: Error: '%s' is currently disabled. This setting can be changed in the Makefile.\n", cmd);
 }
 
 int	error_open_infile(t_ssl *ssl, t_hash *hash, bool is_stdin)
