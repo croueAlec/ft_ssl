@@ -31,7 +31,7 @@ static void	print_stdin_output(const t_hash *node, const char *hash_name)
 				p_print_default("%s", node->digest);
 				p_print_default("  stdin");
 			} else {
-				p_print_default("%s(stdin)= ");
+				p_print_default("%s(stdin)= ", hash_name);
 				p_print_default("%s\n", node->digest);
 			}
 		}
