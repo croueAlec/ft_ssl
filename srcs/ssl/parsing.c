@@ -22,6 +22,7 @@ static bool	parse_flags(t_ssl *ssl, const char *flags, bool *is_separate_string)
 			break;
 
 		case 'p':
+			ssl->general_flags |= ECHO;
 			return (add_hash_node(STDIN, ssl, NULL, NULL));
 			break;
 		}
