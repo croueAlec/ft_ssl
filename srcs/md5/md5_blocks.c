@@ -84,5 +84,5 @@ void	md5_loop(t_block_md5 *block)
 
 	little_to_big_endian(&block->vectors);
 	p_print_debug("Final vectors : ");
-	print_vector(&block->vectors, "", false, P_LOG_DEFAULT);
+	print_vector(&block->vectors, "", false, P_LOG_DEBUG);
 }
