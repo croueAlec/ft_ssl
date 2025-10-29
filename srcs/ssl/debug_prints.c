@@ -4,7 +4,7 @@ static void	print_flags(char *message, uint8_t flags)
 {
 	p_print_debug(message);
 	p_print_bits_uint8(P_LOG_DEBUG, flags, "", false);
-	p_print_debug("                0b     rqp\n");
+	p_print_debug("               0b     rqp\n");
 }
 
 void	print_hash_list(t_ssl *ssl)

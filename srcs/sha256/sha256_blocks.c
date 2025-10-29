@@ -28,12 +28,18 @@ static void	fill_block_metadata(t_block_sha256 *block, bool add_separator, bool 
 static void	get_next_chunk(t_block_sha256 *block)
 {
 	size_t	chunk_length = (ft_safe_strlen(block->input_string) - block->total_length < sizeof(uint8_t) * sha256_CHUNK_SIZE) ?  ft_safe_strlen(block->input_string) - block->total_length : sizeof(uint8_t) * sha256_CHUNK_SIZE;
-	p_print_debug("Reading at most %zu bytes from input\n", chunk_length);
+	if (block->input_fd == UNDEFINED_FD)
+		p_print_debug("Copying at most %zu bytes from input\n", chunk_length);
 
 	if (block->input_fd != UNDEFINED_FD)
-		read(block->input_fd, block->chunk, sha256_CHUNK_SIZE);
+	{
+		block->buffer_length = read(block->input_fd, block->chunk, sha256_CHUNK_SIZE);
+	}
 	else
+	{
 		memcpy(block->chunk, &block->input_string[block->total_length], chunk_length);
+		block->buffer_length = ft_safe_strlen((char*)block->chunk);
+	}
 }
 
 /**
@@ -49,7 +55,6 @@ void	sha256_loop(t_block_sha256 *block)
 	{
 		size_t	separator_index = sha256_CHUNK_SIZE + 1;
 		get_next_chunk(block);
-		block->buffer_length = ft_safe_strlen((char*)block->chunk);
 		block->total_length += block->buffer_length;
 
 		if (block->buffer_length < sha256_PADDED_CHUNK_SIZE && last_block_reached == false) {
