@@ -29,7 +29,7 @@ static void	print_stdin_output(const t_hash *node, const char *hash_name)
 
 			if (check_flag(node->local_flags, REVERSE) == true) {
 				p_print_default("%s", node->digest);
-				p_print_default("  stdin");
+				p_print_default("  stdin\n");
 			} else {
 				p_print_default("%s(stdin)= ", hash_name);
 				p_print_default("%s\n", node->digest);
@@ -48,8 +48,8 @@ static void	print_file_output(const t_hash *node, const char *hash_name)
 
 		if (check_flag(node->local_flags, REVERSE) == true)
 		{
-			p_print_default("%s");
-			p_print_default("  %s", node->file);
+			p_print_default("%s", node->digest);
+			p_print_default("  %s\n", node->file);
 		} else {
 			p_print_default("%s(%s)= ", hash_name, node->file);
 			p_print_default("%s\n", node->digest);
@@ -67,7 +67,7 @@ static void	print_string_output(const t_hash *node, const char *hash_name)
 		if (check_flag(node->local_flags, REVERSE) == true)
 		{
 			p_print_default("%s", node->digest);
-			p_print_default(" \"%s\"", node->input);
+			p_print_default(" \"%s\"\n", node->input);
 
 		} else {
 			p_print_default("%s(\"%s\")= ", hash_name, node->input);
