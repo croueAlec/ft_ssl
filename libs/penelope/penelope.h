@@ -77,7 +77,7 @@ static inline void p_log_impl(t_penelope_log_level level, const char *format, ..
 	va_end(args);
 }
 
-#if LOG_LEVEL < P_DEFINE_LOG_FATAL
+#if (LOG_LEVEL < P_DEFINE_LOG_FATAL) == false
 	#define p_print_fatal(format, ...) do { (void)(format); (void)(0, ##__VA_ARGS__); } while (0) /* NO-OP */
 #else
 	/**
@@ -94,7 +94,7 @@ static inline void p_log_impl(t_penelope_log_level level, const char *format, ..
 
 
 
-#if LOG_LEVEL < P_DEFINE_LOG_ERROR
+#if (LOG_LEVEL < P_DEFINE_LOG_ERROR) == false
 	#define p_print_error(format, ...) do { (void)(format); (void)(0, ##__VA_ARGS__); } while (0) /* NO-OP */
 #else
 	/**
@@ -111,7 +111,7 @@ static inline void p_log_impl(t_penelope_log_level level, const char *format, ..
 
 
 
-#if LOG_LEVEL < P_DEFINE_LOG_DEFAULT
+#if (LOG_LEVEL < P_DEFINE_LOG_DEFAULT) == false
 	#define p_print_default(format, ...) do { (void)(format); (void)(0, ##__VA_ARGS__); } while (0) /* NO-OP */
 #else
 	/**
@@ -123,13 +123,10 @@ static inline void p_log_impl(t_penelope_log_level level, const char *format, ..
 	#define p_print_default(format, ...) \
 		do {\
 			p_log_impl(P_LOG_DEFAULT, format, ##__VA_ARGS__); \
-			printf("default %d\n", LOG_LEVEL); \
 		} while (0)
 #endif
 
-
-
-#if LOG_LEVEL < P_DEFINE_LOG_INFO
+#if (LOG_LEVEL < P_DEFINE_LOG_INFO) == false
 	#define p_print_info(format, ...) do { (void)(format); (void)(0, ##__VA_ARGS__); } while (0) /* NO-OP */
 #else
 	/**
@@ -144,10 +141,9 @@ static inline void p_log_impl(t_penelope_log_level level, const char *format, ..
 		} while (0)
 #endif
 
-
-
-#if LOG_LEVEL < P_DEFINE_LOG_DEBUG
+#if (LOG_LEVEL < P_DEFINE_LOG_DEBUG) == false
 	#define p_print_debug(format, ...) do { (void)(format); (void)(0, ##__VA_ARGS__); } while (0) /* NO-OP */
+	// #define p_print_debug(format, ...) do { (void)(format); (void)(0, ##__VA_ARGS__); printf("Disabled debug"); } while (0)
 #else
 	/**
 	 * @brief Prints Debugging info such as important variables.
@@ -158,13 +154,12 @@ static inline void p_log_impl(t_penelope_log_level level, const char *format, ..
 	#define p_print_debug(format, ...) \
 		do {\
 			p_log_impl(P_LOG_DEBUG, format, ##__VA_ARGS__); \
-			printf("Debug %d\t%d\n", LOG_LEVEL, P_LOG_DEBUG); \
-		} while (0)
+			} while (0)
 #endif
 
 
 
-#if LOG_LEVEL < P_DEFINE_LOG_TRACE
+#if (LOG_LEVEL < P_DEFINE_LOG_TRACE) == false
 	#define p_print_trace(format, ...) do { (void)(format); (void)(0, ##__VA_ARGS__); } while (0) /* NO-OP */
 #else
 	/**
@@ -181,7 +176,7 @@ static inline void p_log_impl(t_penelope_log_level level, const char *format, ..
 
 
 
-#if P_LOG_USR_OUTPUT1 == true
+#if (P_LOG_USR_OUTPUT1 == false)
 	#define p_print_usr_output1(format, ...) do { (void)(format); (void)(0, ##__VA_ARGS__); } while (0) /* NO-OP */
 #else
 	/**
@@ -198,7 +193,7 @@ static inline void p_log_impl(t_penelope_log_level level, const char *format, ..
 
 
 
-#if P_LOG_USR_OUTPUT2 == true
+#if (P_LOG_USR_OUTPUT2 == false)
 	#define p_print_usr_output2(format, ...) do { (void)(format); (void)(0, ##__VA_ARGS__); } while (0) /* NO-OP */
 #else
 	/**
