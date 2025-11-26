@@ -11,9 +11,6 @@
 
 #include "../libs/libft/libft.h"
 
-#ifndef LOG_LEVEL
-# define LOG_LEVEL 3 /* <- This is the value of P_LOG_DEFAULT. Since penelope.h is not yet included, we need to set it manually. */
-#endif
 #include "../libs/penelope/penelope.h"
 
 #define	UNDEFINED_FD -2
