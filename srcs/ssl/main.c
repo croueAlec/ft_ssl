@@ -1,11 +1,11 @@
 #include "ft_ssl.h"
 
-t_penelope_log_level	P_LOG_LEVEL = LOG_LEVEL;
-char					hash_list[3][8] = { "Invalid", "md5", "sha256"};
+t_penelope_log_level P_LOG_LEVEL = LOG_LEVEL;
+char				 hash_list[3][8] = {"Invalid", "md5", "sha256"};
 
-t_hash_type	set_hash_type(const char *cmd)
+t_hash_type set_hash_type(const char *cmd)
 {
-	t_hash_type	type = INVALID;
+	t_hash_type type = INVALID;
 	if (!cmd)
 		return (print_usage(), INVALID);
 
@@ -23,16 +23,15 @@ t_hash_type	set_hash_type(const char *cmd)
 	return (type);
 }
 
-int	main(__attribute__((unused)) int argc, char const *argv[])
+int main(__attribute__((unused)) int argc, const char *argv[])
 {
-	t_ssl	ssl = {0};
+	t_ssl ssl = {0};
 
 	ssl.hash_type = set_hash_type(argv[1]);
 	if (ssl.hash_type == INVALID)
 		return (1);
 
-	if (parse_arguments(&ssl, &argv[2]) == ERROR)
-	{
+	if (parse_arguments(&ssl, &argv[2]) == ERROR) {
 		if (ssl.error_status != 1)
 			p_print_fatal("ft_ssl: Fatal error: malloc() failed\n");
 		ssl.error_status = 1;

@@ -2,14 +2,13 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-static char	*read_stdin(int fd)
+static char *read_stdin(int fd)
 {
-	char	*tmp = get_next_line(fd);
-	char	*file_str = NULL;
+	char *tmp = get_next_line(fd);
+	char *file_str = NULL;
 	if (!tmp)
 		return (NULL);
-	while (tmp)
-	{
+	while (tmp) {
 		file_str = ft_sep_join(file_str, tmp, NULL);
 		(free(tmp), tmp = NULL);
 		if (!file_str)
@@ -20,10 +19,10 @@ static char	*read_stdin(int fd)
 	return (file_str);
 }
 
-static char	*handle_stdin(t_hash *node, t_ssl *ssl)
+static char *handle_stdin(t_hash *node, t_ssl *ssl)
 {
-	int		fd = STDIN_FILENO;
-	char	*str = NULL;
+	int	  fd = STDIN_FILENO;
+	char *str = NULL;
 
 	if (fd < 0) {
 		error_open_infile(ssl, node, true);
@@ -32,19 +31,18 @@ static char	*handle_stdin(t_hash *node, t_ssl *ssl)
 
 	} else {
 		str = read_stdin(fd);
-		if(!str)
+		if (!str)
 			str = calloc(1, sizeof(char));
 
 		return (str);
 	}
 }
 
-void	free_hash_list(t_ssl *ssl)
+void free_hash_list(t_ssl *ssl)
 {
-	t_hash	*tmp = NULL;
+	t_hash *tmp = NULL;
 	t_hash *node = ssl->hash_list;
-	while (node)
-	{
+	while (node) {
 		tmp = node->next;
 		if (node->input)
 			(free(node->input), node->input = NULL);
@@ -57,34 +55,32 @@ void	free_hash_list(t_ssl *ssl)
 	}
 }
 
-static	t_hash *set_node_last(t_ssl *ssl, t_hash *node)
+static t_hash *set_node_last(t_ssl *ssl, t_hash *node)
 {
-	t_hash	*head = ssl->hash_list;
+	t_hash *head = ssl->hash_list;
 	while (head->next)
 		head = head->next;
 	head->next = node;
 	return (node);
 }
 
-static t_hash	*allocate_new_node(t_ssl *ssl)
+static t_hash *allocate_new_node(t_ssl *ssl)
 {
-	t_hash	*node = calloc(1, sizeof(t_hash));
+	t_hash *node = calloc(1, sizeof(t_hash));
 	if (!node)
 		return (NULL);
 
-	if (!ssl->hash_list)
-	{
+	if (!ssl->hash_list) {
 		ssl->hash_list = node;
 		return (node);
-	} else
-	{
+	} else {
 		return (set_node_last(ssl, node));
 	}
 }
 
-int	add_hash_node(t_input_type type, t_ssl *ssl, char const *string, char const *filename)
+int add_hash_node(t_input_type type, t_ssl *ssl, const char *string, const char *filename)
 {
-	t_hash	*new_hash = allocate_new_node(ssl);
+	t_hash *new_hash = allocate_new_node(ssl);
 	if (!new_hash)
 		return (ERROR);
 
@@ -106,8 +102,7 @@ int	add_hash_node(t_input_type type, t_ssl *ssl, char const *string, char const 
 		if (new_hash->infile_fd == -1)
 			return (error_open_infile(ssl, new_hash, false));
 
-	} else if (new_hash->input_type == STDIN)
-	{
+	} else if (new_hash->input_type == STDIN) {
 		new_hash->input = handle_stdin(new_hash, ssl);
 		if (!new_hash->input)
 			return (ERROR);

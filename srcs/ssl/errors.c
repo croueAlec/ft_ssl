@@ -1,29 +1,29 @@
 #include "ft_ssl.h"
 #include <errno.h>
 
-extern char	hash_list[3][8];
+extern char hash_list[3][8];
 
-void	print_usage(void)
+void print_usage(void)
 {
 	p_print_fatal("usage: ft_ssl command [flags] [file/string]\n");
 }
 
-void	error_invalid_cmd(const char *cmd)
+void error_invalid_cmd(const char *cmd)
 {
 	p_print_fatal("ft_ssl: Error: '%s' is an invalid command.\n\n%s\nFlags:\n-p -q -r -s\n", cmd, COMMAND_LIST);
 }
 
-void	error_disabled_hash(const char *cmd)
+void error_disabled_hash(const char *cmd)
 {
 	p_print_fatal("ft_ssl: Error: '%s' is currently disabled. This setting can be changed in the Makefile.\n", cmd);
 }
 
-int	error_open_infile(t_ssl *ssl, t_hash *hash, bool is_stdin)
+int error_open_infile(t_ssl *ssl, t_hash *hash, bool is_stdin)
 {
 
 	ssl->error_status = 1;
 	if (is_stdin == true)
-	p_print_fatal("ft_ssl: Fatal error: could not open stdin\n");
+		p_print_fatal("ft_ssl: Fatal error: could not open stdin\n");
 
 	hash->disabled = true;
 
