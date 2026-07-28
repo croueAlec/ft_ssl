@@ -2,9 +2,9 @@
 #include "ft_md5_algorithm.h"
 #include <string.h>
 
-context_vectors	init_vectors(const t_block_md5 *block)
+context_vectors init_vectors(const t_block_md5 *block)
 {
-	context_vectors	vectors;
+	context_vectors vectors;
 
 	vectors.a = MD5_INIT_VECTOR_A;
 	vectors.b = MD5_INIT_VECTOR_B;
@@ -20,15 +20,15 @@ context_vectors	init_vectors(const t_block_md5 *block)
 /**
  * @brief returns the input order depending on round number and current index
  */
-short	input_order(t_round_nbr round_nbr, size_t i)
+short input_order(t_round_nbr round_nbr, size_t i)
 {
 	return (md5_input_order_array[round_nbr][i]);
 }
 
-void	print_vector(const context_vectors *vec, const char *message, bool verbose, t_penelope_log_level log_level)
+void print_vector(const context_vectors *vec, const char *message, bool verbose, t_penelope_log_level log_level)
 {
 	if (!level_verification(log_level))
-		return ;
+		return;
 
 	if (verbose == true)
 		p_print_level(log_level, "%s a:%08x b:%08x c:%08x d:%08x\n\n", message, vec->a, vec->b, vec->c, vec->d);
@@ -45,23 +45,23 @@ void	print_vector(const context_vectors *vec, const char *message, bool verbose,
  * @param tmp+=buf[3]<<24;	tmp=="DCBA";
  * @note We do this every 4 byte word
  */
-void	big_to_little_endian(uint32_t *dest, uint8_t const *src)
+void big_to_little_endian(uint32_t *dest, const uint8_t *src)
 {
-	uint32_t	tmp = 0;
-	uint8_t		buffer[64] = {0};
+	uint32_t tmp = 0;
+	uint8_t	 buffer[64] = {0};
 	memcpy(buffer, src, sizeof(uint8_t) * 64);
 
 	for (int i = 0; i < 16; i++) {
 		tmp =
-			((uint32_t)buffer[i * 4])       |
-			((uint32_t)buffer[i * 4 + 1] << 8)  |
+			((uint32_t)buffer[i * 4]) |
+			((uint32_t)buffer[i * 4 + 1] << 8) |
 			((uint32_t)buffer[i * 4 + 2] << 16) |
 			((uint32_t)buffer[i * 4 + 3] << 24);
 		dest[i] = tmp;
 	}
 }
 
-void	little_to_big_endian(context_vectors *vec)
+void little_to_big_endian(context_vectors *vec)
 {
 	vec->a = L_TO_BIG_ENDIAN(vec->a);
 	vec->b = L_TO_BIG_ENDIAN(vec->b);

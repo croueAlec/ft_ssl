@@ -1,18 +1,17 @@
 #include "ft_md5.h"
 #include <string.h>
 
-static void	length_to_bytes(t_block_md5 *block)
+static void length_to_bytes(t_block_md5 *block)
 {
 	p_print_trace("\ttotal length to add as bytes : %zu\n", block->total_length);
 	block->total_length *= 8;
 
-	for (size_t i = 0; i < 8; i++)
-	{
+	for (size_t i = 0; i < 8; i++) {
 		block->chunk[(md5_PADDED_CHUNK_SIZE) + i] = ((block->total_length >> (i * 8)) & 0b11111111);
 	}
 }
 
-static void	fill_block_metadata(t_block_md5 *block, bool add_separator, bool is_last_block)
+static void fill_block_metadata(t_block_md5 *block, bool add_separator, bool is_last_block)
 {
 	if (add_separator == true) {
 		block->chunk[block->buffer_length] = md5_SEPARATOR;
@@ -25,20 +24,17 @@ static void	fill_block_metadata(t_block_md5 *block, bool add_separator, bool is_
 	}
 }
 
-static void	get_next_chunk(t_block_md5 *block)
+static void get_next_chunk(t_block_md5 *block)
 {
-	size_t	chunk_length = (ft_safe_strlen(block->input_string) - block->total_length < sizeof(uint8_t) * md5_CHUNK_SIZE) ?  ft_safe_strlen(block->input_string) - block->total_length : sizeof(uint8_t) * md5_CHUNK_SIZE;
+	size_t chunk_length = (ft_safe_strlen(block->input_string) - block->total_length < sizeof(uint8_t) * md5_CHUNK_SIZE) ? ft_safe_strlen(block->input_string) - block->total_length : sizeof(uint8_t) * md5_CHUNK_SIZE;
 	if (block->input_fd == UNDEFINED_FD)
 		p_print_debug("Copying at most %zu bytes from input\n", chunk_length);
 
-	if (block->input_fd != UNDEFINED_FD)
-	{
+	if (block->input_fd != UNDEFINED_FD) {
 		block->buffer_length = (size_t)read(block->input_fd, block->chunk, md5_CHUNK_SIZE);
-	}
-	else
-	{
+	} else {
 		memcpy(block->chunk, &block->input_string[block->total_length], chunk_length);
-		block->buffer_length = ft_safe_strlen((char*)block->chunk);
+		block->buffer_length = ft_safe_strlen((char *)block->chunk);
 	}
 }
 
@@ -46,14 +42,12 @@ static void	get_next_chunk(t_block_md5 *block)
  * @brief The general MD5 Loop. It extracts chunks from the input to the block as shown in [Figure 3] of the README.
  * It then calls md5_update(); to apply the algorithm on this chunk
  */
-void	md5_loop(t_block_md5 *block)
+void md5_loop(t_block_md5 *block)
 {
-	bool	last_block_reached = false;
+	bool last_block_reached = false;
 
-
-	while (last_block_reached == false || block->buffer_length)
-	{
-		size_t	separator_index = md5_CHUNK_SIZE + 1;
+	while (last_block_reached == false || block->buffer_length) {
+		size_t separator_index = md5_CHUNK_SIZE + 1;
 		get_next_chunk(block);
 		block->total_length += block->buffer_length;
 
@@ -74,8 +68,7 @@ void	md5_loop(t_block_md5 *block)
 			p_print_info("Processing trailing MD5 block containing byte length only and 0 bytes from the buffer\n");
 			fill_block_metadata(block, false, true);
 
-		} else if (block->buffer_length == 64)
-		{
+		} else if (block->buffer_length == 64) {
 			p_print_info("Processing default full MD5 block containing 64 bytes from the buffer\n");
 		}
 
