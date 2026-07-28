@@ -68,7 +68,7 @@ static	t_hash *set_node_last(t_ssl *ssl, t_hash *node)
 
 static t_hash	*allocate_new_node(t_ssl *ssl)
 {
-	t_hash	*node = calloc(sizeof(t_hash), 1);
+	t_hash	*node = calloc(1, sizeof(t_hash));
 	if (!node)
 		return (NULL);
 
