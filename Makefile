@@ -10,6 +10,7 @@
 ################################################################################
 
 NAME = ft_ssl
+NAME_BONUS = $(NAME)_bonus
 
 ################################################################################
 #                                    COLORS                                    #
@@ -46,6 +47,7 @@ SRCS_DIR = srcs
 SSL_DIR = ssl
 MD5_DIR = md5
 SHA256_DIR = sha256
+BONUS_DIR = bonus/whirlpool
 INCS_DIR = includes
 OBJS_DIR = objs
 
@@ -96,22 +98,35 @@ SRC :=	$(addprefix $(SSL_DIR)/, \
 OBJ := $(patsubst %.c,$(OBJS_DIR)/%.o,$(SRC))
 DEPS := $(patsubst %.c,$(OBJS_DIR)/%.d,$(SRC))
 
+SRC_BONUS := $(addprefix $(BONUS_DIR)/, \
+	main_whirlpool.c \
+	whirlpool_algorithm_utils.c \
+	whirlpool_algorithm.c \
+	whirlpool_blocks.c \
+	whirlpool_constants.c ) \
+	$(SRC)
+
+OBJ_BONUS := $(patsubst %.c,$(OBJS_DIR)/%.o,$(SRC_BONUS))
+DEPS_BONUS := $(patsubst %.c,$(OBJS_DIR)/%.d,$(SRC_BONUS))
+
 ################################################################################
 #                                     RULES                                    #
 ################################################################################
-all: fclean $(NAME)
+all: $(NAME)
 
 $(NAME): $(LIBFT) $(PENELOPE) $(OBJ)
 	@printf "$(GREEN)* Assembling $(BWHITE)%s$(DEFAULT)\n" "$@"
 	@$(CC) $(CFLAGS) $(OBJ) $(LIB) $(INCLUDES_FLAGS) -o $@
 
--include %(DEPS)
+-include $(DEPS)
+-include $(DEPS_BONUS)
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 	@printf "$(CYAN)- Compiling$(DEFAULT) %s\n" "$<"
 	@mkdir -p $(OBJS_DIR)
 	@mkdir -p $(OBJS_DIR)/$(SSL_DIR)
 	@mkdir -p $(OBJS_DIR)/$(MD5_DIR)
 	@mkdir -p $(OBJS_DIR)/$(SHA256_DIR)
+	@mkdir -p $(OBJS_DIR)/$(BONUS_DIR)
 	@$(CC) $(DEP_FLAGS) $(COMPIL_DEFINES) $(CFLAGS) $(INCLUDES_FLAGS) -c $< -o $@
 
 clean:
@@ -127,6 +142,11 @@ re: fclean all
 cre:
 	@clear
 	@make re --no-print-directory
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Bonus Rules ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+bonus: fclean $(LIBFT) $(PENELOPE) $(OBJ_BONUS)
+	@printf "$(GREEN)* Assembling $(BWHITE)%s (bonus)$(DEFAULT)\n" "$(NAME_BONUS)"
+	@$(CC) $(CFLAGS) $(OBJ_BONUS) $(LIB) $(INCLUDES_FLAGS) -o $(NAME_BONUS)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Lib Rules ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 $(LIBFT):
@@ -160,3 +180,6 @@ trace: fclean
 
 info: fclean
 	@$(MAKE) LOG_VALUE=P_LOG_INFO $(LIB_FLAGS)
+
+
+.PHONY: all clean fclean re bonus cre debug trace info cleanlib fcleanlib relib lol
