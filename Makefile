@@ -37,6 +37,7 @@ LIB_FLAGS = --no-print-directory --silent
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Compilation Defines ~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 LOG_VALUE=P_LOG_DEFAULT
 COMPIL_DEFINES+=-DLOG_LEVEL=$(LOG_VALUE)
+BONUS_DEFINES=-DBONUS=true
 
 ################################################################################
 #                                  DIRECTORIES                                 #
@@ -142,6 +143,7 @@ cre:
 	@make re --no-print-directory
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Bonus Rules ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+bonus: CFLAGS += -DBONUS=true
 bonus: fclean $(LIBFT) $(PENELOPE) $(OBJ_BONUS)
 	@printf "$(GREEN)* Assembling $(BWHITE)%s (bonus)$(DEFAULT)\n" "$(NAME_BONUS)"
 	@$(CC) $(CFLAGS) $(OBJ_BONUS) $(LIB) $(INCLUDES_FLAGS) -o $(NAME_BONUS)

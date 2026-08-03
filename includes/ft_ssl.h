@@ -62,7 +62,7 @@ typedef struct ft_ssl
 
 void print_usage(void);
 void error_invalid_cmd(const char *cmd);
-void error_disabled_hash(const char *cmd);
+void error_unavailable_hash(const char *cmd);
 int	 error_open_infile(t_ssl *ssl, t_hash *hash, bool is_stdin);
 
 /*			execution.c		*/
@@ -87,5 +87,9 @@ void print_hash_list_digests(const t_ssl *ssl);
 
 void md5(t_hash *node);
 void sha256(t_hash *node);
+
+#ifdef BONUS
+extern void whirlpool(t_hash *node);
+#endif
 
 #endif
