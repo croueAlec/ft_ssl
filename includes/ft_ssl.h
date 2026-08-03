@@ -1,5 +1,5 @@
 #ifndef FT_SSL_H
-# define FT_SSL_H
+#define FT_SSL_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,7 +13,7 @@
 
 #include "../libs/penelope/penelope.h"
 
-#define	UNDEFINED_FD -2
+#define UNDEFINED_FD -2
 
 #define ERROR 0
 #define SUCCESS 1
@@ -22,70 +22,70 @@
 #define MAX_DIGEST_SIZE 64
 #define MD5_DIGEST_SIZE 32
 
-typedef enum	e_input_types
+typedef enum e_input_types
 {
 	STDIN = 0,
 	STRING = 1,
 	INFILE = 2
-}	t_input_type;
+} t_input_type;
 
-typedef enum	e_flags
+typedef enum e_flags
 {
 	NONE = 0b0,
 	ECHO = 0b1,
 	QUIET = 0b10,
 	REVERSE = 0b100,
-}				t_flags;
+} t_flags;
 
 typedef struct hashes
 {
-	t_input_type	input_type;
-	bool			disabled;
-	uint8_t			local_flags;
-	char			*input;
-	char			*file;
-	int				infile_fd;
+	t_input_type input_type;
+	bool		 disabled;
+	uint8_t		 local_flags;
+	char		*input;
+	char		*file;
+	int			 infile_fd;
 
-	char			digest[MAX_DIGEST_SIZE + 1];
-	struct hashes			*next;
-}		t_hash;
+	char		   digest[MAX_DIGEST_SIZE + 1];
+	struct hashes *next;
+} t_hash;
 
-typedef struct	ft_ssl
+typedef struct ft_ssl
 {
-	t_hash_type	hash_type;
+	t_hash_type hash_type;
 	uint8_t		general_flags;
-	t_hash		*hash_list;
+	t_hash	   *hash_list;
 	uint8_t		error_status;
-}		t_ssl;
+} t_ssl;
 
 /*			error.c			*/
 
-void	print_usage(void);
-void	error_invalid_cmd(const char *cmd);
-void	error_disabled_hash(const char *cmd);
-int		error_open_infile(t_ssl *ssl, t_hash *hash, bool is_stdin);
+void print_usage(void);
+void error_invalid_cmd(const char *cmd);
+void error_disabled_hash(const char *cmd);
+int	 error_open_infile(t_ssl *ssl, t_hash *hash, bool is_stdin);
 
 /*			execution.c		*/
 
-bool	execution(t_ssl *ssl);
+bool execution(t_ssl *ssl);
 
 /*			hash_list.c		*/
 
-void	free_hash_list(t_ssl *ssl);
-int		add_hash_node(t_input_type type, t_ssl *ssl, char const *string, char const *filename);
-void	print_hash_list(t_ssl *ssl);
+void free_hash_list(t_ssl *ssl);
+int	 add_hash_node(t_input_type type, t_ssl *ssl, const char *string, const char *filename);
+void print_hash_list(t_ssl *ssl);
 
 /*			parsing.c		*/
 
-bool	parse_arguments(t_ssl *ssl, char const *argv[]);
+bool parse_arguments(t_ssl *ssl, const char *argv[]);
 
 /* 			print_digest.c	 */
 
-void	print_hash_list_digests(const t_ssl *ssl);
+void print_hash_list_digests(const t_ssl *ssl);
 
 /* 			Hash commands	 */
 
-void	md5(t_hash *node);
-void	sha256(t_hash *node);
+void md5(t_hash *node);
+void sha256(t_hash *node);
 
 #endif

@@ -1,5 +1,5 @@
 #ifndef FT_HASH_LIST_H
-# define FT_HASH_LIST_H
+#define FT_HASH_LIST_H
 
 #include "ft_ssl.h"
 
@@ -11,28 +11,29 @@
 - add your hash to the COMMAND_LIST to print the correct program usage on invalid command
 */
 
-#if(ENABLE_MD5 == true)
-# define MD5_index 1
+#if (ENABLE_MD5 == true)
+#	define MD5_index 1
 #else
-# define MD5_index 0
+#	define MD5_index 0
 #endif
 
-#if(ENABLE_SHA256 == true)
-# define SHA256_index 2
+#if (ENABLE_SHA256 == true)
+#	define SHA256_index 2
 #else
-# define SHA256_index 0
+#	define SHA256_index 0
 #endif
 
-typedef struct	hashes t_hash;
+typedef struct hashes t_hash;
 
-#define MAX_HASH_NBR 2	// Increment MAX_HASH_NBR when adding a new hash
-typedef void	(*hash_func_array)(t_hash*);
-typedef enum	e_hash_types
+#define MAX_HASH_NBR 2 // Increment MAX_HASH_NBR when adding a new hash
+typedef void (*hash_func_array)(t_hash *);
+
+typedef enum e_hash_types
 {
 	INVALID = 0,
-	MD5	= MD5_index,
-	SHA256	= SHA256_index
-}		t_hash_type;
+	MD5 = MD5_index,
+	SHA256 = SHA256_index
+} t_hash_type;
 
 #define COMMAND_LIST "Commands:\nmd5\nsha256\n"
 

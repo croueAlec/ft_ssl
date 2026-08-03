@@ -1,5 +1,5 @@
 #ifndef FT_MD5_ALGORITHM_H
-# define FT_MD5_ALGORITHM_H
+#define FT_MD5_ALGORITHM_H
 
 #include <stdint.h>
 #include "../libs/penelope/penelope.h"
@@ -18,36 +18,36 @@
 
 #define L_TO_BIG_ENDIAN(x) (((x & 0x000000FF) << 24) | ((x & 0x0000FF00) << 8) | ((x & 0x00FF0000) >> 8) | ((x & 0xFF000000) >> 24))
 
-typedef struct	md5_context_vectors
+typedef struct md5_context_vectors
 {
-	uint32_t	a;
-	uint32_t	b;
-	uint32_t	c;
-	uint32_t	d;
-}				context_vectors;
+	uint32_t a;
+	uint32_t b;
+	uint32_t c;
+	uint32_t d;
+} context_vectors;
 
-typedef const enum	e_round_number
+typedef const enum e_round_number
 {
 	ROUND1 = 0,
 	ROUND2 = 1,
 	ROUND3 = 2,
 	ROUND4 = 3
-}				t_round_nbr;
+} t_round_nbr;
 
-typedef struct	block_512_bits_md5 t_block_md5;
+typedef struct block_512_bits_md5 t_block_md5;
 
 /* 		Constants			 */
 
-extern const uint32_t	md5_k_constant[4][16];
-extern const short		md5_input_order_array[4][16];
-extern const short		md5_shift_array[4][16];
+extern const uint32_t md5_k_constant[4][16];
+extern const short	  md5_input_order_array[4][16];
+extern const short	  md5_shift_array[4][16];
 
 /* 		Algorithm Utils		 */
 
-context_vectors	init_vectors(const t_block_md5 *block);
+context_vectors init_vectors(const t_block_md5 *block);
 short			input_order(t_round_nbr round_nbr, size_t i);
 void			print_vector(const context_vectors *vec, const char *message, bool verbose, t_penelope_log_level log_level);
-void			big_to_little_endian(uint32_t *dest, uint8_t const *src);
+void			big_to_little_endian(uint32_t *dest, const uint8_t *src);
 void			little_to_big_endian(context_vectors *vec);
 
 #endif
