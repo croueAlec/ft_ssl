@@ -2,15 +2,17 @@
 
 t_penelope_log_level P_LOG_LEVEL = LOG_LEVEL;
 
-const char hash_list[8][16] = {
-	"Invalid",
-	"md5",
-	"sha256",
-#ifdef BONUS
-	"whirlpool",
+const t_hash_pattern hash_commands[] = {
+	{"Invalid",	INVALID,	 NULL	 },
+	{"md5",		MD5,		 md5		},
+	{"sha256",	   SHA256,	   sha256	 },
+#ifdef BONUS	 /* v bonus hash commands v */
+	{"whirlpool", WHIRLPOOL, whirlpool},
 #endif
-	"",
+	{"",		  INVALID,	  NULL	  }
 };
+
+const size_t max_hash_nbr = (sizeof(hash_commands) / sizeof(hash_commands[0]));
 
 t_hash_type set_hash_type(const char *cmd)
 {
@@ -18,21 +20,15 @@ t_hash_type set_hash_type(const char *cmd)
 	if (!cmd)
 		return (print_usage(), INVALID);
 
-	if (strcmp(cmd, hash_list[MD5]) == 0) {
-		type = MD5;
-	} else if (strcmp(cmd, hash_list[SHA256]) == 0) {
-		type = SHA256;
-		printf("sha256\n");
-	} else if (WHIRLPOOL < max_hash_nbr) {
-		if (strcmp(cmd, hash_list[WHIRLPOOL])) {
-			type = WHIRLPOOL;
+	for (size_t i = 1; i < max_hash_nbr; i++) {
+		printf("%s\t%s\n", cmd, hash_commands[type + i].name);
+		if (strcmp(cmd, hash_commands[type + i].name) == 0) {
+			type = type + i;
+			break;
 		}
-	} else {
-		error_invalid_cmd(cmd);
-		return (INVALID);
 	}
 
-	if (type >= max_hash_nbr)
+	if (type == INVALID)
 		error_unavailable_hash(cmd);
 	return (type);
 }

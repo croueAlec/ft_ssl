@@ -1,8 +1,6 @@
 #include "ft_ssl.h"
 #include <errno.h>
 
-extern char **hash_list;
-
 void print_usage(void)
 {
 	p_print_fatal("usage: ft_ssl command [flags] [file/string]\n");
@@ -28,9 +26,9 @@ int error_open_infile(t_ssl *ssl, t_hash *hash, bool is_stdin)
 	hash->disabled = true;
 
 	if (errno == 2)
-		p_print_error("ft_ssl: %s: %s: No such file or directory\n", hash_list[ssl->hash_type], hash->file);
+		p_print_error("ft_ssl: %s: %s: No such file or directory\n", hash_commands[ssl->hash_type].name /* hash_list[ssl->hash_type] */, hash->file);
 	else if (errno == 13)
-		p_print_error("ft_ssl: %s: %s: Permission denied\n", hash_list[ssl->hash_type], hash->file);
+		p_print_error("ft_ssl: %s: %s: Permission denied\n", hash_commands[ssl->hash_type].name /* hash_list[ssl->hash_type] */, hash->file);
 
 	return (INFILE_ERROR);
 }
