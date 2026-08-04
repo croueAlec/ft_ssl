@@ -81,13 +81,16 @@ cli_context *arglib(size_t argc, char **argv)
 
 	for (; i < (size_t)argc; i++) {
 		if (argv[i][0] == '-' && argv[i][1] == '-' && argv[i][2] == '\0') {
+			printf("double dash: %s\n", argv[i]);
 			double_dash = true;
 			break;
 		} else if (argv[i][0] == '-' && argv[i][1] == '-') {
+			printf("long flag: %s\n", argv[i]);
 			ctx = handle_long_flag(&argv[i][2], ctx, flag_list_length, argv);
 		} else if (argv[i][0] == '-') {
+			printf("short flag: %s\n", argv[i]);
 			ctx = handle_short_flag(&argv[i][1], ctx, flag_list_length, argv);
-		} else if (flag_config.positional_argument_order_sensitive == true || i == 0) {
+		} else if (flag_config.positional_argument_order_sensitive == true /* || i == 0 */) { // i == 0 ??
 			break;
 		} else {
 			ctx = handle_str_flag(ctx, argv[i], argv, double_dash);

@@ -16,6 +16,10 @@ typedef struct cli_userdata
 	char *str;
 } t_arguments;
 
+/*			main.c						*/
+
+t_hash_type set_hash_type(const char *cmd);
+
 /*			arglib_handlers_utils.c		*/
 
 void		 free_arglib_node(cli_context *ctx);
@@ -23,7 +27,7 @@ void		 free_arglib_list(cli_context *ctx);
 cli_context *new_context(cli_context *current_ctx);
 cli_context *create_str_ctx_node(cli_context *ctx, char *str);
 
-/*			arglib_handlers.c		*/
+/*			arglib_handlers.c			*/
 
 cli_context *flag_print_stdin_handle(cli_context *ctx, char *clean_arg, char **argv, bool is_short_flag);
 cli_context *flag_quiet_handle(cli_context *ctx, char *clean_arg, char **argv, bool is_short_flag);
@@ -31,7 +35,7 @@ cli_context *flag_reverse_handle(cli_context *ctx, char *clean_arg, char **argv,
 cli_context *flag_str_handle(cli_context *ctx, char *clean_arg, char **argv, bool is_short_flag);
 cli_context *flag_default_string_option_handle(cli_context *ctx, char *clean_arg, char **argv, bool is_double_dash);
 
-/*			arglib_user_utils.c		*/
+/*			arglib_user_utils.c			*/
 
 const char			 *is_cli_flag_handler_valid(const cli_flag_handler *flags);
 bool				  set_double_dash_separator();

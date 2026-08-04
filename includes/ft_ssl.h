@@ -15,6 +15,8 @@
 
 #define UNDEFINED_FD -2
 
+#define MAX_STDIN_LENGTH 1024
+
 #define ERROR 0
 #define SUCCESS 1
 #define INFILE_ERROR 2
@@ -96,6 +98,6 @@ extern void whirlpool(t_hash *node);
 
 /* 			arglib_api.c	 */
 
-bool arglib_api(size_t argument_count, char **arguments);
+bool arglib_api(t_ssl *ssl, size_t argument_count, char **arguments);
 
 #endif

@@ -8,12 +8,19 @@ static char *read_stdin(int fd)
 	char *file_str = NULL;
 	if (!tmp)
 		return (NULL);
+
+	size_t length = 0;
+
 	while (tmp) {
 		file_str = ft_sep_join(file_str, tmp, NULL);
 		(free(tmp), tmp = NULL);
 		if (!file_str)
 			return (NULL);
 		tmp = get_next_line(fd);
+
+		length += BUFFER_SIZE;
+		if (length > MAX_STDIN_LENGTH && strlen(file_str) > MAX_STDIN_LENGTH)
+			return ((char *)0x01);
 	}
 	close(fd);
 	return (file_str);
@@ -26,14 +33,15 @@ static char *handle_stdin(t_hash *node, t_ssl *ssl)
 
 	if (fd < 0) {
 		error_open_infile(ssl, node, true);
-
 		return (NULL);
-
 	} else {
 		str = read_stdin(fd);
+		if (str == (char *)0x01) {
+			ssl->error_status = 2;
+			return (NULL);
+		}
 		if (!str)
 			str = calloc(1, sizeof(char));
-
 		return (str);
 	}
 }

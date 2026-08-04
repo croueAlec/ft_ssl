@@ -1,6 +1,6 @@
 #include "ft_ssl.h"
 
-t_penelope_log_level P_LOG_LEVEL = P_LOG_INFO;
+t_penelope_log_level P_LOG_LEVEL = LOG_LEVEL;
 
 const t_hash_pattern hash_commands[] = {
 	{"Invalid",	INVALID,	 NULL	 },
@@ -34,22 +34,23 @@ t_hash_type set_hash_type(const char *cmd)
 
 int main(int argc, char *argv[])
 {
-	return (arglib_api((size_t)argc - 1, &argv[1]));
 
 	t_ssl ssl = {0};
 
-	ssl.hash_type = set_hash_type(argv[1]);
-	if (ssl.hash_type == INVALID)
-		return (1);
+	return (arglib_api(&ssl, (size_t)argc - 1, &argv[1]));
 
-	if (parse_arguments(&ssl, ((const char **)&argv[2])) == ERROR) {
-		if (ssl.error_status != 1)
-			p_print_fatal("ft_ssl: Fatal error: malloc() failed\n");
-		ssl.error_status = 1;
-		free_hash_list(&ssl);
+	// ssl.hash_type = set_hash_type(argv[1]);
+	// if (ssl.hash_type == INVALID)
+	// 	return (1);
 
-		return (ssl.error_status);
-	}
+	// if (parse_arguments(&ssl, ((const char **)&argv[2])) == ERROR) {
+	// 	if (ssl.error_status != 1)
+	// 		p_print_fatal("ft_ssl: Fatal error: malloc() failed\n");
+	// 	ssl.error_status = 1;
+	// 	free_hash_list(&ssl);
+
+	// 	return (ssl.error_status);
+	// }
 
 	print_hash_list(&ssl);
 
@@ -58,6 +59,8 @@ int main(int argc, char *argv[])
 	print_hash_list_digests(&ssl);
 
 	free_hash_list(&ssl);
+
+	(void)argc;
 
 	return (ssl.error_status);
 }
