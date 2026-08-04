@@ -111,7 +111,7 @@ DEPS_BONUS := $(patsubst %.c,$(OBJS_DIR)/%.d,$(SRC_BONUS))
 ################################################################################
 #                                     RULES                                    #
 ################################################################################
-all: $(NAME)
+all: clean_bonus $(NAME)
 
 $(NAME): $(LIBFT) $(PENELOPE) $(OBJ)
 	@printf "$(GREEN)* Assembling $(BWHITE)%s$(DEFAULT)\n" "$@"
@@ -144,9 +144,23 @@ cre:
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Bonus Rules ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 bonus: CFLAGS += -DBONUS=true
-bonus: fclean $(LIBFT) $(PENELOPE) $(OBJ_BONUS)
+bonus: clean_mandatory $(LIBFT) $(PENELOPE) $(OBJ_BONUS)
 	@printf "$(GREEN)* Assembling $(BWHITE)%s (bonus)$(DEFAULT)\n" "$(NAME_BONUS)"
 	@$(CC) $(CFLAGS) $(OBJ_BONUS) $(LIB) $(INCLUDES_FLAGS) -o $(NAME_BONUS)
+
+clean_mandatory:
+	@test -s $(NAME) && \
+	printf "$(YELLOW)# Warning$(DEFAULT) %s exists - cleaning required\n" "$(NAME)" && \
+	make clean $(LIB_FLAGS) && \
+	printf "$(RED)! Removing$(DEFAULT) %s\n" "$(NAME)" && \
+	$(RM) $(NAME) || exit 0
+
+clean_bonus:
+	@test -s $(NAME_BONUS) && \
+	printf "$(YELLOW)# Warning$(DEFAULT) %s exists - cleaning required\n" "$(NAME_BONUS)" && \
+	make clean $(LIB_FLAGS) && \
+	printf "$(RED)! Removing$(DEFAULT) %s\n" "$(NAME_BONUS)" && \
+	$(RM) $(NAME_BONUS) || exit 0
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Lib Rules ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 $(LIBFT):
