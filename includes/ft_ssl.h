@@ -19,7 +19,9 @@
 #define SUCCESS 1
 #define INFILE_ERROR 2
 
-#define MAX_DIGEST_SIZE 64
+#define MAX_DIGEST_SIZE 128
+#define WHIRLPOOL_DIGEST_SIZE 128
+#define SHA256_DIGEST_SIZE 128
 #define MD5_DIGEST_SIZE 32
 
 typedef enum e_input_types

@@ -1,6 +1,6 @@
 #include "ft_ssl.h"
 
-t_penelope_log_level P_LOG_LEVEL = LOG_LEVEL;
+t_penelope_log_level P_LOG_LEVEL = P_LOG_INFO;
 
 const t_hash_pattern hash_commands[] = {
 	{"Invalid",	INVALID,	 NULL	 },
@@ -21,7 +21,6 @@ t_hash_type set_hash_type(const char *cmd)
 		return (print_usage(), INVALID);
 
 	for (size_t i = 1; i < max_hash_nbr; i++) {
-		printf("%s\t%s\n", cmd, hash_commands[type + i].name);
 		if (strcmp(cmd, hash_commands[type + i].name) == 0) {
 			type = type + i;
 			break;
