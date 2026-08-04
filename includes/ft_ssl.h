@@ -94,4 +94,8 @@ void sha256(t_hash *node);
 extern void whirlpool(t_hash *node);
 #endif
 
+/* 			arglib_api.c	 */
+
+bool arglib_api(size_t argument_count, char **arguments);
+
 #endif

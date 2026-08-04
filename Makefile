@@ -46,6 +46,7 @@ SRCS_DIR = srcs
 SSL_DIR = ssl
 MD5_DIR = md5
 SHA256_DIR = sha256
+ARGUMENTS_DIT = arguments
 BONUS_DIR = bonus/whirlpool
 INCS_DIR = includes
 OBJS_DIR = objs
@@ -59,15 +60,18 @@ LIBFT_DIR = $(LIBS_DIR)/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 PENELOPE_DIR = $(LIBS_DIR)/penelope
 PENELOPE = $(PENELOPE_DIR)/penelope.a
+ARGLIB_DIR = $(LIBS_DIR)/arglib
+ARGLIB = $(ARGLIB_DIR)/arglib.a
 
-LIB :=	$(LIBFT) $(PENELOPE)
+LIB :=	$(LIBFT) $(PENELOPE) $(ARGLIB)
 
 ################################################################################
 #                                    SOURCES                                   #
 ################################################################################
 INCLUDES := $(INCS_DIR) \
 			$(LIBFT_DIR) \
-			$(PENELOPE_DIR)
+			$(PENELOPE_DIR) \
+			$(ARGLIB_DIR)
 
 INCLUDES_FLAGS := $(addprefix -I , $(INCLUDES))
 
@@ -92,7 +96,12 @@ SRC :=	$(addprefix $(SSL_DIR)/, \
 	sha256_blocks_utils.c \
 	sha256_blocks.c \
 	sha256_constants.c \
-	sha256_schedule_array.c )
+	sha256_schedule_array.c ) \
+	$(addprefix $(ARGUMENTS_DIT)/, \
+	arglib_api.c \
+	arglib_handlers_utils.c \
+	arglib_handlers.c \
+	arglib_user_utils.c )
 
 OBJ := $(patsubst %.c,$(OBJS_DIR)/%.o,$(SRC))
 DEPS := $(patsubst %.c,$(OBJS_DIR)/%.d,$(SRC))
@@ -113,7 +122,7 @@ DEPS_BONUS := $(patsubst %.c,$(OBJS_DIR)/%.d,$(SRC_BONUS))
 ################################################################################
 all: clean_bonus $(NAME)
 
-$(NAME): $(LIBFT) $(PENELOPE) $(OBJ)
+$(NAME): $(LIBFT) $(PENELOPE) $(ARGLIB) $(OBJ)
 	@printf "$(GREEN)* Assembling $(BWHITE)%s$(DEFAULT)\n" "$@"
 	@$(CC) $(CFLAGS) $(OBJ) $(LIB) $(INCLUDES_FLAGS) -o $@
 
@@ -125,6 +134,7 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 	@mkdir -p $(OBJS_DIR)/$(SSL_DIR)
 	@mkdir -p $(OBJS_DIR)/$(MD5_DIR)
 	@mkdir -p $(OBJS_DIR)/$(SHA256_DIR)
+	@mkdir -p $(OBJS_DIR)/$(ARGUMENTS_DIT)
 	@mkdir -p $(OBJS_DIR)/$(BONUS_DIR)
 	@$(CC) $(DEP_FLAGS) $(COMPIL_DEFINES) $(CFLAGS) $(INCLUDES_FLAGS) -c $< -o $@
 
@@ -171,17 +181,25 @@ $(PENELOPE):
 	@printf "$(CYAN)~ Compiling$(DEFAULT) $(PURPLE)%s$(DEFAULT)\n" "$(PENELOPE_DIR)"
 	@make -C $(PENELOPE_DIR) $(LIB_FLAGS)
 
+$(ARGLIB):
+	@printf "$(CYAN)~ Compiling$(DEFAULT) $(PURPLE)%s$(DEFAULT)\n" "$(ARGLIB_DIR)"
+	@make -C $(ARGLIB_DIR) $(LIB_FLAGS)
+
 cleanlib:
 	@printf "$(RED)! Removing$(DEFAULT) $(PURPLE)%s$(DEFAULT)\n" "$(LIBFT_DIR)"
 	@make clean -C $(LIBFT_DIR) $(LIB_FLAGS)
-	@printf "$(RED)! Removing$(DEFAULT) $(PURPLE)%s$(DEFAULT)\n" "$(PENELOPE_DIR)"
-	@make clean -C $(PENELOPE_DIR) $(LIB_FLAGS)
+	@printf "$(RED)! Removing$(DEFAULT) $(PURPLE)%s$(DEFAULT)\n" "$(ARGLIB_DIR)"
+	@make clean -C $(ARGLIB_DIR) $(LIB_FLAGS)
+	@printf "$(RED)! Removing$(DEFAULT) $(PURPLE)%s$(DEFAULT)\n" "$(ARGLIB_DIR)"
+	@make clean -C $(ARGLIB_DIR) $(LIB_FLAGS)
 
 fcleanlib:
 	@printf "$(RED)! Removing$(DEFAULT) $(PURPLE)%s$(DEFAULT)\n" "$(LIBFT_DIR)"
 	@make fclean -C $(LIBFT_DIR) $(LIB_FLAGS)
 	@printf "$(RED)! Removing$(DEFAULT) $(PURPLE)%s$(DEFAULT)\n" "$(PENELOPE_DIR)"
 	@make fclean -C $(PENELOPE_DIR) $(LIB_FLAGS)
+	@printf "$(RED)! Removing$(DEFAULT) $(PURPLE)%s$(DEFAULT)\n" "$(ARGLIB_DIR)"
+	@make fclean -C $(ARGLIB_DIR) $(LIB_FLAGS)
 
 relib: fcleanlib $(LIBFT)
 

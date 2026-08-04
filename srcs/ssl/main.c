@@ -32,15 +32,17 @@ t_hash_type set_hash_type(const char *cmd)
 	return (type);
 }
 
-int main(__attribute__((unused)) int argc, const char *argv[])
+int main(int argc, char *argv[])
 {
+	return (arglib_api((size_t)argc - 1, &argv[1]));
+
 	t_ssl ssl = {0};
 
 	ssl.hash_type = set_hash_type(argv[1]);
 	if (ssl.hash_type == INVALID)
 		return (1);
 
-	if (parse_arguments(&ssl, &argv[2]) == ERROR) {
+	if (parse_arguments(&ssl, ((const char **)&argv[2])) == ERROR) {
 		if (ssl.error_status != 1)
 			p_print_fatal("ft_ssl: Fatal error: malloc() failed\n");
 		ssl.error_status = 1;
